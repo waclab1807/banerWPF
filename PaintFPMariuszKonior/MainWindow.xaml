@@ -1,0 +1,152 @@
+﻿<Window x:Class="PaintFPMariuszKonior.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ctrl="clr-namespace:InkCanvasControls;assembly=InkCanvasControls"
+        xmlns:local="clr-namespace:PaintFPMariuszKonior"
+        mc:Ignorable="d"
+        Icon="Icons/paint.png"
+        Title="Paint" MinHeight="500" Height="500" MinWidth="825" Width="825"
+     
+        >
+    <Window.CommandBindings>
+        <CommandBinding Command="Close" CanExecute="CommandBinding_CanExecute" Executed="CommandBinding_Executed" />
+    </Window.CommandBindings>
+    <Window.Resources>
+        <Style TargetType="{x:Type Button}" x:Name="ButtonStyle">
+            <Setter Property="Background" Value="{Binding ElementName=Null}"/>
+            <Setter Property="Width" Value="40"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="BorderBrush" Value="black"/>
+            <Setter Property="BorderThickness" Value="3, 3, 2, 2"/>
+            <Setter Property="Margin" Value="1, 1, 1, 1"/>
+            <Setter Property="Content">
+                <Setter.Value>
+                    <Image Height="Auto"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="{x:Type RadioButton}" x:Name="RadioButtonButtonStyle">
+            <Setter Property="Background" Value="{Binding ElementName=Null}"/>
+            <Setter Property="Width" Value="40"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="BorderThickness" Value="3, 3, 2, 2"/>
+            <Setter Property="Margin" Value="1, 1, 1, 1"/>
+            <Setter Property="BorderBrush" Value="Orange"/>
+            <Setter Property="Content" >
+                <Setter.Value>
+                    <Image Height="Auto"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="New File" Click="NewCanvas" InputGestureText="CTRL+K">
+                    <MenuItem.Icon>
+                        <Image Source="Icons/New.png" Width="16" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Open" Click="OpenFile"/>
+                <Separator/>
+                <MenuItem Header="Save" Click="SaveFile">
+                    <MenuItem.Icon>
+                        <Image Source="Icons/save.png" Width="16" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Exit"  Command="Close" InputGestureText="CTRL+E"/>
+            </MenuItem>
+            <MenuItem Header="_Tools">
+                <MenuItem Header="_Copy" Command="Copy"/>
+                <MenuItem Header="_Cut" Command="Cut"/>
+                <MenuItem Header="_Paste" Command="Paste"/>
+            </MenuItem>
+            <MenuItem Header="_Help">
+                <MenuItem IsCheckable="True" Header="You can chack this 4 fun"/>
+                <MenuItem Header="About Me" Click="AboutMe"/>
+            </MenuItem>
+        </Menu>
+        <WrapPanel DockPanel.Dock="Left" Orientation="Vertical" Width="115" Height="441" VerticalAlignment="Top">
+            <WrapPanel Orientation="Vertical" Width="103">
+                <Button Click="ChangeColor">
+                    <Image Source="Icons/color.png"/>
+                </Button>
+                <Button Click="ColorInk">
+                    <Grid>
+                        <WrapPanel>
+                            <Label FontSize="7">Color Ink</Label>
+                            <Grid x:Name="ColorInkSelect" Width="16" Height="16" Background="Black" />
+                        </WrapPanel>
+                    </Grid>
+                </Button>
+            </WrapPanel>
+            <CheckBox x:Name="ratio" Content="Keep ratio" HorizontalAlignment="Left" IsChecked="True" Click="ratio_Checked"/>
+            <Label x:Name="horizontalSpacing" Content="Odległość między &#x0a;oczkami (poziomo)" Height="36" Width="97" FontSize="10"/>
+            <TextBox x:Name="hSpacingVal" TextWrapping="Wrap" Width="80"/>
+            <Label x:Name="verticalSpacing" Content="Odległość między &#x0a;oczkami (pionowo)" Height="36" Width="95" FontSize="10"/>
+            <TextBox x:Name="vSpacingVal" TextWrapping="Wrap" Width="80" />
+            <Label x:Name="cutOutWidth" Content="Średnica oczka" Height="25" Width="90" FontSize="10"/>
+            <TextBox x:Name="cutOutWidthVal" TextWrapping="Wrap" Width="80"/>
+            <Label x:Name="margin" Content="Odstęp od krawędzi" Height="25" Width="100" FontSize="10"/>
+            <TextBox x:Name="marginVal" TextWrapping="Wrap" Width="80" />
+            <Label x:Name="extras" Content="Uwagi" Height="22" Width="38" FontSize="10"/>
+            <TextBox x:Name="extrasVal" Height="16" TextWrapping="Wrap" Width="80"/>
+            <Label x:Name="amount" Content="Ilość banerów" Height="23" Width="75" FontSize="10"/>
+            <TextBox x:Name="amountVal" Height="16" TextWrapping="Wrap" Width="80"/>
+            <CheckBox x:Name="topTunnel" Content="Górny tunel" HorizontalAlignment="Left" Height="14" Width="75" FontSize="10"/>
+            <CheckBox x:Name="bottomTunnel" Content="Dolny tunel" HorizontalAlignment="Left" Height="14" Width="75" FontSize="10"/>
+            <CheckBox x:Name="rightTunnel" Content="Prawy tunel" HorizontalAlignment="Left" Height="14" Width="75" FontSize="10"/>
+            <CheckBox x:Name="leftTunnel" Content="Lewy tunel" HorizontalAlignment="Left" Height="14" Width="75" FontSize="10"/>
+        </WrapPanel>
+
+
+
+        <WrapPanel DockPanel.Dock="Right" Orientation="Vertical" Width="60" Height="401" VerticalAlignment="Bottom">
+            <RadioButton x:Name="DrawALineRadioButton" GroupName="SelectTypeEvent" IsChecked="True">
+                <Image Source="Icons/line.png"/>
+            </RadioButton>
+            <RadioButton x:Name="DrawASquareRadioButton" GroupName="SelectTypeEvent">
+                <Image Source="Icons/square.png"/>
+            </RadioButton>
+            <RadioButton x:Name="DrawATriangleRadioButton" GroupName="SelectTypeEvent">
+                <Image Source="Icons/triangle.png"/>
+            </RadioButton>
+            <Button x:Name="button" Content="Print" HorizontalAlignment="Center" Height="44" Width="55" Click="ShowParameters" RenderTransformOrigin="0.135,-0.267"/>
+            <Label x:Name="test" Content="Label" Height="47" Width="37"/>
+        </WrapPanel>
+        <Slider x:Name="zoomSlider" DockPanel.Dock="Top" Minimum="0.1" Maximum="3" Value="1.5" HorizontalAlignment="Left" MinWidth="550"/>
+        <Grid Width="Auto" Height="Auto">
+            <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" Margin="0,0,-8,0" HorizontalAlignment="Left" Height="Auto" Width="Auto">
+                <Border Grid.Row="1" BorderBrush="DodgerBlue" BorderThickness="2" Margin="10" SnapsToDevicePixels="True" Height="Auto" Width="Auto">
+                    <Grid>
+                        <DockPanel>
+
+                            <ScrollViewer HorizontalScrollBarVisibility="Auto" Height="Auto" Width="Auto">
+
+                                <InkCanvas x:Name="canvasMain" Background="Gray" MouseWheel="image_MouseWheel" Height="Auto" Width="Auto">
+
+                                    <InkCanvas.LayoutTransform>
+
+                                        <ScaleTransform ScaleX="{Binding ElementName=zoomSlider,
+
+                                           Path=Value}"
+
+                          ScaleY="{Binding ElementName=zoomSlider,
+
+                                           Path=Value}"/>
+
+                                    </InkCanvas.LayoutTransform>
+
+                                </InkCanvas>
+
+                            </ScrollViewer>
+
+                        </DockPanel>
+                    </Grid>
+                </Border>
+            </ScrollViewer>
+        </Grid>
+    </DockPanel>
+</Window>
