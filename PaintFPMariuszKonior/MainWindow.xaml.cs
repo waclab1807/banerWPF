@@ -41,6 +41,9 @@ namespace PaintFPMariuszKonior
             cutOutWidthVal.Text = "10";
             marginVal.Text = "10";
             amountVal.Text = "1";
+            upTunnelVal.Text = "10";
+            downTunnelVal.Text = "10";
+            sealVal.Text = "10";
         }
 
         private void image_MouseWheel(object sender, MouseWheelEventArgs e)
@@ -303,8 +306,8 @@ namespace PaintFPMariuszKonior
                 spaceVerticalColumn += (widthCutOut + spaceVertical + fixSpaceVertical);
             }
 
-            labelSpaceHorizontal.Content = spaceHorizontal + fixSpaceHorizontal;
-            labelSpaceVertical.Content = spaceVertical + fixSpaceVertical;
+            labelSpaceHorizontal.Content = "Odległość\nw poziomie\n" + (spaceHorizontal + fixSpaceHorizontal);
+            labelSpaceVertical.Content = "Odległość\nw pionie\n" + (spaceVertical + fixSpaceVertical);
             labelSpaceHorizontal.Visibility = Visibility.Visible;
             labelSpaceVertical.Visibility = Visibility.Visible;
         }
@@ -355,9 +358,11 @@ namespace PaintFPMariuszKonior
                 //Label newLabel =  verticalSpacing;
                 verticalSpacing.Visibility = Visibility.Visible;
                 vSpacingVal.Visibility = Visibility.Visible;
+                horizontalSpacing.Content = "Odległość między\noczkami (poziomo)";
             }
             else
             {
+                horizontalSpacing.Content = "Odległość między\noczkami";
                 verticalSpacing.Visibility = Visibility.Hidden;
                 vSpacingVal.Visibility = Visibility.Hidden;
             }

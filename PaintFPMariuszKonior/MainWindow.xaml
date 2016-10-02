@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:PaintFPMariuszKonior"
         mc:Ignorable="d"
         Icon="Icons/paint.png"
-        Title="Paint" MinHeight="500" Height="500" MinWidth="825" Width="825"
+        Title="Paint" MinHeight="500" Height="600" MinWidth="825" Width="825"
      
         >
     <Window.CommandBindings>
@@ -49,48 +49,41 @@
                         <Image Source="Icons/New.png" Width="16" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Open" Click="OpenFile"/>
+                <MenuItem Header="_Open" Click="OpenFile"/>
                 <Separator/>
-                <MenuItem Header="Save" Click="SaveFile">
+                <MenuItem Header="_Generate" Click="SaveFile">
                     <MenuItem.Icon>
                         <Image Source="Icons/save.png" Width="16" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Exit"  Command="Close" InputGestureText="CTRL+E"/>
-            </MenuItem>
-            <MenuItem Header="_Tools">
-                <MenuItem Header="_Copy" Command="Copy"/>
-                <MenuItem Header="_Cut" Command="Cut"/>
-                <MenuItem Header="_Paste" Command="Paste"/>
+                <MenuItem Header="_Exit"  Command="Close" InputGestureText="CTRL+E"/>
             </MenuItem>
             <MenuItem Header="_Help">
-                <MenuItem IsCheckable="True" Header="You can chack this 4 fun"/>
                 <MenuItem Header="About Me" Click="AboutMe"/>
             </MenuItem>
         </Menu>
-        <WrapPanel DockPanel.Dock="Left" Orientation="Vertical" Width="115" Height="441" VerticalAlignment="Top">
+        <WrapPanel DockPanel.Dock="Left" Orientation="Vertical" Width="115" Height="551" VerticalAlignment="Top">
             <WrapPanel Orientation="Vertical" Width="103">
-                <Button Click="ChangeColor">
-                    <Image Source="Icons/color.png"/>
-                </Button>
                 <Button Click="ColorInk">
-                    <Grid>
+                    <Grid Width="40">
                         <WrapPanel>
                             <Label FontSize="7">Color Ink</Label>
-                            <Grid x:Name="ColorInkSelect" Width="16" Height="16" Background="Black" />
+                            <Grid x:Name="ColorInkSelect" Width="20" Height="16" Background="Black" />
                         </WrapPanel>
                     </Grid>
                 </Button>
             </WrapPanel>
-            <CheckBox x:Name="ratio" Content="Keep ratio" HorizontalAlignment="Left" IsChecked="True" Click="ratio_Checked"/>
-            <Label x:Name="horizontalSpacing" Content="Odległość między &#x0a;oczkami (poziomo)" Height="36" Width="97" FontSize="10"/>
+            <CheckBox x:Name="ratio" Content="Keep ratio" HorizontalAlignment="Left" IsChecked="False" Click="ratio_Checked"/>
+            <Label x:Name="horizontalSpacing" Content="Odległość między &#x0a;oczkami (poziomo)" Height="auto" Width="97" FontSize="10"/>
             <TextBox x:Name="hSpacingVal" TextWrapping="Wrap" Width="80" />
-            <Label x:Name="verticalSpacing" Content="Odległość między &#x0a;oczkami (pionowo)" Height="36" Width="95" FontSize="10"/>
+            <Label x:Name="verticalSpacing" Content="Odległość między &#x0a;oczkami (pionowo)" Height="auto" Width="95" FontSize="10"/>
             <TextBox x:Name="vSpacingVal" TextWrapping="Wrap" Width="80" />
-            <Label x:Name="cutOutWidth" Content="Średnica oczka" Height="25" Width="90" FontSize="10"/>
+            <Label x:Name="cutOutWidth" Content="Średnica oczka" Height="auto" Width="90" FontSize="10"/>
             <TextBox x:Name="cutOutWidthVal" TextWrapping="Wrap" Width="80"/>
-            <Label x:Name="margin" Content="Odstęp od krawędzi" Height="25" Width="100" FontSize="10"/>
+            <Label x:Name="margin" Content="Odstęp od krawędzi" Height="auto" Width="100" FontSize="10"/>
             <TextBox x:Name="marginVal" TextWrapping="Wrap" Width="80" />
+            <Label x:Name="seal" Content="Szerokość zgrzewu" Height="auto" Width="100" FontSize="10"/>
+            <TextBox x:Name="sealVal" Height="16" TextWrapping="Wrap" Width="80"/>
             <Label x:Name="extras" Content="Uwagi" Height="22" Width="38" FontSize="10"/>
             <TextBox x:Name="extrasVal" Height="16" TextWrapping="Wrap" Width="80"/>
             <Label x:Name="amount" Content="Ilość banerów" Height="23" Width="75" FontSize="10"/>
@@ -99,13 +92,18 @@
             <CheckBox x:Name="bottomTunnel" Content="Dolny tunel" HorizontalAlignment="Left" Height="14" Width="75" FontSize="10"/>
             <CheckBox x:Name="rightTunnel" Content="Prawy tunel" HorizontalAlignment="Left" Height="14" Width="75" FontSize="10"/>
             <CheckBox x:Name="leftTunnel" Content="Lewy tunel" HorizontalAlignment="Left" Height="14" Width="75" FontSize="10"/>
+            <Label x:Name="upTunnel" Content="Szerokość&#x0a;górnego tunelu" Height="auto" Width="auto" FontSize="10"/>
+            <TextBox x:Name="upTunnelVal" Height="16" TextWrapping="Wrap" Width="80"/>
+            <Label x:Name="downTunnel" Content="Szerokość&#x0a;dolnego tunelu" Height="auto" Width="auto" FontSize="10"/>
+            <TextBox x:Name="downTunnelVal" Height="16" TextWrapping="Wrap" Width="80"/>
         </WrapPanel>
 
 
 
-        <WrapPanel DockPanel.Dock="Right" Orientation="Vertical" Width="60" Height="401" VerticalAlignment="Bottom">
+        <WrapPanel DockPanel.Dock="Right" Orientation="Vertical" Width="117" Height="551" VerticalAlignment="Top">
+            <Button x:Name="buttonReset" Content="Reset" HorizontalAlignment="Center" Background="Red" Height="24" Margin="10" Width="75"/>
             <RadioButton x:Name="DrawACircleRadioButton" GroupName="SelectTypeEvent" IsChecked="True">
-                <Image Source="Icons/line.png"/>
+                <Image Source="Icons/circle.png"/>
             </RadioButton>
             <RadioButton x:Name="DrawASquareRadioButton" GroupName="SelectTypeEvent">
                 <Image Source="Icons/square.png"/>
@@ -113,10 +111,11 @@
             <RadioButton x:Name="DrawATriangleRadioButton" GroupName="SelectTypeEvent">
                 <Image Source="Icons/triangle.png"/>
             </RadioButton>
-            <Button x:Name="button" Content="Print" HorizontalAlignment="Center" Height="44" Width="55" Click="ShowParameters" RenderTransformOrigin="0.135,-0.267"/>
-            <Label x:Name="test" Content="Label" Height="47" Width="37"/>
-            <Label x:Name="labelSpaceHorizontal" Content="Label" Height="47" Width="37"/>
-            <Label x:Name="labelSpaceVertical" Content="Label" Height="47" Width="37"/>
+            <CheckBox x:Name="turnOnFill" Content="Wypełnienie&#x0a;oczek" IsChecked="True" HorizontalAlignment="Center"/>
+            <Button x:Name="button" Content="Print" HorizontalAlignment="Center" Background="Green" Height="44" Margin="10" Width="75" Click="ShowParameters" RenderTransformOrigin="0.135,-0.267"/>
+            <Label x:Name="labelSpaceHorizontal" HorizontalAlignment="Left" Margin="10" Content="Label" Height="57" Width="auto"/>
+            <Label x:Name="labelSpaceVertical" HorizontalAlignment="Left" Margin="10" Content="Label" Height="57" Width="auto"/>
+            <Label x:Name="test" Content="Label&#x0a;do testów" HorizontalAlignment="Left" Height="auto" Width="auto"/>
         </WrapPanel>
         <Slider x:Name="zoomSlider" DockPanel.Dock="Top" Minimum="0.1" Maximum="3" Value="1.5" HorizontalAlignment="Left" MinWidth="550"/>
         <Grid Width="Auto" Height="Auto">

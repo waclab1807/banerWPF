@@ -162,6 +162,7 @@
     <Resource Include="Icons\triangle.png" />
     <Resource Include="Icons\MK.jpg" />
     <Resource Include="Icons\save.png" />
+    <Resource Include="Icons\circle.png" />
     <Content Include="Icons\save.svg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
