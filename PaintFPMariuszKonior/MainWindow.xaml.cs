@@ -306,8 +306,8 @@ namespace PaintFPMariuszKonior
                 spaceVerticalColumn += (widthCutOut + spaceVertical + fixSpaceVertical);
             }
 
-            labelSpaceHorizontal.Content = "Odległość\nw poziomie\n" + (spaceHorizontal + fixSpaceHorizontal);
-            labelSpaceVertical.Content = "Odległość\nw pionie\n" + (spaceVertical + fixSpaceVertical);
+            labelSpaceHorizontal.Content = "Odległość\nw poziomie\n" + (((spaceHorizontal + fixSpaceHorizontal)*2.54)/96);
+            labelSpaceVertical.Content = "Odległość\nw pionie\n" + (((spaceVertical + fixSpaceVertical)*2.54)/ 96);
             labelSpaceHorizontal.Visibility = Visibility.Visible;
             labelSpaceVertical.Visibility = Visibility.Visible;
         }

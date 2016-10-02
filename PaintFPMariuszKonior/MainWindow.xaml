@@ -44,14 +44,14 @@
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
-                <MenuItem Header="New File" Click="NewCanvas" InputGestureText="CTRL+K">
+                <MenuItem Header="_New" Click="NewCanvas" InputGestureText="CTRL+N">
                     <MenuItem.Icon>
                         <Image Source="Icons/New.png" Width="16" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="_Open" Click="OpenFile"/>
+                <MenuItem Header="_Open file" Click="OpenFile" InputGestureText="CTRL+O"/>
                 <Separator/>
-                <MenuItem Header="_Generate" Click="SaveFile">
+                <MenuItem Header="_Save" Click="SaveFile" InputGestureText="CTRL+S">
                     <MenuItem.Icon>
                         <Image Source="Icons/save.png" Width="16" />
                     </MenuItem.Icon>
