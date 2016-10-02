@@ -20,11 +20,27 @@ namespace PaintFPMariuszKonior
         private double PositionX, PositionY, PositionXLast, PositionYLast;
         private bool blockLine = false;
         Image image = new Image();
+        CutOut cutOutType = CutOut.circle;
+        InkCanvas[] backUp = new InkCanvas[3];
+        
 
         public MainWindow()
         {
             InitializeComponent();
             ApplicationCommands.Close.InputGestures.Add(new KeyGesture(Key.E, ModifierKeys.Control));
+            DefaultValues();
+        }
+
+
+        public void DefaultValues()
+        {
+            labelSpaceHorizontal.Visibility = Visibility.Hidden;
+            labelSpaceVertical.Visibility = Visibility.Hidden;
+            hSpacingVal.Text = "10";
+            vSpacingVal.Text = "10";
+            cutOutWidthVal.Text = "10";
+            marginVal.Text = "10";
+            amountVal.Text = "1";
         }
 
         private void image_MouseWheel(object sender, MouseWheelEventArgs e)
@@ -106,19 +122,6 @@ namespace PaintFPMariuszKonior
                         int scale = 4;
                         Size s = new Size(frame.PixelWidth, frame.PixelHeight);
 
-                        Console.WriteLine(((frame.PixelHeight / canvasMain.ActualWidth) * scale));
-
-                        Console.WriteLine(frame.PixelHeight);
-                        Console.WriteLine(canvasMain.ActualHeight);
-                        Console.WriteLine((canvasMain.ActualHeight / frame.PixelHeight));
-                        Console.WriteLine(((canvasMain.ActualHeight / frame.PixelHeight) / scale));
-
-                        Console.WriteLine(zoomSlider.Minimum);
-                        Console.WriteLine(zoomSlider.Maximum);
-                        Console.WriteLine((frame.PixelHeight / canvasMain.ActualHeight) * scale);
-                        Console.WriteLine((zoomSlider.Maximum - zoomSlider.Minimum) / scale);
-
-
                         zoomSlider.Maximum = ((frame.PixelWidth / canvasMain.ActualWidth) * scale);
                         zoomSlider.Minimum = ((canvasMain.ActualWidth / frame.PixelWidth) / scale);
                         zoomSlider.Value = ((((frame.PixelWidth / canvasMain.ActualWidth) * scale) - ((canvasMain.ActualWidth / frame.PixelWidth) / scale)) / (scale / 2));
@@ -128,7 +131,8 @@ namespace PaintFPMariuszKonior
                     }
                     using (var file = new FileStream(dialog.FileName, FileMode.Open, FileAccess.Read))
                     {
-                        image = new Image();
+                        canvasMain.Strokes.Clear();
+                        canvasMain.Children.RemoveRange(0, canvasMain.Children.Count);
                         image.Source = (new BitmapImage(new Uri(dialog.FileName, UriKind.Absolute)));
                         canvasMain.Children.RemoveRange(0, canvasMain.Children.Count);                                            
                         canvasMain.Children.Add(image);
@@ -203,28 +207,7 @@ namespace PaintFPMariuszKonior
 
         private void EventDrow(object sender, MouseButtonEventArgs e)
         {
-            if (DrawALineRadioButton.IsChecked == true || DrawASquareRadioButton.IsChecked == true || DrawATriangleRadioButton.IsChecked == true)
-                canvasMain.EditingMode = InkCanvasEditingMode.None;
-
-            switch (blockLine)
-            {
-                case false:
-                    PositionX = e.GetPosition(canvasMain).X;
-                    PositionY = e.GetPosition(canvasMain).Y;
-                    blockLine = !blockLine;
-                    break;
-                default:
-                    PositionXLast = e.GetPosition(canvasMain).X;
-                    PositionYLast = e.GetPosition(canvasMain).Y;
-
-                    if (DrawALineRadioButton.IsChecked == true)
-                        DrawLines();
-                    else if (DrawASquareRadioButton.IsChecked == true)
-                        DrawASquare();
-                    else if (DrawATriangleRadioButton.IsChecked == true)
-                        DrawATriangle();
-                    break;
-            }
+            
         }
 
         private void DrawASquare()
@@ -247,6 +230,10 @@ namespace PaintFPMariuszKonior
 
         private void ShowParameters(object sender, RoutedEventArgs e)
         {
+            canvasMain.Strokes.Clear();
+            canvasMain.Children.RemoveRange(0, canvasMain.Children.Count);
+            canvasMain.Children.Add(image);
+
             //odstepy oczek od krawedzi
             double margin = Convert.ToDouble(marginVal.Text);
             //srednica oczek
@@ -294,41 +281,70 @@ namespace PaintFPMariuszKonior
                 {
                     if ((int)RowNumbers == (i + 1))
                     {
-                        canvasMain.Strokes.Add(setCircle(widthCutOut, spaceHorizontalColumn, spaceVerticalColumn));
+                        droveCutOut(widthCutOut, spaceHorizontalColumn, spaceVerticalColumn);
                     }
                     else if (j == 0)
                     {
-                        canvasMain.Strokes.Add(setCircle(widthCutOut, spaceHorizontalColumn, spaceVerticalColumn));
+                        droveCutOut(widthCutOut, spaceHorizontalColumn, spaceVerticalColumn);
                     }
                     else if (i == 0)
                     {
-                        canvasMain.Strokes.Add(setCircle(widthCutOut, spaceHorizontalColumn, spaceVerticalColumn));
+                        droveCutOut(widthCutOut, spaceHorizontalColumn, spaceVerticalColumn);
                     }
 
                     else if ((int)columnNumbers == (j + 1))
                     {
-                        canvasMain.Strokes.Add(setCircle(widthCutOut, spaceHorizontalColumn, spaceVerticalColumn));
+                        droveCutOut(widthCutOut, spaceHorizontalColumn, spaceVerticalColumn);
                     }
 
                     spaceHorizontalColumn += (widthCutOut + spaceHorizontal + fixSpaceHorizontal);
                 }
-                
+
                 spaceVerticalColumn += (widthCutOut + spaceVertical + fixSpaceVertical);
             }
 
-            //label.Content = "I Width " + image.ActualWidth + "C Width " + canvasMain.ActualWidth;
-            //label.Content = " Width " + canvasMain.ActualWidth + " Height " + canvasMain.ActualHeight;
+            labelSpaceHorizontal.Content = spaceHorizontal + fixSpaceHorizontal;
+            labelSpaceVertical.Content = spaceVertical + fixSpaceVertical;
+            labelSpaceHorizontal.Visibility = Visibility.Visible;
+            labelSpaceVertical.Visibility = Visibility.Visible;
+        }
+
+        private void droveCutOut(double widthCutOut, double spaceHorizontalColumn, double spaceVerticalColumn)
+        {
+            if (DrawASquareRadioButton.IsChecked == true)
+            {
+                var offser = widthCutOut / 2;
+                cutOutType = CutOut.square;
+                //canvasMain.Strokes.Add(drawMethod.DrawASquare(spaceHorizontalColumn - offser, spaceVerticalColumn - offser, spaceHorizontalColumn + offser, spaceVerticalColumn + offser));
+                canvasMain.Strokes.Add(setCircle(widthCutOut, spaceHorizontalColumn, spaceVerticalColumn, cutOutType));
+            }
+
+            else if (DrawACircleRadioButton.IsChecked == true)
+            {
+                cutOutType = CutOut.circle;
+                canvasMain.Strokes.Add(setCircle(widthCutOut, spaceHorizontalColumn, spaceVerticalColumn, cutOutType));
+            }
 
         }
 
-        private Stroke setCircle(double widthCutOut, double PositionX, double PositionY)
+        private Stroke setCircle(double widthCutOut, double PositionX, double PositionY, CutOut cutOut)
         {
             StylusPointCollection pts = new StylusPointCollection();
             Stroke st = null;
             pts.Add(new StylusPoint(widthCutOut / 2, widthCutOut / 2));
             pts.Add(new StylusPoint(PositionX, PositionY));
-            st = new customStroke(pts);      
-            st.DrawingAttributes.Color = Colors.DarkOrange;
+
+            switch (cutOut)
+            {
+                case CutOut.circle:
+                    st = new customCircleStroke(pts);
+                    break;
+                case CutOut.square:
+                    st = new customSquareStroke(pts);
+                    break;
+            }
+
+            st.DrawingAttributes.Color = (Color)ColorConverter.ConvertFromString("" + ColorInkSelect.Background);
             return st;
         }
 
@@ -370,9 +386,9 @@ namespace PaintFPMariuszKonior
         #endregion
     }
 
-    public class customStroke : Stroke
+    public class customCircleStroke : Stroke
     {
-        public customStroke(StylusPointCollection pts)
+        public customCircleStroke(StylusPointCollection pts)
             : base(pts)
         {
             this.StylusPoints = pts;
@@ -393,8 +409,37 @@ namespace PaintFPMariuszKonior
             brush2.Freeze();
             StylusPoint stp = this.StylusPoints[0];
             StylusPoint sp = this.StylusPoints[1];
-           
-            drawingContext.DrawEllipse(brush2, null, new Point((sp.X) , (sp.Y)), stp.X, stp.Y);
+
+            drawingContext.DrawEllipse(brush2, null, new Point((sp.X), (sp.Y)), stp.X, stp.Y);
+
+        }
+    }
+
+    public class customSquareStroke : Stroke
+    {
+        public customSquareStroke(StylusPointCollection pts)
+            : base(pts)
+        {
+            this.StylusPoints = pts;
+        }
+
+        protected override void DrawCore(DrawingContext drawingContext, DrawingAttributes drawingAttributes)
+        {
+            if (drawingContext == null)
+            {
+                throw new ArgumentNullException("drawingContext");
+            }
+            if (null == drawingAttributes)
+            {
+                throw new ArgumentNullException("drawingAttributes");
+            }
+            DrawingAttributes originalDa = drawingAttributes.Clone();
+            SolidColorBrush brush2 = new SolidColorBrush(drawingAttributes.Color);
+            brush2.Freeze();
+            StylusPoint stp = this.StylusPoints[0];
+            StylusPoint sp = this.StylusPoints[1];
+
+            drawingContext.DrawRectangle(brush2, null, new Rect(sp.X - stp.X, sp.Y - stp.X, stp.X * 2, stp.X * 2));
         }
     }
 }
