@@ -21,6 +21,8 @@ namespace PaintFPMariuszKonior
         CutOut cutOutType = CutOut.circle;
         InkCanvas[] backUp = new InkCanvas[3];
         string filefilter = string.Empty;
+        CanvasDimensions canvasDimensions = new CanvasDimensions();
+
 
 
         public MainWindow()
@@ -28,7 +30,7 @@ namespace PaintFPMariuszKonior
             InitializeComponent();
             ApplicationCommands.Close.InputGestures.Add(new KeyGesture(Key.E, ModifierKeys.Control));
             DefaultValues();
-            
+
         }
 
 
@@ -78,7 +80,7 @@ namespace PaintFPMariuszKonior
         {
             canvasMain.Select(canvasMain.Strokes);
             ClearSelect();
-        }        
+        }
 
         private void EraseByPoint(object sender, RoutedEventArgs e)
         {
@@ -115,7 +117,7 @@ namespace PaintFPMariuszKonior
                 //canvasMain.Strokes.Clear();              
                 try
                 {
-                    using (FileStream fileStream = new FileStream(dialog.FileName, FileMode.Open, FileAccess.Read))
+                    /*using (FileStream fileStream = new FileStream(dialog.FileName, FileMode.Open, FileAccess.Read))
                     {
                         BitmapFrame frame = BitmapFrame.Create(fileStream, BitmapCreateOptions.DelayCreation, BitmapCacheOption.None);
                         int scale = 4;
@@ -127,15 +129,15 @@ namespace PaintFPMariuszKonior
 
                         test.Content = (zoomSlider.Maximum - zoomSlider.Minimum) / scale;
 
-                    }
+                    }*/
                     using (var file = new FileStream(dialog.FileName, FileMode.Open, FileAccess.Read))
                     {
-                        canvasMain.Strokes.Clear();
+
                         canvasMain.Children.RemoveRange(0, canvasMain.Children.Count);
+                        canvasMain.Strokes.Clear();
                         image.Source = (new BitmapImage(new Uri(dialog.FileName, UriKind.Absolute)));
-                        canvasMain.Children.RemoveRange(0, canvasMain.Children.Count);                                            
-                        canvasMain.Children.Add(image);
-                        file.Close();                                          
+                        canvasMain.Children.Add(image);                 
+                        file.Close();
                     }
                 }
                 catch (Exception exc)
@@ -146,7 +148,12 @@ namespace PaintFPMariuszKonior
 
             //canvasMain.zoomSlider = 10;
             //fit to page 
-            
+
+        }
+
+        private double getHeightTunnel()
+        {
+            return 100.0;
         }
 
         private void SaveFile(object sender, RoutedEventArgs args)
@@ -162,14 +169,14 @@ namespace PaintFPMariuszKonior
                     {
                         int marg = int.Parse(canvasMain.Margin.Left.ToString());
 
-                        double widthCanvas = canvasMain.ActualWidth ;
+                        double widthCanvas = canvasMain.ActualWidth;
                         double heightCanvas = canvasMain.ActualHeight;
 
-                        if (image != null)
+                       /* if (image != null)
                         {
-                            widthCanvas = image.ActualWidth ;
-                            heightCanvas = image.ActualHeight ;
-                        }
+                            widthCanvas = image.ActualWidth;
+                            heightCanvas = image.ActualHeight;
+                        }*/
 
                         RenderTargetBitmap rtb = new RenderTargetBitmap((int)widthCanvas - marg,
                                         (int)heightCanvas - marg, 0, 0, PixelFormats.Default);
@@ -209,7 +216,12 @@ namespace PaintFPMariuszKonior
         {
             canvasMain.Strokes.Clear();
             canvasMain.Children.RemoveRange(0, canvasMain.Children.Count);
+            canvasMain.Strokes.Add(drawMethod.DrawASquare(0, -100, image.ActualWidth, image.ActualHeight + (getHeightTunnel()*2)));
+            image.VerticalAlignment = VerticalAlignment.Center;
+            image.HorizontalAlignment = HorizontalAlignment.Center;
             canvasMain.Children.Add(image);
+            
+
 
             //odstepy oczek od krawedzi
             double margin = Convert.ToDouble(marginVal.Text);
@@ -223,18 +235,19 @@ namespace PaintFPMariuszKonior
             {
                 spaceHorizontal = Convert.ToDouble(hSpacingVal.Text);
                 spaceVertical = spaceHorizontal;
-            } else
+            }
+            else
             {
                 spaceHorizontal = Convert.ToDouble(hSpacingVal.Text);
                 spaceVertical = Convert.ToDouble(vSpacingVal.Text);
             }
 
-            
+
 
             double widthCanvas = canvasMain.ActualWidth - (margin * 2);
             double heightCanvas = canvasMain.ActualHeight - (margin * 2);
 
-            if (image!=null)
+            if (image != null)
             {
                 widthCanvas = image.ActualWidth - (margin * 2);
                 heightCanvas = image.ActualHeight - (margin * 2);
@@ -280,8 +293,8 @@ namespace PaintFPMariuszKonior
                 spaceVerticalColumn += (widthCutOut + spaceVertical + fixSpaceVertical);
             }
 
-            labelSpaceHorizontal.Content = "Odległość\nw poziomie\n" + Math.Round((((spaceHorizontal + fixSpaceHorizontal)*2.54)/96), 2);
-            labelSpaceVertical.Content = "Odległość\nw pionie\n" + Math.Round((((spaceVertical + fixSpaceVertical)*2.54)/ 96), 2);
+            labelSpaceHorizontal.Content = "Odległość\nw poziomie\n" + Math.Round((((spaceHorizontal + fixSpaceHorizontal) * 2.54) / 96), 2);
+            labelSpaceVertical.Content = "Odległość\nw pionie\n" + Math.Round((((spaceVertical + fixSpaceVertical) * 2.54) / 96), 2);
             labelSpaceHorizontal.Visibility = Visibility.Visible;
             labelSpaceVertical.Visibility = Visibility.Visible;
         }

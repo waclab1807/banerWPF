@@ -58,6 +58,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Canvas.cs" />
     <Compile Include="ColorsAndTools.cs" />
     <Compile Include="DrawMethod.cs" />
     <Compile Include="Enums.cs" />

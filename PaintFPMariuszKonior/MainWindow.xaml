@@ -116,9 +116,10 @@
         </WrapPanel>
         <Slider x:Name="zoomSlider" DockPanel.Dock="Top" Minimum="0.1" Maximum="3" Value="1.5" HorizontalAlignment="Left" MinWidth="550"/>
         <Grid Width="Auto" Height="Auto">
-            <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" Margin="0,0,-8,0" HorizontalAlignment="Left" Height="Auto" Width="Auto">
+            <!--<ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" HorizontalAlignment="Left" Height="533" Width="Auto" VerticalAlignment="Top">
                 <Border Grid.Row="1" BorderBrush="DodgerBlue" BorderThickness="2" Margin="10" SnapsToDevicePixels="True" Height="Auto" Width="Auto">
                     <Grid>
+
                         <DockPanel>
 
                             <ScrollViewer HorizontalScrollBarVisibility="Auto" Height="Auto" Width="Auto">
@@ -142,6 +143,17 @@
                             </ScrollViewer>
 
                         </DockPanel>
+                    </Grid>
+                </Border>
+            </ScrollViewer>-->
+            <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
+                <Border Grid.Row="1" BorderBrush="DodgerBlue" BorderThickness="2" Margin="10" SnapsToDevicePixels="True">
+                    <Grid>
+                        <InkCanvas x:Name="canvasMain">
+                            <!-- <InkCanvas.LayoutTransform>
+                                <ScaleTransform ScaleX="{Binding ElementName=zoomSlider,Path=Value}" ScaleY="{Binding ElementName=zoomSlider,Path=Value}"/>
+                            </InkCanvas.LayoutTransform>-->
+                        </InkCanvas>
                     </Grid>
                 </Border>
             </ScrollViewer>
