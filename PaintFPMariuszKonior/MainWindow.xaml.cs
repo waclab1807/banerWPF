@@ -172,11 +172,11 @@ namespace PaintFPMariuszKonior
                         double widthCanvas = canvasMain.ActualWidth;
                         double heightCanvas = canvasMain.ActualHeight;
 
-                       /* if (image != null)
+                        if (image != null)
                         {
                             widthCanvas = image.ActualWidth;
-                            heightCanvas = image.ActualHeight;
-                        }*/
+                            heightCanvas = image.ActualHeight+ (getHeightTunnel()*2);
+                        }
 
                         RenderTargetBitmap rtb = new RenderTargetBitmap((int)widthCanvas - marg,
                                         (int)heightCanvas - marg, 0, 0, PixelFormats.Default);
@@ -216,12 +216,10 @@ namespace PaintFPMariuszKonior
         {
             canvasMain.Strokes.Clear();
             canvasMain.Children.RemoveRange(0, canvasMain.Children.Count);
-            canvasMain.Strokes.Add(drawMethod.DrawASquare(0, -100, image.ActualWidth, image.ActualHeight + (getHeightTunnel()*2)));
-            image.VerticalAlignment = VerticalAlignment.Center;
-            image.HorizontalAlignment = HorizontalAlignment.Center;
+            canvasMain.Strokes.Add(drawMethod.DrawASquare(0, 0, image.ActualWidth, image.ActualHeight + (getHeightTunnel()*2)));
+            InkCanvas.SetTop(image, getHeightTunnel());
             canvasMain.Children.Add(image);
-            
-
+         
 
             //odstepy oczek od krawedzi
             double margin = Convert.ToDouble(marginVal.Text);
@@ -262,7 +260,7 @@ namespace PaintFPMariuszKonior
             fixSpaceVertical = fixSpaceVertical / (((int)RowNumbers) - 1);
 
             double spaceHorizontalColumn = margin + (widthCutOut / 2);
-            double spaceVerticalColumn = margin + (widthCutOut / 2);
+            double spaceVerticalColumn = margin + (widthCutOut / 2) + getHeightTunnel();
 
             for (int i = 0; i < (int)RowNumbers; i++)
             {
