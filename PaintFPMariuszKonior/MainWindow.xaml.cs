@@ -8,6 +8,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Input;
 using System.Windows.Shapes;
 using System.Windows.Ink;
+using System.Text.RegularExpressions;
 
 namespace PaintFPMariuszKonior
 {
@@ -151,9 +152,24 @@ namespace PaintFPMariuszKonior
 
         }
 
-        private double getHeightTunnel()
+        private double getHeightTopTunnel()
         {
-            return 100.0;
+            if (IsTextAllowed(upTunnelVal.Text))
+                Double.Parse(upTunnelVal.Text);
+            return 0.0;
+        }
+
+        private double getHeightBottomTunnel()
+        {
+            if (IsTextAllowed(downTunnelVal.Text))
+                return Double.Parse(downTunnelVal.Text);
+            return 0.0;
+        }
+
+        private static bool IsTextAllowed(string text)
+        {
+            Regex regex = new Regex("[^0-9.-]+"); //regex that matches disallowed text
+            return !regex.IsMatch(text);
         }
 
         private void SaveFile(object sender, RoutedEventArgs args)
@@ -175,7 +191,7 @@ namespace PaintFPMariuszKonior
                         if (image != null)
                         {
                             widthCanvas = image.ActualWidth;
-                            heightCanvas = image.ActualHeight+ (getHeightTunnel()*2);
+                            heightCanvas = image.ActualHeight+ (getHeightTopTunnel()+ getHeightBottomTunnel());
                         }
 
                         RenderTargetBitmap rtb = new RenderTargetBitmap((int)widthCanvas - marg,
@@ -216,8 +232,8 @@ namespace PaintFPMariuszKonior
         {
             canvasMain.Strokes.Clear();
             canvasMain.Children.RemoveRange(0, canvasMain.Children.Count);
-            canvasMain.Strokes.Add(drawMethod.DrawASquare(0, 0, image.ActualWidth, image.ActualHeight + (getHeightTunnel()*2)));
-            InkCanvas.SetTop(image, getHeightTunnel());
+            canvasMain.Strokes.Add(drawMethod.DrawASquare(0, 0, image.ActualWidth, image.ActualHeight + (getHeightTopTunnel()+ getHeightBottomTunnel())));
+            InkCanvas.SetTop(image, getHeightTopTunnel());
             canvasMain.Children.Add(image);
          
 
@@ -260,7 +276,7 @@ namespace PaintFPMariuszKonior
             fixSpaceVertical = fixSpaceVertical / (((int)RowNumbers) - 1);
 
             double spaceHorizontalColumn = margin + (widthCutOut / 2);
-            double spaceVerticalColumn = margin + (widthCutOut / 2) + getHeightTunnel();
+            double spaceVerticalColumn = margin + (widthCutOut / 2) + getHeightTopTunnel();
 
             for (int i = 0; i < (int)RowNumbers; i++)
             {
