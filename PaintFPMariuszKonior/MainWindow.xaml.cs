@@ -29,11 +29,11 @@ namespace PaintFPMariuszKonior
         public MainWindow()
         {
             InitializeComponent();
+            uiScaleSlider.MouseDoubleClick += new MouseButtonEventHandler(RestoreScalingFactor);
             ApplicationCommands.Close.InputGestures.Add(new KeyGesture(Key.E, ModifierKeys.Control));
             DefaultValues();
 
         }
-
 
         public void DefaultValues()
         {
@@ -49,17 +49,55 @@ namespace PaintFPMariuszKonior
             filefilter = "Bitmap files (*.jpg; *.jpeg; *.gif; *.bmp; *.tiff)|*.jpg; *.jpeg; *.gif; *.bmp; *.tiff";
         }
 
-        private void image_MouseWheel(object sender, MouseWheelEventArgs e)
+        #region Zoom
+
+        void RestoreScalingFactor(object sender, MouseButtonEventArgs args)
         {
-            if (e.Delta > 0)
-            {
-                zoomSlider.Value += 0.1;
-            }
-            else
-            {
-                zoomSlider.Value -= 0.1;
-            }
+            ((Slider)sender).Value = 1.0;
         }
+
+        protected override void OnPreviewMouseWheel(MouseWheelEventArgs args)
+
+        {
+
+            base.OnPreviewMouseWheel(args);
+
+            if (Keyboard.IsKeyDown(Key.LeftCtrl) ||
+
+                Keyboard.IsKeyDown(Key.RightCtrl))
+
+            {
+
+                uiScaleSlider.Value += (args.Delta > 0) ? 0.1 : -0.1;
+
+            }
+
+        }
+
+        protected override void OnPreviewMouseDown(MouseButtonEventArgs args)
+
+        {
+
+            base.OnPreviewMouseDown(args);
+
+            if (Keyboard.IsKeyDown(Key.LeftCtrl) ||
+
+                Keyboard.IsKeyDown(Key.RightCtrl))
+
+            {
+
+                if (args.MiddleButton == MouseButtonState.Pressed)
+
+                {
+
+                    RestoreScalingFactor(uiScaleSlider, args);
+
+                }
+
+            }
+
+        }
+        #endregion
 
         #region Tools
 
@@ -155,7 +193,7 @@ namespace PaintFPMariuszKonior
         private double getHeightTopTunnel()
         {
             if (IsTextAllowed(upTunnelVal.Text))
-                Double.Parse(upTunnelVal.Text);
+                return Double.Parse(upTunnelVal.Text);
             return 0.0;
         }
 
@@ -215,6 +253,12 @@ namespace PaintFPMariuszKonior
             canvasMain.Children.RemoveRange(0, canvasMain.Children.Count);
             canvasMain.Strokes.Clear();
             //Tu można automatycznie otworzyć okno wyboru nowego pliku (OpenFile())
+        }
+
+        private void Reset(object sender, RoutedEventArgs args)
+        {
+            canvasMain.Strokes.Clear();
+            DefaultValues();
         }
 
         private void AboutMe(object sender, RoutedEventArgs e)

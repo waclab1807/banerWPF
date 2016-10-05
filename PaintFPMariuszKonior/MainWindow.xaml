@@ -101,7 +101,7 @@
 
 
         <WrapPanel DockPanel.Dock="Right" Orientation="Vertical" Width="117" Height="551" VerticalAlignment="Top">
-            <Button x:Name="buttonReset" Content="Reset" HorizontalAlignment="Center" Background="Red" Height="24" Margin="10" Width="75"/>
+            <Button x:Name="buttonReset" Click="Reset" Content="Reset" HorizontalAlignment="Center" Background="Red" Height="24" Margin="10" Width="75"/>
             <RadioButton x:Name="DrawACircleRadioButton" GroupName="SelectTypeEvent" IsChecked="True">
                 <Image Source="Icons/circle.png"/>
             </RadioButton>
@@ -113,8 +113,15 @@
             <Label x:Name="labelSpaceHorizontal" HorizontalAlignment="Left" Margin="10" Content="Label" Height="57" Width="auto"/>
             <Label x:Name="labelSpaceVertical" HorizontalAlignment="Left" Margin="10" Content="Label" Height="57" Width="auto"/>
             <Label x:Name="test" Content="Label&#x0a;do testów" HorizontalAlignment="Left" Height="auto" Width="auto"/>
+            <Label x:Name="info" Content="CTRL+WHEEL TO ZOOM" VerticalAlignment="Bottom" Height="22" Width="auto" FontSize="10"/>
+
+
         </WrapPanel>
-        <Slider x:Name="zoomSlider" DockPanel.Dock="Top" Minimum="0.1" Maximum="3" Value="1.5" HorizontalAlignment="Left" MinWidth="550"/>
+        <!--<Slider x:Name="zoomSlider" DockPanel.Dock="Top" Minimum="0.1" Maximum="3" Value="1.5" HorizontalAlignment="Left" MinWidth="550"/>-->
+        <Slider
+                x:Name="uiScaleSlider" DockPanel.Dock="Top" MinWidth="550"
+                ToolTip="Determines the UI scale factor."
+                Value="1" Minimum="0.1" Maximum="4"  />
         <Grid Width="Auto" Height="Auto">
             <!--<ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" HorizontalAlignment="Left" Height="533" Width="Auto" VerticalAlignment="Top">
                 <Border Grid.Row="1" BorderBrush="DodgerBlue" BorderThickness="2" Margin="10" SnapsToDevicePixels="True" Height="Auto" Width="Auto">
@@ -149,11 +156,20 @@
             <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
                 <Border Grid.Row="1" BorderBrush="DodgerBlue" BorderThickness="2" Margin="10" SnapsToDevicePixels="True">
                     <Grid>
-                        <InkCanvas x:Name="canvasMain">
-                            <!-- <InkCanvas.LayoutTransform>
+                        <DockPanel Grid.Column="0" Grid.ColumnSpan="2" LastChildFill="True">
+                            <DockPanel.LayoutTransform>
+                                <ScaleTransform 
+                        CenterX="0" CenterY="0"
+                        ScaleX="{Binding ElementName=uiScaleSlider,Path=Value}"
+                        ScaleY="{Binding ElementName=uiScaleSlider,Path=Value}"/>
+                            </DockPanel.LayoutTransform>
+                            <InkCanvas x:Name="canvasMain">
+                                <!-- <InkCanvas.LayoutTransform>
                                 <ScaleTransform ScaleX="{Binding ElementName=zoomSlider,Path=Value}" ScaleY="{Binding ElementName=zoomSlider,Path=Value}"/>
                             </InkCanvas.LayoutTransform>-->
-                        </InkCanvas>
+                            </InkCanvas>
+                        </DockPanel>
+                        
                     </Grid>
                 </Border>
             </ScrollViewer>
