@@ -108,9 +108,6 @@
             <RadioButton x:Name="DrawASquareRadioButton" GroupName="SelectTypeEvent">
                 <Image Source="Icons/square.png"/>
             </RadioButton>
-            <RadioButton x:Name="DrawATriangleRadioButton" GroupName="SelectTypeEvent">
-                <Image Source="Icons/triangle.png"/>
-            </RadioButton>
             <CheckBox x:Name="turnOnFill" Content="Wypełnienie&#x0a;oczek" IsChecked="True" HorizontalAlignment="Center"/>
             <Button x:Name="button" Content="Print" HorizontalAlignment="Center" Background="Green" Height="44" Margin="10" Width="75" Click="ShowParameters" RenderTransformOrigin="0.135,-0.267"/>
             <Label x:Name="labelSpaceHorizontal" HorizontalAlignment="Left" Margin="10" Content="Label" Height="57" Width="auto"/>

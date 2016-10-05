@@ -17,25 +17,24 @@ namespace PaintFPMariuszKonior
         DrawMethod drawMethod = new DrawMethod();
         TranslateMethod translateMethod = new TranslateMethod();
         ColorsAndTools colorsAndTools = new ColorsAndTools();
-        private double PositionX, PositionY, PositionXLast, PositionYLast;
-        private bool blockLine = false;
         Image image = new Image();
         CutOut cutOutType = CutOut.circle;
         InkCanvas[] backUp = new InkCanvas[3];
-        
+        string filefilter = string.Empty;
+
 
         public MainWindow()
         {
             InitializeComponent();
             ApplicationCommands.Close.InputGestures.Add(new KeyGesture(Key.E, ModifierKeys.Control));
             DefaultValues();
+            
         }
 
 
         public void DefaultValues()
         {
-            labelSpaceHorizontal.Visibility = Visibility.Hidden;
-            labelSpaceVertical.Visibility = Visibility.Hidden;
+            labelSpaceHorizontal.Visibility = labelSpaceVertical.Visibility = Visibility.Hidden;
             hSpacingVal.Text = "10";
             vSpacingVal.Text = "10";
             cutOutWidthVal.Text = "10";
@@ -44,6 +43,7 @@ namespace PaintFPMariuszKonior
             upTunnelVal.Text = "10";
             downTunnelVal.Text = "10";
             sealVal.Text = "10";
+            filefilter = "Bitmap files (*.jpg; *.jpeg; *.gif; *.bmp; *.tiff)|*.jpg; *.jpeg; *.gif; *.bmp; *.tiff";
         }
 
         private void image_MouseWheel(object sender, MouseWheelEventArgs e)
@@ -60,10 +60,6 @@ namespace PaintFPMariuszKonior
 
         #region Tools
 
-        private void Ink(object sender, RoutedEventArgs e)
-        {
-            canvasMain.EditingMode = InkCanvasEditingMode.Ink;
-        }
 
         private double getOpacity(bool Opacity)
         {
@@ -112,7 +108,7 @@ namespace PaintFPMariuszKonior
         {
             OpenFileDialog dialog = new OpenFileDialog();
             dialog.CheckFileExists = true;
-            dialog.Filter = dialog.Filter = "Bitmap files (*.jpg; *.jpeg; *.gif; *.bmp; *.tiff)|*.jpg; *.jpeg; *.gif; *.bmp; *.tiff";
+            dialog.Filter = dialog.Filter = filefilter;
 
             if ((bool)dialog.ShowDialog(this))
             {
@@ -156,7 +152,7 @@ namespace PaintFPMariuszKonior
         private void SaveFile(object sender, RoutedEventArgs args)
         {
             SaveFileDialog dialog = new SaveFileDialog();
-            dialog.Filter = "Bitmap files (*.jpg; *.jpeg; *.gif; *.bmp; *.tiff)|*.jpg; *.jpeg; *.gif; *.bmp; *.tiff";
+            dialog.Filter = filefilter;
 
             if ((bool)dialog.ShowDialog(this))
             {
@@ -208,28 +204,6 @@ namespace PaintFPMariuszKonior
 
         #region DrawMethod
 
-        private void EventDrow(object sender, MouseButtonEventArgs e)
-        {
-            
-        }
-
-        private void DrawASquare()
-        {            
-            canvasMain.Strokes.Add(drawMethod.DrawASquare(PositionX, PositionY, PositionXLast, PositionYLast));
-            blockLine = !blockLine;
-        }
-
-        private void DrawATriangle()
-        {
-            canvasMain.Strokes.Add(drawMethod.DrawATriangle(PositionX, PositionY, PositionXLast, PositionYLast));
-            blockLine = !blockLine;
-        }
-
-        private void DrawLines()
-        {
-            canvasMain.Strokes.Add(drawMethod.DrawLines(PositionX, PositionY, PositionXLast, PositionYLast));
-            blockLine = !blockLine;
-        }
 
         private void ShowParameters(object sender, RoutedEventArgs e)
         {
@@ -306,8 +280,8 @@ namespace PaintFPMariuszKonior
                 spaceVerticalColumn += (widthCutOut + spaceVertical + fixSpaceVertical);
             }
 
-            labelSpaceHorizontal.Content = "Odległość\nw poziomie\n" + (((spaceHorizontal + fixSpaceHorizontal)*2.54)/96);
-            labelSpaceVertical.Content = "Odległość\nw pionie\n" + (((spaceVertical + fixSpaceVertical)*2.54)/ 96);
+            labelSpaceHorizontal.Content = "Odległość\nw poziomie\n" + Math.Round((((spaceHorizontal + fixSpaceHorizontal)*2.54)/96), 2);
+            labelSpaceVertical.Content = "Odległość\nw pionie\n" + Math.Round((((spaceVertical + fixSpaceVertical)*2.54)/ 96), 2);
             labelSpaceHorizontal.Visibility = Visibility.Visible;
             labelSpaceVertical.Visibility = Visibility.Visible;
         }
