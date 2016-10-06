@@ -22,6 +22,7 @@ namespace PaintFPMariuszKonior
         CutOut cutOutType = CutOut.circle;
         InkCanvas[] backUp = new InkCanvas[3];
         string filefilter = string.Empty;
+        string incorectValue = string.Empty;
         CanvasDimensions canvasDimensions = new CanvasDimensions();
 
 
@@ -47,6 +48,7 @@ namespace PaintFPMariuszKonior
             downTunnelVal.Text = "10";
             sealVal.Text = "10";
             filefilter = "Bitmap files (*.jpg; *.jpeg; *.gif; *.bmp; *.tiff)|*.jpg; *.jpeg; *.gif; *.bmp; *.tiff";
+            incorectValue = "Nie poprawna wartość";
         }
 
         #region Zoom
@@ -171,7 +173,7 @@ namespace PaintFPMariuszKonior
                     }*/
                     using (var file = new FileStream(dialog.FileName, FileMode.Open, FileAccess.Read))
                     {
-
+                        fileSource.Text = dialog.FileName;
                         canvasMain.Children.RemoveRange(0, canvasMain.Children.Count);
                         canvasMain.Strokes.Clear();
                         image.Source = (new BitmapImage(new Uri(dialog.FileName, UriKind.Absolute)));
@@ -208,6 +210,12 @@ namespace PaintFPMariuszKonior
         {
             Regex regex = new Regex("[^0-9.-]+"); //regex that matches disallowed text
             return !regex.IsMatch(text);
+        }
+
+        private void IsTextAllowedEvent(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9.-]+"); //regex that matches disallowed text
+            e.Handled = regex.IsMatch(e.Text);
         }
 
         private void SaveFile(object sender, RoutedEventArgs args)
@@ -401,15 +409,15 @@ namespace PaintFPMariuszKonior
             if (ratio.IsChecked == false)
             {
                 //Label newLabel =  verticalSpacing;
-                verticalSpacing.Visibility = Visibility.Visible;
+                /*verticalSpacing.Visibility = Visibility.Visible;
                 vSpacingVal.Visibility = Visibility.Visible;
-                horizontalSpacing.Content = "Odległość między\noczkami (poziomo)";
+                horizontalSpacing.Content = "Odległość między\noczkami (poziomo)";*/
             }
             else
             {
-                horizontalSpacing.Content = "Odległość między\noczkami";
+                /*horizontalSpacing.Content = "Odległość między\noczkami";
                 verticalSpacing.Visibility = Visibility.Hidden;
-                vSpacingVal.Visibility = Visibility.Hidden;
+                vSpacingVal.Visibility = Visibility.Hidden;*/
             }
         }
 
