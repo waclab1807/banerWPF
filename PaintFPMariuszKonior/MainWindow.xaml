@@ -134,19 +134,19 @@
                 <WrapPanel Orientation="Vertical">
                     <StackPanel Orientation="Vertical">
                         <StackPanel Orientation="Horizontal">
-                            <Label Width="80">Górny tunel :</Label>
+                            <Label Width="90">Górny zgrzew:</Label>
                             <CheckBox x:Name="topTunnel"  VerticalAlignment="Center" IsChecked="False" Click="ratio_Checked"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <Label Width="80">Dolny tunel :</Label>
+                            <Label Width="90">Dolny zgrzew:</Label>
                             <CheckBox x:Name="bottomTunnel"  VerticalAlignment="Center" IsChecked="False" Click="ratio_Checked"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <Label Width="80">Prawy tunel :</Label>
+                            <Label Width="90">Prawy zgrzew:</Label>
                             <CheckBox x:Name="rightTunnel"  VerticalAlignment="Center" IsChecked="False" Click="ratio_Checked"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <Label Width="80">Lewy tunel :</Label>
+                            <Label Width="90">Lewy zgrzew:</Label>
                             <CheckBox x:Name="leftTunnel"  VerticalAlignment="Center" IsChecked="False" Click="ratio_Checked"/>
                         </StackPanel>
                     </StackPanel>
