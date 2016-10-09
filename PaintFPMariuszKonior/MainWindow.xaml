@@ -8,7 +8,7 @@
         mc:Ignorable="d"
        
         Icon="Icons/paint.png"
-        Title="Paint" MinHeight="600" Height="800" MinWidth="825" Width="1024">
+        Title="Paint" MinHeight="600" Height="850" MinWidth="855" Width="1024">
   
     <Window.CommandBindings>
         <CommandBinding Command="Close" CanExecute="CommandBinding_CanExecute" Executed="CommandBinding_Executed" />
@@ -130,23 +130,24 @@
             </GroupBox>
 
 
-            <GroupBox Margin="10" Header="Tunele">
+
+            <GroupBox Margin="10" Header="Szerokość i wysokosć tuneli">
                 <WrapPanel Orientation="Vertical">
                     <StackPanel Orientation="Vertical">
                         <StackPanel Orientation="Horizontal">
-                            <Label Width="90">Górny zgrzew:</Label>
+                            <Label Width="80">Górny tunel :</Label>
                             <CheckBox x:Name="topTunnel"  VerticalAlignment="Center" IsChecked="False" Click="ratio_Checked"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <Label Width="90">Dolny zgrzew:</Label>
+                            <Label Width="80">Dolny tunel :</Label>
                             <CheckBox x:Name="bottomTunnel"  VerticalAlignment="Center" IsChecked="False" Click="ratio_Checked"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <Label Width="90">Prawy zgrzew:</Label>
+                            <Label Width="80">Prawy tunel :</Label>
                             <CheckBox x:Name="rightTunnel"  VerticalAlignment="Center" IsChecked="False" Click="ratio_Checked"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <Label Width="90">Lewy zgrzew:</Label>
+                            <Label Width="80">Lewy tunel :</Label>
                             <CheckBox x:Name="leftTunnel"  VerticalAlignment="Center" IsChecked="False" Click="ratio_Checked"/>
                         </StackPanel>
                     </StackPanel>
