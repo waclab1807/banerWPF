@@ -8,7 +8,7 @@
         mc:Ignorable="d"
        
         Icon="Icons/paint.png"
-        Title="Paint" MinHeight="600" Height="800" MinWidth="825" Width="1024">
+        Title="Paint" MinHeight="600" Height="850" MinWidth="855" Width="1024">
   
     <Window.CommandBindings>
         <CommandBinding Command="Close" CanExecute="CommandBinding_CanExecute" Executed="CommandBinding_Executed" />
@@ -130,33 +130,28 @@
             </GroupBox>
 
 
-            <GroupBox Margin="10" Header="Tunele">
+
+            <GroupBox Margin="10" Header="Szerokość i wysokosć tuneli">
                 <WrapPanel Orientation="Vertical">
-                    <StackPanel Orientation="Vertical">
-                        <StackPanel Orientation="Horizontal">
-                            <Label Width="80">Górny tunel :</Label>
-                            <CheckBox x:Name="topTunnel"  VerticalAlignment="Center" IsChecked="False" Click="ratio_Checked"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <Label Width="80">Dolny tunel :</Label>
-                            <CheckBox x:Name="bottomTunnel"  VerticalAlignment="Center" IsChecked="False" Click="ratio_Checked"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <Label Width="80">Prawy tunel :</Label>
-                            <CheckBox x:Name="rightTunnel"  VerticalAlignment="Center" IsChecked="False" Click="ratio_Checked"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <Label Width="80">Lewy tunel :</Label>
-                            <CheckBox x:Name="leftTunnel"  VerticalAlignment="Center" IsChecked="False" Click="ratio_Checked"/>
-                        </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox x:Name="topTunnel"  VerticalAlignment="Center" IsChecked="False" Click="ratio_Checked"/>
+                        <Label Width="50">Górny</Label>
+                        <TextBox IsEnabled="{Binding ElementName=topTunnel, Path=IsChecked}" PreviewTextInput="IsTextAllowedEvent" x:Name="upTunnelVal" TextWrapping="Wrap" Width="50" Height="20"/>
                     </StackPanel>
-                    <StackPanel Orientation="Vertical">
-                        <Label >Szerokość górnego tunelu</Label>
-                        <TextBox PreviewTextInput="IsTextAllowedEvent" x:Name="upTunnelVal" TextWrapping="Wrap" Width="90" Height="20"/>
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox x:Name="bottomTunnel"  VerticalAlignment="Center" IsChecked="False" Click="ratio_Checked"/>
+                        <Label Width="50">Dolny</Label>
+                        <TextBox IsEnabled="{Binding ElementName=bottomTunnel, Path=IsChecked}" PreviewTextInput="IsTextAllowedEvent" x:Name="downTunnelVal" TextWrapping="Wrap" Width="50" Height="20"/>
                     </StackPanel>
-                    <StackPanel Orientation="Vertical">
-                        <Label >Szerokość dolnego tunelu</Label>
-                        <TextBox PreviewTextInput="IsTextAllowedEvent" x:Name="downTunnelVal" TextWrapping="Wrap" Width="90" Height="20"/>
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox x:Name="leftTunnel"  VerticalAlignment="Center" IsChecked="False" Click="ratio_Checked"/>
+                        <Label Width="50">Lewy</Label>
+                        <TextBox IsEnabled="{Binding ElementName=leftTunnel, Path=IsChecked}" PreviewTextInput="IsTextAllowedEvent" x:Name="leftTunnelVal" TextWrapping="Wrap" Width="50" Height="20"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox x:Name="rightTunnel"  VerticalAlignment="Center" IsChecked="False" Click="ratio_Checked"/>
+                        <Label Width="50">Prawy</Label>
+                        <TextBox IsEnabled="{Binding ElementName=rightTunnel, Path=IsChecked}" PreviewTextInput="IsTextAllowedEvent" x:Name="rightTunnelVal" TextWrapping="Wrap" Width="50" Height="20"/>
                     </StackPanel>
                 </WrapPanel>
             </GroupBox>

@@ -44,8 +44,10 @@ namespace PaintFPMariuszKonior
             cutOutWidthVal.Text = "10";
             marginVal.Text = "10";
             amountVal.Text = "1";
-            upTunnelVal.Text = "10";
-            downTunnelVal.Text = "10";
+            upTunnelVal.Text = "0";
+            downTunnelVal.Text = "0";
+            leftTunnelVal.Text = "0";
+            rightTunnelVal.Text = "0";
             sealVal.Text = "10";
             filefilter = "Bitmap files (*.jpg; *.jpeg; *.gif; *.bmp; *.tiff)|*.jpg; *.jpeg; *.gif; *.bmp; *.tiff";
             incorectValue = "Nie poprawna wartość";
@@ -194,15 +196,29 @@ namespace PaintFPMariuszKonior
 
         private double getHeightTopTunnel()
         {
-            if (IsTextAllowed(upTunnelVal.Text))
+            if (IsTextAllowed(upTunnelVal.Text) && topTunnel.IsChecked == true)
                 return Double.Parse(upTunnelVal.Text);
             return 0.0;
         }
 
         private double getHeightBottomTunnel()
         {
-            if (IsTextAllowed(downTunnelVal.Text))
+            if (IsTextAllowed(downTunnelVal.Text) && bottomTunnel.IsChecked == true)
                 return Double.Parse(downTunnelVal.Text);
+            return 0.0;
+        }
+
+        private double getHeightLeftTunnel()
+        {
+            if (IsTextAllowed(leftTunnelVal.Text) && leftTunnel.IsChecked == true)
+                return Double.Parse(leftTunnelVal.Text);
+            return 0.0;
+        }
+
+        private double getHeightRightTunnel()
+        {
+            if (IsTextAllowed(rightTunnelVal.Text) && rightTunnel.IsChecked == true)
+                return Double.Parse(rightTunnelVal.Text);
             return 0.0;
         }
 
@@ -236,7 +252,7 @@ namespace PaintFPMariuszKonior
 
                         if (image != null)
                         {
-                            widthCanvas = image.ActualWidth;
+                            widthCanvas = image.ActualWidth + (getHeightLeftTunnel() + getHeightRightTunnel());
                             heightCanvas = image.ActualHeight+ (getHeightTopTunnel()+ getHeightBottomTunnel());
                         }
 
@@ -284,8 +300,9 @@ namespace PaintFPMariuszKonior
         {
             canvasMain.Strokes.Clear();
             canvasMain.Children.RemoveRange(0, canvasMain.Children.Count);
-            canvasMain.Strokes.Add(drawMethod.DrawASquare(0, 0, image.ActualWidth, image.ActualHeight + (getHeightTopTunnel()+ getHeightBottomTunnel())));
+            canvasMain.Strokes.Add(drawMethod.DrawASquare(0, 0, image.ActualWidth + (getHeightLeftTunnel() + getHeightRightTunnel()), image.ActualHeight + (getHeightTopTunnel()+ getHeightBottomTunnel())));
             InkCanvas.SetTop(image, getHeightTopTunnel());
+            InkCanvas.SetLeft(image, getHeightLeftTunnel());
             canvasMain.Children.Add(image);
          
 
@@ -327,12 +344,12 @@ namespace PaintFPMariuszKonior
             double fixSpaceVertical = heightCanvas + spaceVertical - ((int)RowNumbers * (widthCutOut + spaceVertical));
             fixSpaceVertical = fixSpaceVertical / (((int)RowNumbers) - 1);
 
-            double spaceHorizontalColumn = margin + (widthCutOut / 2);
+            double spaceHorizontalColumn = margin + (widthCutOut / 2) + getHeightLeftTunnel();
             double spaceVerticalColumn = margin + (widthCutOut / 2) + getHeightTopTunnel();
 
             for (int i = 0; i < (int)RowNumbers; i++)
             {
-                spaceHorizontalColumn = margin + (widthCutOut / 2);
+                spaceHorizontalColumn = margin + (widthCutOut / 2) + getHeightLeftTunnel();
                 for (int j = 0; j < (int)columnNumbers; j++)
                 {
                     if ((int)RowNumbers == (i + 1))
