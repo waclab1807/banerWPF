@@ -3,6 +3,7 @@
     public enum CutOut
     {
         circle,
-        square
+        square,
+        quadrangle
     }
 }
