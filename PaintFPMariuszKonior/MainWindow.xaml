@@ -131,27 +131,33 @@
 
 
 
-            <GroupBox Margin="10" Header="Szerokość i wysokosć tuneli">
+            <GroupBox Margin="10" Header="Szerokość tuneli i zgrzewy">
                 <WrapPanel Orientation="Vertical">
-                    <StackPanel Orientation="Horizontal">
-                        <CheckBox x:Name="topTunnel"  VerticalAlignment="Center" IsChecked="False" Click="ratio_Checked"/>
-                        <Label Width="50">Górny</Label>
-                        <TextBox IsEnabled="{Binding ElementName=topTunnel, Path=IsChecked}" PreviewTextInput="IsTextAllowedEvent" x:Name="upTunnelVal" TextWrapping="Wrap" Width="50" Height="20"/>
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <Label Width="90">Górny zgrzew:</Label>
+                            <CheckBox x:Name="topTunnel"  VerticalAlignment="Center" IsChecked="False" Click="ratio_Checked"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Width="90">Dolny zgrzew:</Label>
+                            <CheckBox x:Name="bottomTunnel"  VerticalAlignment="Center" IsChecked="False" Click="ratio_Checked"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Width="90">Prawy zgrzew:</Label>
+                            <CheckBox x:Name="rightTunnel"  VerticalAlignment="Center" IsChecked="False" Click="ratio_Checked"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Width="90">Lewy zgrzew:</Label>
+                            <CheckBox x:Name="leftTunnel"  VerticalAlignment="Center" IsChecked="False" Click="ratio_Checked"/>
+                        </StackPanel>
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <CheckBox x:Name="bottomTunnel"  VerticalAlignment="Center" IsChecked="False" Click="ratio_Checked"/>
-                        <Label Width="50">Dolny</Label>
-                        <TextBox IsEnabled="{Binding ElementName=bottomTunnel, Path=IsChecked}" PreviewTextInput="IsTextAllowedEvent" x:Name="downTunnelVal" TextWrapping="Wrap" Width="50" Height="20"/>
+                    <StackPanel Orientation="Vertical">
+                        <Label >Szerokość górnego tunelu</Label>
+                        <TextBox PreviewTextInput="IsTextAllowedEvent" x:Name="upTunnelVal" TextWrapping="Wrap" Width="90" Height="20"/>
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <CheckBox x:Name="leftTunnel"  VerticalAlignment="Center" IsChecked="False" Click="ratio_Checked"/>
-                        <Label Width="50">Lewy</Label>
-                        <TextBox IsEnabled="{Binding ElementName=leftTunnel, Path=IsChecked}" PreviewTextInput="IsTextAllowedEvent" x:Name="leftTunnelVal" TextWrapping="Wrap" Width="50" Height="20"/>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <CheckBox x:Name="rightTunnel"  VerticalAlignment="Center" IsChecked="False" Click="ratio_Checked"/>
-                        <Label Width="50">Prawy</Label>
-                        <TextBox IsEnabled="{Binding ElementName=rightTunnel, Path=IsChecked}" PreviewTextInput="IsTextAllowedEvent" x:Name="rightTunnelVal" TextWrapping="Wrap" Width="50" Height="20"/>
+                    <StackPanel Orientation="Vertical">
+                        <Label >Szerokość dolnego tunelu</Label>
+                        <TextBox PreviewTextInput="IsTextAllowedEvent" x:Name="downTunnelVal" TextWrapping="Wrap" Width="90" Height="20"/>
                     </StackPanel>
                 </WrapPanel>
             </GroupBox>
