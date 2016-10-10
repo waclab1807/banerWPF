@@ -131,34 +131,32 @@
 
 
 
-            <GroupBox Margin="10" Header="Szerokość tuneli i zgrzewy">
+            <GroupBox Margin="10" Header="Tunele">
                 <WrapPanel Orientation="Vertical">
                     <StackPanel Orientation="Vertical">
                         <StackPanel Orientation="Horizontal">
-                            <Label Width="90">Górny zgrzew:</Label>
                             <CheckBox x:Name="topTunnel"  VerticalAlignment="Center" IsChecked="False" Click="ratio_Checked"/>
+                            <Label Width="50">Górny:</Label>
+                            <TextBox PreviewTextInput="IsTextAllowedEvent" x:Name="upTunnelVal" TextWrapping="Wrap" Width="80" Height="20"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <Label Width="90">Dolny zgrzew:</Label>
                             <CheckBox x:Name="bottomTunnel"  VerticalAlignment="Center" IsChecked="False" Click="ratio_Checked"/>
+                            <Label Width="50">Dolny:</Label>
+                            <TextBox PreviewTextInput="IsTextAllowedEvent" x:Name="downTunnelVal" TextWrapping="Wrap" Width="80" Height="20"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <Label Width="90">Prawy zgrzew:</Label>
                             <CheckBox x:Name="rightTunnel"  VerticalAlignment="Center" IsChecked="False" Click="ratio_Checked"/>
+                            <Label Width="50">Prawy:</Label>
+                            <TextBox PreviewTextInput="IsTextAllowedEvent" x:Name="rightTunnelVal" TextWrapping="Wrap" Width="80" Height="20"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <Label Width="90">Lewy zgrzew:</Label>
                             <CheckBox x:Name="leftTunnel"  VerticalAlignment="Center" IsChecked="False" Click="ratio_Checked"/>
+                            <Label Width="50">Lewy:</Label>
+                            <TextBox PreviewTextInput="IsTextAllowedEvent" x:Name="leftTunnelVal" TextWrapping="Wrap" Width="80" Height="20"/>
                         </StackPanel>
                     </StackPanel>
-                    <StackPanel Orientation="Vertical">
-                        <Label >Szerokość górnego tunelu</Label>
-                        <TextBox PreviewTextInput="IsTextAllowedEvent" x:Name="upTunnelVal" TextWrapping="Wrap" Width="90" Height="20"/>
-                    </StackPanel>
-                    <StackPanel Orientation="Vertical">
-                        <Label >Szerokość dolnego tunelu</Label>
-                        <TextBox PreviewTextInput="IsTextAllowedEvent" x:Name="downTunnelVal" TextWrapping="Wrap" Width="90" Height="20"/>
-                    </StackPanel>
+                 
+               
                 </WrapPanel>
             </GroupBox>
 
