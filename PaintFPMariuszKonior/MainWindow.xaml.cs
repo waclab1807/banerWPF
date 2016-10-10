@@ -51,6 +51,7 @@ namespace PaintFPMariuszKonior
             sealVal.Text = "10";
             filefilter = "Bitmap files (*.jpg; *.jpeg; *.gif; *.bmp; *.tiff)|*.jpg; *.jpeg; *.gif; *.bmp; *.tiff";
             incorectValue = "Nie poprawna wartość";
+            canvasMain.EditingMode = InkCanvasEditingMode.None
         }
 
         #region Zoom
@@ -67,15 +68,8 @@ namespace PaintFPMariuszKonior
             base.OnPreviewMouseWheel(args);
 
             if (Keyboard.IsKeyDown(Key.LeftCtrl) ||
-
                 Keyboard.IsKeyDown(Key.RightCtrl))
-
-            {
-
                 uiScaleSlider.Value += (args.Delta > 0) ? 0.1 : -0.1;
-
-            }
-
         }
 
         protected override void OnPreviewMouseDown(MouseButtonEventArgs args)
@@ -84,20 +78,12 @@ namespace PaintFPMariuszKonior
 
             base.OnPreviewMouseDown(args);
 
-            if (Keyboard.IsKeyDown(Key.LeftCtrl) ||
-
+            if (Keyboard.IsKeyDown(Key.LeftCtrl) ||        
                 Keyboard.IsKeyDown(Key.RightCtrl))
-
             {
 
                 if (args.MiddleButton == MouseButtonState.Pressed)
-
-                {
-
-                    RestoreScalingFactor(uiScaleSlider, args);
-
-                }
-
+                    RestoreScalingFactor(uiScaleSlider, args);                     
             }
 
         }
@@ -156,23 +142,9 @@ namespace PaintFPMariuszKonior
             dialog.Filter = dialog.Filter = filefilter;
 
             if ((bool)dialog.ShowDialog(this))
-            {
-                //canvasMain.Strokes.Clear();              
+            {           
                 try
                 {
-                    /*using (FileStream fileStream = new FileStream(dialog.FileName, FileMode.Open, FileAccess.Read))
-                    {
-                        BitmapFrame frame = BitmapFrame.Create(fileStream, BitmapCreateOptions.DelayCreation, BitmapCacheOption.None);
-                        int scale = 4;
-                        Size s = new Size(frame.PixelWidth, frame.PixelHeight);
-
-                        zoomSlider.Maximum = ((frame.PixelWidth / canvasMain.ActualWidth) * scale);
-                        zoomSlider.Minimum = ((canvasMain.ActualWidth / frame.PixelWidth) / scale);
-                        zoomSlider.Value = ((((frame.PixelWidth / canvasMain.ActualWidth) * scale) - ((canvasMain.ActualWidth / frame.PixelWidth) / scale)) / (scale / 2));
-
-                        test.Content = (zoomSlider.Maximum - zoomSlider.Minimum) / scale;
-
-                    }*/
                     using (var file = new FileStream(dialog.FileName, FileMode.Open, FileAccess.Read))
                     {
                         fileSource.Text = dialog.FileName;
@@ -188,9 +160,6 @@ namespace PaintFPMariuszKonior
                     MessageBox.Show(exc.Message, Title);
                 }
             }
-
-            //canvasMain.zoomSlider = 10;
-            //fit to page 
 
         }
 
@@ -231,13 +200,13 @@ namespace PaintFPMariuszKonior
 
         private static bool IsTextAllowed(string text)
         {
-            Regex regex = new Regex("[^0-9.-]+"); //regex that matches disallowed text
+            Regex regex = new Regex("[^0-9.]+"); //regex that matches disallowed text
             return !regex.IsMatch(text);
         }
 
         private void IsTextAllowedEvent(object sender, TextCompositionEventArgs e)
         {
-            Regex regex = new Regex("[^0-9.-]+"); //regex that matches disallowed text
+            Regex regex = new Regex("[^0-9.]+"); //regex that matches disallowed text
             e.Handled = regex.IsMatch(e.Text);
         }
 
@@ -303,13 +272,10 @@ namespace PaintFPMariuszKonior
         #region DrawMethod
 
 
-        private void ShowParameters(object sender, RoutedEventArgs e)
+        private void GenerateView(object sender, RoutedEventArgs e)
         {
             canvasMain.Strokes.Clear();
             canvasMain.Children.RemoveRange(0, canvasMain.Children.Count);
-            //canvasMain.Strokes.Add(drawMethod.DrawASquare(0, 0, image.ActualWidth + (getHeightLeftTunnel() + 
-            //getHeightRightTunnel() + (getWeldidth()*2)), image.ActualHeight + (getHeightTopTunnel() + 
-            //getHeightBottomTunnel()+(getWeldidth()*2))));
             canvasMain.Strokes.Add(setCircle(0, 0, getWeldidth(), image.ActualHeight + (getWeldidth() * 2) + getHeightTopTunnel() + getHeightBottomTunnel(), CutOut.quadrangle, Colors.Gray));
             canvasMain.Strokes.Add(setCircle(image.ActualWidth + getWeldidth()+ getHeightRightTunnel() + getHeightLeftTunnel(), 0, getWeldidth() , image.ActualHeight + (getWeldidth() * 2) + getHeightTopTunnel() + getHeightBottomTunnel(), CutOut.quadrangle, Colors.Gray));
             canvasMain.Strokes.Add(setCircle(0, 0, image.ActualWidth + getHeightLeftTunnel() + getHeightRightTunnel() + getWeldidth() + getWeldidth(), getWeldidth(), CutOut.quadrangle, Colors.Gray));

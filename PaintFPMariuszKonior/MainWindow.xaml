@@ -129,30 +129,28 @@
                 </WrapPanel>
             </GroupBox>
 
-
-
             <GroupBox Margin="10" Header="Tunele">
                 <WrapPanel Orientation="Vertical">
                     <StackPanel Orientation="Vertical">
                         <StackPanel Orientation="Horizontal">
                             <CheckBox x:Name="topTunnel"  VerticalAlignment="Center" IsChecked="False" Click="ratio_Checked"/>
                             <Label Width="50">Górny:</Label>
-                            <TextBox PreviewTextInput="IsTextAllowedEvent" x:Name="upTunnelVal" TextWrapping="Wrap" Width="80" Height="20"/>
+                            <TextBox PreviewTextInput="IsTextAllowedEvent" x:Name="upTunnelVal" TextWrapping="Wrap" Width="80" Height="20" IsEnabled="{Binding ElementName=topTunnel, Path=IsChecked}"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <CheckBox x:Name="bottomTunnel"  VerticalAlignment="Center" IsChecked="False" Click="ratio_Checked"/>
                             <Label Width="50">Dolny:</Label>
-                            <TextBox PreviewTextInput="IsTextAllowedEvent" x:Name="downTunnelVal" TextWrapping="Wrap" Width="80" Height="20"/>
+                            <TextBox PreviewTextInput="IsTextAllowedEvent" x:Name="downTunnelVal" TextWrapping="Wrap" Width="80" Height="20" IsEnabled="{Binding ElementName=bottomTunnel, Path=IsChecked}"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <CheckBox x:Name="rightTunnel"  VerticalAlignment="Center" IsChecked="False" Click="ratio_Checked"/>
                             <Label Width="50">Prawy:</Label>
-                            <TextBox PreviewTextInput="IsTextAllowedEvent" x:Name="rightTunnelVal" TextWrapping="Wrap" Width="80" Height="20"/>
+                            <TextBox PreviewTextInput="IsTextAllowedEvent" x:Name="rightTunnelVal" TextWrapping="Wrap" Width="80" Height="20" IsEnabled="{Binding ElementName=rightTunnel, Path=IsChecked}"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <CheckBox x:Name="leftTunnel"  VerticalAlignment="Center" IsChecked="False" Click="ratio_Checked"/>
                             <Label Width="50">Lewy:</Label>
-                            <TextBox PreviewTextInput="IsTextAllowedEvent" x:Name="leftTunnelVal" TextWrapping="Wrap" Width="80" Height="20"/>
+                            <TextBox PreviewTextInput="IsTextAllowedEvent" x:Name="leftTunnelVal" TextWrapping="Wrap" Width="80" Height="20" IsEnabled="{Binding ElementName=leftTunnel, Path=IsChecked}"/>
                         </StackPanel>
                     </StackPanel>
                  
@@ -201,7 +199,7 @@
                                 
                     <StackPanel Orientation="Horizontal">
                         <Label Width="30"></Label>
-                        <Button Content="Print" BorderThickness="10,10,10,10" BorderBrush="#00FF00"  HorizontalAlignment="Center" Width="90" Height="50" VerticalAlignment="Center" Click="ShowParameters"/>
+                        <Button Content="Print" BorderThickness="10,10,10,10" BorderBrush="#00FF00"  HorizontalAlignment="Center" Width="90" Height="50" VerticalAlignment="Center" Click="GenerateView"/>
                     </StackPanel>
                     
                 </WrapPanel>
@@ -283,6 +281,7 @@
                         ScaleY="{Binding ElementName=uiScaleSlider,Path=Value}"/>
                             </DockPanel.LayoutTransform>
                             <InkCanvas x:Name="canvasMain">
+                                
                                 <!-- <InkCanvas.LayoutTransform>
                                 <ScaleTransform ScaleX="{Binding ElementName=zoomSlider,Path=Value}" ScaleY="{Binding ElementName=zoomSlider,Path=Value}"/>
                             </InkCanvas.LayoutTransform>-->
