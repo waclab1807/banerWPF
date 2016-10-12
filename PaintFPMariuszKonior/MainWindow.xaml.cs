@@ -51,7 +51,7 @@ namespace PaintFPMariuszKonior
             sealVal.Text = "10";
             filefilter = "Bitmap files (*.jpg; *.jpeg; *.gif; *.bmp; *.tiff)|*.jpg; *.jpeg; *.gif; *.bmp; *.tiff";
             incorectValue = "Nie poprawna wartość";
-            canvasMain.EditingMode = InkCanvasEditingMode.None
+            canvasMain.EditingMode = InkCanvasEditingMode.None;
         }
 
         #region Zoom
@@ -275,16 +275,22 @@ namespace PaintFPMariuszKonior
         private void GenerateView(object sender, RoutedEventArgs e)
         {
             canvasMain.Strokes.Clear();
+            Label titles = new Label();
+            titles.Content = string.Format("Uwagi {0}, Liczba zamówień  {1}", extrasVal.Text, amountVal.Text);
             canvasMain.Children.RemoveRange(0, canvasMain.Children.Count);
             canvasMain.Strokes.Add(setCircle(0, 0, getWeldidth(), image.ActualHeight + (getWeldidth() * 2) + getHeightTopTunnel() + getHeightBottomTunnel(), CutOut.quadrangle, Colors.Gray));
             canvasMain.Strokes.Add(setCircle(image.ActualWidth + getWeldidth()+ getHeightRightTunnel() + getHeightLeftTunnel(), 0, getWeldidth() , image.ActualHeight + (getWeldidth() * 2) + getHeightTopTunnel() + getHeightBottomTunnel(), CutOut.quadrangle, Colors.Gray));
             canvasMain.Strokes.Add(setCircle(0, 0, image.ActualWidth + getHeightLeftTunnel() + getHeightRightTunnel() + getWeldidth() + getWeldidth(), getWeldidth(), CutOut.quadrangle, Colors.Gray));
-            canvasMain.Strokes.Add(setCircle(0, image.ActualHeight + getWeldidth() + getHeightTopTunnel() + getHeightBottomTunnel(), image.ActualWidth + (getWeldidth() * 2) + getHeightLeftTunnel() + getHeightRightTunnel(), getWeldidth(), CutOut.quadrangle, Colors.Gray));
-            canvasMain.Strokes.Add(drawMethod.DrawASquare(getWeldidth(), getWeldidth(), image.ActualWidth + (getHeightLeftTunnel() + getHeightRightTunnel()+ getWeldidth()), image.ActualHeight + (getHeightTopTunnel() + getHeightBottomTunnel()+ getWeldidth())));            
+            canvasMain.Strokes.Add(setCircle(0, image.ActualHeight + getWeldidth() + getHeightTopTunnel() + getHeightBottomTunnel(), image.ActualWidth + (getWeldidth() * 2) + getHeightLeftTunnel() + getHeightRightTunnel(), getWeldidth(), CutOut.quadrangle, Colors.Gray));           
+            canvasMain.Strokes.Add(drawMethod.DrawASquare(getWeldidth(), getWeldidth(), image.ActualWidth + (getHeightLeftTunnel() + getHeightRightTunnel()+ getWeldidth()), image.ActualHeight + (getHeightTopTunnel() + getHeightBottomTunnel()+ getWeldidth())));
+            InkCanvas.SetTop(titles, image.ActualHeight + getWeldidth() + getHeightTopTunnel());
+            InkCanvas.SetLeft(titles, getWeldidth() + getHeightLeftTunnel());
+            canvasMain.Children.Add(titles);
             InkCanvas.SetTop(image, getHeightTopTunnel()+ getWeldidth());
             InkCanvas.SetLeft(image, getHeightLeftTunnel()+ getWeldidth());
             canvasMain.Children.Add(image);
-         
+          
+
 
             //odstepy oczek od krawedzi
             double margin = Convert.ToDouble(marginVal.Text);

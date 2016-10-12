@@ -199,7 +199,7 @@
                                 
                     <StackPanel Orientation="Horizontal">
                         <Label Width="30"></Label>
-                        <Button Content="Print" BorderThickness="10,10,10,10" BorderBrush="#00FF00"  HorizontalAlignment="Center" Width="90" Height="50" VerticalAlignment="Center" Click="GenerateView"/>
+                        <Button IsEnabled="{Binding ElementName=fileSource, Path=Text}" Content="Print" BorderThickness="10,10,10,10" BorderBrush="#00FF00"  HorizontalAlignment="Center" Width="90" Height="50" VerticalAlignment="Center" Click="GenerateView"/>
                     </StackPanel>
                     
                 </WrapPanel>
