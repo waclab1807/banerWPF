@@ -131,6 +131,14 @@
 
             <GroupBox Margin="10" Header="Szerokość Zgrzewów">
                 <WrapPanel Orientation="Vertical">
+                    <StackPanel Orientation="Horizontal">
+                        <Label Width="100">Kolor Zgrzewu</Label>
+                        <Button Click="ColorInkSpecial">
+                            <WrapPanel>
+                                <Grid x:Name="ColorSpecial" Width="30" Height="30" Background="Black" />
+                            </WrapPanel>
+                        </Button>
+                    </StackPanel>
                     <StackPanel Orientation="Vertical">
                         <StackPanel Orientation="Horizontal">
                             <CheckBox x:Name="topTunnel"  VerticalAlignment="Center" IsChecked="False" Click="ratio_Checked"/>

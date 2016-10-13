@@ -52,6 +52,7 @@ namespace PaintFPMariuszKonior
             filefilter = "Bitmap files (*.jpg; *.jpeg; *.gif; *.bmp; *.tiff)|*.jpg; *.jpeg; *.gif; *.bmp; *.tiff";
             incorectValue = "Nie poprawna wartość";
             canvasMain.EditingMode = InkCanvasEditingMode.None;
+            ColorSpecial.Background = 
         }
 
         #region Zoom
@@ -129,6 +130,11 @@ namespace PaintFPMariuszKonior
         private void ColorInk(object sender, RoutedEventArgs e)
         {
             colorsAndTools.ColorInk(canvasMain, ColorInkSelect);
+        }
+
+        private void ColorInkSpecial(object sender, RoutedEventArgs e)
+        {
+            colorsAndTools.getColor(ColorSpecial);
         }
 
         #endregion
@@ -284,10 +290,11 @@ namespace PaintFPMariuszKonior
             
             canvasMain.Children.RemoveRange(0, canvasMain.Children.Count);
             //Zgrzewy
-            canvasMain.Strokes.Add(setCircle(0, 0, getHeightLeftTunnel(), image.ActualHeight + getHeightTopTunnel() + getHeightBottomTunnel() + (getWeldidth()*2), CutOut.quadrangle, Colors.Gray));
-            canvasMain.Strokes.Add(setCircle(image.ActualWidth + getHeightLeftTunnel(), 0, getHeightRightTunnel(), image.ActualHeight + (getWeldidth() * 2) + getHeightTopTunnel() + getHeightBottomTunnel(), CutOut.quadrangle, Colors.Gray));
-            canvasMain.Strokes.Add(setCircle(0, 0, image.ActualWidth + getHeightLeftTunnel() + getHeightRightTunnel(), getHeightTopTunnel(), CutOut.quadrangle, Colors.Gray));
-            canvasMain.Strokes.Add(setCircle(0, image.ActualHeight + getWeldidth() + getWeldidth() + getHeightTopTunnel() , image.ActualWidth + getHeightLeftTunnel() + getHeightRightTunnel(), getHeightBottomTunnel(), CutOut.quadrangle, Colors.Gray));
+            var color = (Color)ColorConverter.ConvertFromString("" + ColorSpecial.Background);
+            canvasMain.Strokes.Add(setCircle(0, 0, getHeightLeftTunnel(), image.ActualHeight + getHeightTopTunnel() + getHeightBottomTunnel() + (getWeldidth()*2), CutOut.quadrangle, color));
+            canvasMain.Strokes.Add(setCircle(image.ActualWidth + getHeightLeftTunnel(), 0, getHeightRightTunnel(), image.ActualHeight + (getWeldidth() * 2) + getHeightTopTunnel() + getHeightBottomTunnel(), CutOut.quadrangle, color));
+            canvasMain.Strokes.Add(setCircle(0, 0, image.ActualWidth + getHeightLeftTunnel() + getHeightRightTunnel(), getHeightTopTunnel(), CutOut.quadrangle, color));
+            canvasMain.Strokes.Add(setCircle(0, image.ActualHeight + getWeldidth() + getWeldidth() + getHeightTopTunnel() , image.ActualWidth + getHeightLeftTunnel() + getHeightRightTunnel(), getHeightBottomTunnel(), CutOut.quadrangle, color));
             //canvasMain.Strokes.Add(drawMethod.DrawASquare(getWeldidth(), getWeldidth(), image.ActualWidth + (getHeightLeftTunnel() + getHeightRightTunnel()+ getWeldidth()), image.ActualHeight + (getHeightTopTunnel() + getHeightBottomTunnel()+ getWeldidth())));
             if (getWeldidth() >= 20)
             {

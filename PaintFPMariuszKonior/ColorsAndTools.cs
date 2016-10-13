@@ -52,5 +52,13 @@ namespace PaintFPMariuszKonior
                 ColorInkSelect.Background = new SolidColorBrush(dialog.DrawingAttributes.Color);
             }
         }
+        public void getColor(Grid ColorInkSelect)
+        {
+            StyleSettings dialog = new StyleSettings();
+            if (dialog.ShowDialog().GetValueOrDefault())
+            {
+                ColorInkSelect.Background = new SolidColorBrush(dialog.DrawingAttributes.Color);
+            }
+        }
     }
 }
