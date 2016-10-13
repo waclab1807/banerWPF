@@ -48,7 +48,7 @@ namespace PaintFPMariuszKonior
             downTunnelVal.Text = "0";
             leftTunnelVal.Text = "0";
             rightTunnelVal.Text = "0";
-            sealVal.Text = "10";
+            sealVal.Text = "20";
             filefilter = "Bitmap files (*.jpg; *.jpeg; *.gif; *.bmp; *.tiff)|*.jpg; *.jpeg; *.gif; *.bmp; *.tiff";
             incorectValue = "Nie poprawna wartość";
             canvasMain.EditingMode = InkCanvasEditingMode.None;
@@ -187,8 +187,14 @@ namespace PaintFPMariuszKonior
         private double getWeldidth()
         {
             if (IsTextAllowed(sealVal.Text))
+            {
+                if (Double.Parse(sealVal.Text) < 20)
+                {
+                    sealVal.Text = "20";
+                }
                 return Double.Parse(sealVal.Text);
-            return 0.0;
+            }             
+            return 20.0;
         }
 
         private double getHeightRightTunnel()
@@ -228,7 +234,7 @@ namespace PaintFPMariuszKonior
 
                         if (image != null)
                         {
-                            widthCanvas = image.ActualWidth + (getHeightLeftTunnel() + getHeightRightTunnel() +(getWeldidth()*2));
+                            widthCanvas = image.ActualWidth + (getHeightLeftTunnel() + getHeightRightTunnel());
                             heightCanvas = image.ActualHeight+ (getHeightTopTunnel()+ getHeightBottomTunnel() +(getWeldidth()*2));
                         }
 
@@ -275,22 +281,25 @@ namespace PaintFPMariuszKonior
         private void GenerateView(object sender, RoutedEventArgs e)
         {
             canvasMain.Strokes.Clear();
-            Label titles = new Label();
-            titles.Content = string.Format("Uwagi {0}, Liczba zamówień  {1}", extrasVal.Text, amountVal.Text);
+            
             canvasMain.Children.RemoveRange(0, canvasMain.Children.Count);
-            canvasMain.Strokes.Add(setCircle(0, 0, getWeldidth(), image.ActualHeight + (getWeldidth() * 2) + getHeightTopTunnel() + getHeightBottomTunnel(), CutOut.quadrangle, Colors.Gray));
-            canvasMain.Strokes.Add(setCircle(image.ActualWidth + getWeldidth()+ getHeightRightTunnel() + getHeightLeftTunnel(), 0, getWeldidth() , image.ActualHeight + (getWeldidth() * 2) + getHeightTopTunnel() + getHeightBottomTunnel(), CutOut.quadrangle, Colors.Gray));
-            canvasMain.Strokes.Add(setCircle(0, 0, image.ActualWidth + getHeightLeftTunnel() + getHeightRightTunnel() + getWeldidth() + getWeldidth(), getWeldidth(), CutOut.quadrangle, Colors.Gray));
-            canvasMain.Strokes.Add(setCircle(0, image.ActualHeight + getWeldidth() + getHeightTopTunnel() + getHeightBottomTunnel(), image.ActualWidth + (getWeldidth() * 2) + getHeightLeftTunnel() + getHeightRightTunnel(), getWeldidth(), CutOut.quadrangle, Colors.Gray));           
-            canvasMain.Strokes.Add(drawMethod.DrawASquare(getWeldidth(), getWeldidth(), image.ActualWidth + (getHeightLeftTunnel() + getHeightRightTunnel()+ getWeldidth()), image.ActualHeight + (getHeightTopTunnel() + getHeightBottomTunnel()+ getWeldidth())));
-            InkCanvas.SetTop(titles, image.ActualHeight + getWeldidth() + getHeightTopTunnel());
-            InkCanvas.SetLeft(titles, getWeldidth() + getHeightLeftTunnel());
-            canvasMain.Children.Add(titles);
+            //Zgrzewy
+            canvasMain.Strokes.Add(setCircle(0, 0, getHeightLeftTunnel(), image.ActualHeight + getHeightTopTunnel() + getHeightBottomTunnel() + (getWeldidth()*2), CutOut.quadrangle, Colors.Gray));
+            canvasMain.Strokes.Add(setCircle(image.ActualWidth + getHeightLeftTunnel(), 0, getHeightRightTunnel(), image.ActualHeight + (getWeldidth() * 2) + getHeightTopTunnel() + getHeightBottomTunnel(), CutOut.quadrangle, Colors.Gray));
+            canvasMain.Strokes.Add(setCircle(0, 0, image.ActualWidth + getHeightLeftTunnel() + getHeightRightTunnel(), getHeightTopTunnel(), CutOut.quadrangle, Colors.Gray));
+            canvasMain.Strokes.Add(setCircle(0, image.ActualHeight + getWeldidth() + getWeldidth() + getHeightTopTunnel() , image.ActualWidth + getHeightLeftTunnel() + getHeightRightTunnel(), getHeightBottomTunnel(), CutOut.quadrangle, Colors.Gray));
+            //canvasMain.Strokes.Add(drawMethod.DrawASquare(getWeldidth(), getWeldidth(), image.ActualWidth + (getHeightLeftTunnel() + getHeightRightTunnel()+ getWeldidth()), image.ActualHeight + (getHeightTopTunnel() + getHeightBottomTunnel()+ getWeldidth())));
+            if (getWeldidth() >= 20)
+            {
+                Label titles = new Label();
+                titles.Content = string.Format("Uwagi {0}, Liczba zamówień  {1}", extrasVal.Text, amountVal.Text);
+                InkCanvas.SetTop(titles, image.ActualHeight + getWeldidth() + getHeightTopTunnel());
+                InkCanvas.SetLeft(titles, getWeldidth() + getHeightLeftTunnel());
+                canvasMain.Children.Add(titles);
+            }
             InkCanvas.SetTop(image, getHeightTopTunnel()+ getWeldidth());
-            InkCanvas.SetLeft(image, getHeightLeftTunnel()+ getWeldidth());
+            InkCanvas.SetLeft(image, getHeightLeftTunnel());
             canvasMain.Children.Add(image);
-          
-
 
             //odstepy oczek od krawedzi
             double margin = Convert.ToDouble(marginVal.Text);
@@ -330,12 +339,12 @@ namespace PaintFPMariuszKonior
             double fixSpaceVertical = heightCanvas + spaceVertical - ((int)RowNumbers * (widthCutOut + spaceVertical));
             fixSpaceVertical = fixSpaceVertical / (((int)RowNumbers) - 1);
 
-            double spaceHorizontalColumn = margin + (widthCutOut / 2) + getHeightLeftTunnel() + getWeldidth();
+            double spaceHorizontalColumn = margin + (widthCutOut / 2) + getHeightLeftTunnel();
             double spaceVerticalColumn = margin + (widthCutOut / 2) + getHeightTopTunnel()+ getWeldidth();
 
             for (int i = 0; i < (int)RowNumbers; i++)
             {
-                spaceHorizontalColumn = margin + (widthCutOut / 2) + getHeightLeftTunnel() + getWeldidth();
+                spaceHorizontalColumn = margin + (widthCutOut / 2) + getHeightLeftTunnel();
                 for (int j = 0; j < (int)columnNumbers; j++)
                 {
                     if ((int)RowNumbers == (i + 1))

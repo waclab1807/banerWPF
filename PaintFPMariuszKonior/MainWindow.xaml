@@ -103,7 +103,7 @@
                 </WrapPanel>
             </GroupBox>
 
-            <GroupBox Margin="10" Header="Szerokość zgrzewu">
+            <GroupBox Margin="10" Header="Szerokość Tuneli">
                 <WrapPanel Orientation="Vertical">
                     <StackPanel Orientation="Horizontal">
                         <Label Width="50"></Label>
@@ -129,7 +129,7 @@
                 </WrapPanel>
             </GroupBox>
 
-            <GroupBox Margin="10" Header="Tunele">
+            <GroupBox Margin="10" Header="Szerokość Zgrzewów">
                 <WrapPanel Orientation="Vertical">
                     <StackPanel Orientation="Vertical">
                         <StackPanel Orientation="Horizontal">
