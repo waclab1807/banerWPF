@@ -48,8 +48,8 @@ namespace PaintFPMariuszKonior
         {
             set
             {
-                chkPressure.IsChecked = value.IgnorePressure;
-                chkHighlight.IsChecked = value.IsHighlighter;
+                //chkPressure.IsChecked = value.IgnorePressure;
+                //chkHighlight.IsChecked = value.IsHighlighter;
                 penWidth = value.Width;
                 penHeight = value.Height;
                 currColor = value.Color;
@@ -57,10 +57,10 @@ namespace PaintFPMariuszKonior
             get
             {
                 DrawingAttributes drawattr = new DrawingAttributes();
-                drawattr.IgnorePressure = (bool)chkPressure.IsChecked;
+                //drawattr.IgnorePressure = (bool)chkPressure.IsChecked;
                 drawattr.Width = penWidth;
                 drawattr.Height = penHeight;
-                drawattr.IsHighlighter = (bool)chkHighlight.IsChecked;
+                //drawattr.IsHighlighter = (bool)chkHighlight.IsChecked;
                 drawattr.Color = currColor;
                 return drawattr;
             }
