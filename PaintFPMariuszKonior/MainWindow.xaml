@@ -62,7 +62,7 @@
                 <MenuItem Header="About Me" Click="AboutMe"/>
             </MenuItem>
         </Menu>
-        <WrapPanel DockPanel.Dock="Left" Orientation="Vertical" Width="185" Height="615" Background="Gray" VerticalAlignment="Top" >
+        <WrapPanel DockPanel.Dock="Left" Orientation="Vertical" Width="185" Background="Gray" VerticalAlignment="Top" Height="801" >
 
 
 
@@ -166,7 +166,7 @@
 
 
 
-        <WrapPanel DockPanel.Dock="Right" Orientation="Vertical" Width="200" Height="auto" VerticalAlignment="Top" Background="Gray">
+        <WrapPanel DockPanel.Dock="Right" Orientation="Vertical" Width="200" Height="801" VerticalAlignment="Top" Background="Gray">
             <StackPanel>
                 <GroupBox Margin="10" Header="Lokalizacja pliku">
                     <WrapPanel Orientation="Vertical">
@@ -186,19 +186,6 @@
                 </GroupBox>
             </StackPanel>
 
-            <GroupBox Margin="10" Header="Kolor Oczek ">
-                <WrapPanel Orientation="Vertical">
-                    <StackPanel Orientation="Horizontal">
-                        <Label Width="80">Color Ink</Label>
-                        <Button Click="ColorInk">
-                            <WrapPanel>
-                                <Grid x:Name="ColorInkSelect" Width="30" Height="30" Background="Black" />
-                            </WrapPanel>
-                        </Button>
-                    </StackPanel>
-                </WrapPanel>
-            </GroupBox>
-
             <GroupBox Margin="10" Header="Akcje">
                 <WrapPanel Orientation="Vertical">
                     <StackPanel Orientation="Horizontal">
@@ -214,8 +201,16 @@
                 </WrapPanel>
             </GroupBox>
 
-            <GroupBox Margin="10" Header="Kształt oczek">
+            <GroupBox Margin="10" Header="Oczka">
                 <WrapPanel Orientation="Vertical">
+                    <StackPanel Orientation="Horizontal">
+                        <Label Width="80">Color Ink</Label>
+                        <Button Click="ColorInk">
+                            <WrapPanel>
+                                <Grid x:Name="ColorInkSelect" Width="30" Height="30" Background="Black" />
+                            </WrapPanel>
+                        </Button>
+                    </StackPanel>
                     <RadioButton x:Name="DrawACircleRadioButton" GroupName="SelectTypeEvent" IsChecked="True">
                         <Image Source="Icons/circle.png"/>
                     </RadioButton>

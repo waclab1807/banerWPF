@@ -287,8 +287,10 @@ namespace PaintFPMariuszKonior
         private void GenerateView(object sender, RoutedEventArgs e)
         {
             if (image.IsVisible == false)
+            {
                 MessageBox.Show("Wczytaj najpierw plik!");
-            return;
+                return;
+            }
 
             canvasMain.Strokes.Clear();
             
