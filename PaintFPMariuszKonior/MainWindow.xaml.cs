@@ -52,7 +52,7 @@ namespace PaintFPMariuszKonior
             filefilter = "Bitmap files (*.jpg; *.jpeg; *.gif; *.bmp; *.tiff)|*.jpg; *.jpeg; *.gif; *.bmp; *.tiff";
             incorectValue = "Nie poprawna wartość";
             canvasMain.EditingMode = InkCanvasEditingMode.None;
-            ColorSpecial.Background = 
+            //ColorSpecial.Background = 
         }
 
         #region Zoom
@@ -153,7 +153,7 @@ namespace PaintFPMariuszKonior
                 {
                     using (var file = new FileStream(dialog.FileName, FileMode.Open, FileAccess.Read))
                     {
-                        fileSource.Text = dialog.FileName;
+                        //fileSource.Text = dialog.FileName;
                         canvasMain.Children.RemoveRange(0, canvasMain.Children.Count);
                         canvasMain.Strokes.Clear();
                         image.Source = (new BitmapImage(new Uri(dialog.FileName, UriKind.Absolute)));
@@ -172,21 +172,21 @@ namespace PaintFPMariuszKonior
         private double getHeightTopTunnel()
         {
             if (IsTextAllowed(upTunnelVal.Text) && topTunnel.IsChecked == true)
-                return Double.Parse(upTunnelVal.Text);
+                return Double.Parse(Regex.Replace(upTunnelVal.Text, @"\s+", " "));
             return 0.0;
         }
 
         private double getHeightBottomTunnel()
         {
             if (IsTextAllowed(downTunnelVal.Text) && bottomTunnel.IsChecked == true)
-                return Double.Parse(downTunnelVal.Text);
+                return Double.Parse(Regex.Replace(downTunnelVal.Text, @"\s+", " "));
             return 0.0;
         }
 
         private double getHeightLeftTunnel()
         {
             if (IsTextAllowed(leftTunnelVal.Text) && leftTunnel.IsChecked == true)
-                return Double.Parse(leftTunnelVal.Text);
+                return Double.Parse(Regex.Replace(leftTunnelVal.Text, @"\s+", " "));
             return 0.0;
         }
 
@@ -206,7 +206,7 @@ namespace PaintFPMariuszKonior
         private double getHeightRightTunnel()
         {
             if (IsTextAllowed(rightTunnelVal.Text) && rightTunnel.IsChecked == true)
-                return Double.Parse(rightTunnelVal.Text);
+                return Double.Parse(Regex.Replace(rightTunnelVal.Text, @"\s+", " "));
             return 0.0;
         }
 

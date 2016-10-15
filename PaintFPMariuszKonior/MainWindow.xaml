@@ -9,7 +9,7 @@
        
         Icon="Icons/paint.png"
         Title="Paint" MinHeight="600" Height="850" MinWidth="855" Width="1024">
-  
+
     <Window.CommandBindings>
         <CommandBinding Command="Close" CanExecute="CommandBinding_CanExecute" Executed="CommandBinding_Executed" />
     </Window.CommandBindings>
@@ -62,9 +62,9 @@
                 <MenuItem Header="About Me" Click="AboutMe"/>
             </MenuItem>
         </Menu>
-        <WrapPanel DockPanel.Dock="Left" Orientation="Vertical" Width="185" Height="auto" VerticalAlignment="Top" Background="Orange">
+        <WrapPanel DockPanel.Dock="Left" Orientation="Vertical" Width="185" Height="615" Background="Gray" VerticalAlignment="Top" >
 
-            
+
 
             <GroupBox Margin="10" Header="Odległość między oczkami ">
 
@@ -88,8 +88,7 @@
             <GroupBox Margin="10" Header="Średnica oczka ">
                 <WrapPanel Orientation="Vertical">
                     <StackPanel Orientation="Horizontal">
-                        <Label Width="50"></Label>
-                        <TextBox PreviewTextInput="IsTextAllowedEvent" x:Name="cutOutWidthVal" TextWrapping="Wrap" Width="90" Height="20"/>
+                        <TextBox PreviewTextInput="IsTextAllowedEvent" x:Name="cutOutWidthVal" TextWrapping="Wrap" Width="150" Height="20"/>
                     </StackPanel>
                 </WrapPanel>
             </GroupBox>
@@ -97,8 +96,7 @@
             <GroupBox Margin="10" Header="Odstęp od krawędzi">
                 <WrapPanel Orientation="Vertical">
                     <StackPanel Orientation="Horizontal">
-                        <Label Width="50"></Label>
-                        <TextBox PreviewTextInput="IsTextAllowedEvent" x:Name="marginVal" TextWrapping="Wrap" Width="90" Height="20"/>
+                        <TextBox PreviewTextInput="IsTextAllowedEvent" x:Name="marginVal" TextWrapping="Wrap" Width="150" Height="20"/>
                     </StackPanel>
                 </WrapPanel>
             </GroupBox>
@@ -106,8 +104,7 @@
             <GroupBox Margin="10" Header="Szerokość Tuneli">
                 <WrapPanel Orientation="Vertical">
                     <StackPanel Orientation="Horizontal">
-                        <Label Width="50"></Label>
-                        <TextBox PreviewTextInput="IsTextAllowedEvent" x:Name="sealVal" TextWrapping="Wrap" Width="90" Height="20"/>
+                        <TextBox PreviewTextInput="IsTextAllowedEvent" x:Name="sealVal" TextWrapping="Wrap" Width="150" Height="20"/>
                     </StackPanel>
                 </WrapPanel>
             </GroupBox>
@@ -123,8 +120,7 @@
             <GroupBox Margin="10" Header="Ilość banerów">
                 <WrapPanel Orientation="Vertical">
                     <StackPanel Orientation="Horizontal">
-                        <Label Width="50"></Label>
-                        <TextBox PreviewTextInput="IsTextAllowedEvent" x:Name="amountVal" TextWrapping="Wrap" Width="90" Height="20"/>
+                        <TextBox PreviewTextInput="IsTextAllowedEvent" x:Name="amountVal" TextWrapping="Wrap" Width="150" Height="20"/>
                     </StackPanel>
                 </WrapPanel>
             </GroupBox>
@@ -161,8 +157,8 @@
                             <TextBox PreviewTextInput="IsTextAllowedEvent" x:Name="leftTunnelVal" TextWrapping="Wrap" Width="80" Height="20" IsEnabled="{Binding ElementName=leftTunnel, Path=IsChecked}"/>
                         </StackPanel>
                     </StackPanel>
-                 
-               
+
+
                 </WrapPanel>
             </GroupBox>
 
@@ -170,15 +166,20 @@
 
 
 
-        <WrapPanel DockPanel.Dock="Right" Orientation="Vertical" Width="200" Height="auto" VerticalAlignment="Top" Background="BlueViolet">
+        <WrapPanel DockPanel.Dock="Right" Orientation="Vertical" Width="200" Height="auto" VerticalAlignment="Top" Background="Gray">
             <StackPanel>
                 <GroupBox Margin="10" Header="Lokalizacja pliku">
                     <WrapPanel Orientation="Vertical">
                         <StackPanel Orientation="Horizontal">
-                            <Label Width="50">File :</Label>
-                            <TextBox x:Name="fileSource" Width="80" Height="20"></TextBox>
+                            <Label Width="80">Otwórz</Label>
                             <Button Height="20" Width="20" x:Name="LogoLeftButton" Click="OpenFile">
                                 <Image Source="Icons/file.png"/>
+                            </Button>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Width="80">Zapisz</Label>
+                            <Button Height="20" Width="20" x:Name="LogoLeftButton1" Click="SaveFile">
+                                <Image Source="Icons/save.png"/>
                             </Button>
                         </StackPanel>
                     </WrapPanel>
@@ -198,22 +199,22 @@
                 </WrapPanel>
             </GroupBox>
 
-            <GroupBox Margin="10" Header="">
+            <GroupBox Margin="10" Header="Akcje">
                 <WrapPanel Orientation="Vertical">
                     <StackPanel Orientation="Horizontal">
                         <Label Width="30"></Label>
                         <Button Content="Reset" BorderThickness="10,10,10,10" BorderBrush="Red"  HorizontalAlignment="Center" Width="90" Height="50" VerticalAlignment="Center" Click="Reset"/>
                     </StackPanel>
-                                
+
                     <StackPanel Orientation="Horizontal">
                         <Label Width="30"></Label>
                         <Button IsEnabled="{Binding ElementName=fileSource, Path=Text}" Content="Print" BorderThickness="10,10,10,10" BorderBrush="#00FF00"  HorizontalAlignment="Center" Width="90" Height="50" VerticalAlignment="Center" Click="GenerateView"/>
                     </StackPanel>
-                    
+
                 </WrapPanel>
             </GroupBox>
 
-            <GroupBox Margin="10" Header="">
+            <GroupBox Margin="10" Header="Kształt oczek">
                 <WrapPanel Orientation="Vertical">
                     <RadioButton x:Name="DrawACircleRadioButton" GroupName="SelectTypeEvent" IsChecked="True">
                         <Image Source="Icons/circle.png"/>
@@ -229,17 +230,17 @@
             </GroupBox>
 
 
-            <GroupBox Margin="10" Header="Dane">
+            <GroupBox Margin="10" Header="Extra">
                 <WrapPanel Orientation="Vertical">
                     <StackPanel Orientation="Vertical">
-                        <Label x:Name="labelSpaceHorizontal" Content="Label" Height="30" Width="150"/>
-                        <Label x:Name="labelSpaceVertical"  Content="Label" Height="30" Width="150"/>
-                        <Label x:Name="test" Content="Label&#x0a;do testów"  Height="30" Width="150"/>
                         <Label x:Name="info" Content="CTRL+WHEEL TO ZOOM"  Height="30" Width="150"/>
+                        <Label x:Name="labelSpaceHorizontal" Content="Label" Height="60" Width="150"/>
+                        <Label x:Name="labelSpaceVertical"  Content="Label" Height="60" Width="150"/>
+                        <Label x:Name="test" Content="Label&#x0a;do testów"  Height="30" Width="150"/>
                     </StackPanel>
                 </WrapPanel>
             </GroupBox>
-          
+
 
         </WrapPanel>
         <!--<Slider x:Name="zoomSlider" DockPanel.Dock="Top" Minimum="0.1" Maximum="3" Value="1.5" HorizontalAlignment="Left" MinWidth="550"/>-->
@@ -289,7 +290,7 @@
                         ScaleY="{Binding ElementName=uiScaleSlider,Path=Value}"/>
                             </DockPanel.LayoutTransform>
                             <InkCanvas x:Name="canvasMain">
-                                
+
                                 <!-- <InkCanvas.LayoutTransform>
                                 <ScaleTransform ScaleX="{Binding ElementName=zoomSlider,Path=Value}" ScaleY="{Binding ElementName=zoomSlider,Path=Value}"/>
                             </InkCanvas.LayoutTransform>-->
