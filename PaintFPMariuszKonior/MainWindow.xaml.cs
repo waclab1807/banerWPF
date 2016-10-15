@@ -153,7 +153,7 @@ namespace PaintFPMariuszKonior
                 {
                     using (var file = new FileStream(dialog.FileName, FileMode.Open, FileAccess.Read))
                     {
-                        //fileSource.Text = dialog.FileName;
+       
                         canvasMain.Children.RemoveRange(0, canvasMain.Children.Count);
                         canvasMain.Strokes.Clear();
                         image.Source = (new BitmapImage(new Uri(dialog.FileName, UriKind.Absolute)));
@@ -286,6 +286,10 @@ namespace PaintFPMariuszKonior
 
         private void GenerateView(object sender, RoutedEventArgs e)
         {
+            if (image.IsVisible == false)
+                MessageBox.Show("Wczytaj najpierw plik!");
+            return;
+
             canvasMain.Strokes.Clear();
             
             canvasMain.Children.RemoveRange(0, canvasMain.Children.Count);
@@ -327,16 +331,11 @@ namespace PaintFPMariuszKonior
                 spaceVertical = Convert.ToDouble(vSpacingVal.Text);
             }
 
-
-
-            double widthCanvas = canvasMain.ActualWidth - (margin * 2);
-            double heightCanvas = canvasMain.ActualHeight - (margin * 2);
-
-            if (image != null)
-            {
-                widthCanvas = image.ActualWidth - (margin * 2);
-                heightCanvas = image.ActualHeight - (margin * 2);
-            }
+            
+            
+                double widthCanvas = image.ActualWidth - (margin * 2);
+                double heightCanvas = image.ActualHeight - (margin * 2);
+            
 
             double columnNumbers = (widthCanvas / (spaceHorizontal + widthCutOut));
             double fixSpaceHorizontal = widthCanvas + spaceHorizontal - ((int)columnNumbers * (widthCutOut + spaceHorizontal));
