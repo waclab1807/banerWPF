@@ -45,10 +45,10 @@ namespace PaintFPMariuszKonior
             marginVal.Text = "10";
             amountVal.Text = "1";
             upTunnelVal.Text = "0";
-            downTunnelVal.Text = "0";
+            downTunnelVal.Text = "20";
             leftTunnelVal.Text = "0";
             rightTunnelVal.Text = "0";
-            sealVal.Text = "20";
+            sealVal.Text = "0";
             filefilter = "Bitmap files (*.jpg; *.jpeg; *.gif; *.bmp; *.tif; *.tiff)|*.jpg; *.jpeg; *.gif; *.bmp; *.tif; *.tiff";
             saveTiffFormat = "Tagged Image File Format (*.tiff)|*.tiff";
             incorectValue = "Nie poprawna wartość";
@@ -80,12 +80,12 @@ namespace PaintFPMariuszKonior
 
             base.OnPreviewMouseDown(args);
 
-            if (Keyboard.IsKeyDown(Key.LeftCtrl) ||        
+            if (Keyboard.IsKeyDown(Key.LeftCtrl) ||
                 Keyboard.IsKeyDown(Key.RightCtrl))
             {
 
                 if (args.MiddleButton == MouseButtonState.Pressed)
-                    RestoreScalingFactor(uiScaleSlider, args);                     
+                    RestoreScalingFactor(uiScaleSlider, args);
             }
 
         }
@@ -149,16 +149,16 @@ namespace PaintFPMariuszKonior
             dialog.Filter = dialog.Filter = filefilter;
 
             if ((bool)dialog.ShowDialog(this))
-            {           
+            {
                 try
                 {
                     using (var file = new FileStream(dialog.FileName, FileMode.Open, FileAccess.Read))
                     {
-       
+
                         canvasMain.Children.RemoveRange(0, canvasMain.Children.Count);
                         canvasMain.Strokes.Clear();
                         image.Source = (new BitmapImage(new Uri(dialog.FileName, UriKind.Absolute)));
-                        canvasMain.Children.Add(image);                 
+                        canvasMain.Children.Add(image);
                         file.Close();
                     }
                 }
@@ -180,7 +180,11 @@ namespace PaintFPMariuszKonior
         private double getHeightBottomTunnel()
         {
             if (IsTextAllowed(downTunnelVal.Text) && bottomTunnel.IsChecked == true)
+            {
+                if (Double.Parse(downTunnelVal.Text) < 20)
+                    downTunnelVal.Text = "20";                
                 return Double.Parse(Regex.Replace(downTunnelVal.Text, @"\s+", " "));
+            }               
             return 0.0;
         }
 
@@ -194,14 +198,8 @@ namespace PaintFPMariuszKonior
         private double getWeldidth()
         {
             if (IsTextAllowed(sealVal.Text))
-            {
-                if (Double.Parse(sealVal.Text) < 20)
-                {
-                    sealVal.Text = "20";
-                }
-                return Double.Parse(sealVal.Text);
-            }             
-            return 20.0;
+                return Double.Parse(Regex.Replace(sealVal.Text, @"\s+", " "));            
+            return 0.0;
         }
 
         private double getHeightRightTunnel()
@@ -242,11 +240,11 @@ namespace PaintFPMariuszKonior
                         if (image != null)
                         {
                             widthCanvas = image.ActualWidth + (getHeightLeftTunnel() + getHeightRightTunnel());
-                            heightCanvas = image.ActualHeight+ (getHeightTopTunnel()+ getHeightBottomTunnel() +(getWeldidth()*2));
+                            heightCanvas = image.ActualHeight + (getHeightTopTunnel() + getHeightBottomTunnel() + (getWeldidth() * 2));
                         }
-                        
+
                         RenderTargetBitmap rtb = new RenderTargetBitmap((int)widthCanvas - marg,
-                                        (int)heightCanvas - marg, 0, 0, PixelFormats.Default);                      
+                                        (int)heightCanvas - marg, 0, 0, PixelFormats.Default);
                         rtb.Render(canvasMain);
                         TiffBitmapEncoder encoder = new TiffBitmapEncoder();
                         //BmpBitmapEncoder encoder = new BmpBitmapEncoder();
@@ -295,24 +293,17 @@ namespace PaintFPMariuszKonior
             }
 
             canvasMain.Strokes.Clear();
-            
+
             canvasMain.Children.RemoveRange(0, canvasMain.Children.Count);
             //Zgrzewy
+          
             var color = (Color)ColorConverter.ConvertFromString("" + ColorSpecial.Background);
-            canvasMain.Strokes.Add(setCircle(0, 0, getHeightLeftTunnel(), image.ActualHeight + getHeightTopTunnel() + getHeightBottomTunnel() + (getWeldidth()*2), CutOut.quadrangle, color));
+            canvasMain.Strokes.Add(setCircle(0, 0, getHeightLeftTunnel(), image.ActualHeight + getHeightTopTunnel() + getHeightBottomTunnel() + (getWeldidth() * 2), CutOut.quadrangle, color));
             canvasMain.Strokes.Add(setCircle(image.ActualWidth + getHeightLeftTunnel(), 0, getHeightRightTunnel(), image.ActualHeight + (getWeldidth() * 2) + getHeightTopTunnel() + getHeightBottomTunnel(), CutOut.quadrangle, color));
             canvasMain.Strokes.Add(setCircle(0, 0, image.ActualWidth + getHeightLeftTunnel() + getHeightRightTunnel(), getHeightTopTunnel(), CutOut.quadrangle, color));
-            canvasMain.Strokes.Add(setCircle(0, image.ActualHeight + getWeldidth() + getWeldidth() + getHeightTopTunnel() , image.ActualWidth + getHeightLeftTunnel() + getHeightRightTunnel(), getHeightBottomTunnel(), CutOut.quadrangle, color));
-            //canvasMain.Strokes.Add(drawMethod.DrawASquare(getWeldidth(), getWeldidth(), image.ActualWidth + (getHeightLeftTunnel() + getHeightRightTunnel()+ getWeldidth()), image.ActualHeight + (getHeightTopTunnel() + getHeightBottomTunnel()+ getWeldidth())));
-            if (getWeldidth() >= 20)
-            {
-                Label titles = new Label();
-                titles.Content = string.Format("Uwagi {0}, Liczba zamówień  {1}", extrasVal.Text, amountVal.Text);
-                InkCanvas.SetTop(titles, image.ActualHeight + getWeldidth() + getHeightTopTunnel());
-                InkCanvas.SetLeft(titles, getWeldidth() + getHeightLeftTunnel());
-                canvasMain.Children.Add(titles);
-            }
-            InkCanvas.SetTop(image, getHeightTopTunnel()+ getWeldidth());
+            canvasMain.Strokes.Add(setCircle(0, image.ActualHeight + getWeldidth() + getWeldidth() + getHeightTopTunnel(), image.ActualWidth + getHeightLeftTunnel() + getHeightRightTunnel(), getHeightBottomTunnel(), CutOut.quadrangle, color));
+                                           
+            InkCanvas.SetTop(image, getHeightTopTunnel() + getWeldidth());
             InkCanvas.SetLeft(image, getHeightLeftTunnel());
             canvasMain.Children.Add(image);
 
@@ -335,11 +326,11 @@ namespace PaintFPMariuszKonior
                 spaceVertical = Convert.ToDouble(vSpacingVal.Text);
             }
 
-            
-            
-                double widthCanvas = image.ActualWidth - (margin * 2);
-                double heightCanvas = image.ActualHeight - (margin * 2);
-            
+
+
+            double widthCanvas = image.ActualWidth - (margin * 2);
+            double heightCanvas = image.ActualHeight - (margin * 2);
+
 
             double columnNumbers = (widthCanvas / (spaceHorizontal + widthCutOut));
             double fixSpaceHorizontal = widthCanvas + spaceHorizontal - ((int)columnNumbers * (widthCutOut + spaceHorizontal));
@@ -350,7 +341,7 @@ namespace PaintFPMariuszKonior
             fixSpaceVertical = fixSpaceVertical / (((int)RowNumbers) - 1);
 
             double spaceHorizontalColumn = margin + (widthCutOut / 2) + getHeightLeftTunnel();
-            double spaceVerticalColumn = margin + (widthCutOut / 2) + getHeightTopTunnel()+ getWeldidth();
+            double spaceVerticalColumn = margin + (widthCutOut / 2) + getHeightTopTunnel() + getWeldidth();
 
             for (int i = 0; i < (int)RowNumbers; i++)
             {
@@ -385,6 +376,16 @@ namespace PaintFPMariuszKonior
             labelSpaceVertical.Content = "Odległość\nw pionie\n" + Math.Round((((spaceVertical + fixSpaceVertical) * 2.54) / 96), 2);
             labelSpaceHorizontal.Visibility = Visibility.Visible;
             labelSpaceVertical.Visibility = Visibility.Visible;
+
+            if (bottomTunnel.IsChecked == true)
+            {
+                Label titles = new Label();
+                titles.Content = string.Format("Uwagi {0}, Liczba zamówień  {1}", extrasVal.Text, amountVal.Text);
+                canvasMain.Children.Add(titles);
+                InkCanvas.SetTop(titles, image.ActualHeight + getWeldidth() + getWeldidth() + getHeightTopTunnel() -5);
+                InkCanvas.SetLeft(titles, getWeldidth() + getHeightLeftTunnel());
+                
+            }
         }
 
         private void droveCutOut(double widthCutOut, double spaceHorizontalColumn, double spaceVerticalColumn)
@@ -409,7 +410,7 @@ namespace PaintFPMariuszKonior
         {
             StylusPointCollection pts = new StylusPointCollection();
             Stroke st = null;
-                  
+
             switch (cutOut)
             {
                 case CutOut.circle:
@@ -424,12 +425,12 @@ namespace PaintFPMariuszKonior
                     break;
                 case CutOut.quadrangle:
                     pts.Add(new StylusPoint(PositionX, PositionY));
-                    pts.Add(new StylusPoint(special, widthCutOut));                  
+                    pts.Add(new StylusPoint(special, widthCutOut));
                     st = new customQuadrangleStroke(pts);
                     break;
             }
 
-                st.DrawingAttributes.Color = colors;
+            st.DrawingAttributes.Color = colors;
             return st;
         }
 
