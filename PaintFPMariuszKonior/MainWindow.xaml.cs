@@ -182,9 +182,9 @@ namespace PaintFPMariuszKonior
             if (IsTextAllowed(downTunnelVal.Text) && bottomTunnel.IsChecked == true)
             {
                 if (Double.Parse(downTunnelVal.Text) < 20)
-                    downTunnelVal.Text = "20";                
+                    downTunnelVal.Text = "20";
                 return Double.Parse(Regex.Replace(downTunnelVal.Text, @"\s+", " "));
-            }               
+            }
             return 0.0;
         }
 
@@ -198,7 +198,7 @@ namespace PaintFPMariuszKonior
         private double getWeldidth()
         {
             if (IsTextAllowed(sealVal.Text))
-                return Double.Parse(Regex.Replace(sealVal.Text, @"\s+", " "));            
+                return Double.Parse(Regex.Replace(sealVal.Text, @"\s+", " "));
             return 0.0;
         }
 
@@ -296,16 +296,26 @@ namespace PaintFPMariuszKonior
 
             canvasMain.Children.RemoveRange(0, canvasMain.Children.Count);
             //Zgrzewy
-          
+
             var color = (Color)ColorConverter.ConvertFromString("" + ColorSpecial.Background);
             canvasMain.Strokes.Add(setCircle(0, 0, getHeightLeftTunnel(), image.ActualHeight + getHeightTopTunnel() + getHeightBottomTunnel() + (getWeldidth() * 2), CutOut.quadrangle, color));
             canvasMain.Strokes.Add(setCircle(image.ActualWidth + getHeightLeftTunnel(), 0, getHeightRightTunnel(), image.ActualHeight + (getWeldidth() * 2) + getHeightTopTunnel() + getHeightBottomTunnel(), CutOut.quadrangle, color));
             canvasMain.Strokes.Add(setCircle(0, 0, image.ActualWidth + getHeightLeftTunnel() + getHeightRightTunnel(), getHeightTopTunnel(), CutOut.quadrangle, color));
             canvasMain.Strokes.Add(setCircle(0, image.ActualHeight + getWeldidth() + getWeldidth() + getHeightTopTunnel(), image.ActualWidth + getHeightLeftTunnel() + getHeightRightTunnel(), getHeightBottomTunnel(), CutOut.quadrangle, color));
-                                           
+
             InkCanvas.SetTop(image, getHeightTopTunnel() + getWeldidth());
             InkCanvas.SetLeft(image, getHeightLeftTunnel());
             canvasMain.Children.Add(image);
+
+            if (bottomTunnel.IsChecked == true)
+            {
+                Label titles = new Label();
+                titles.Content = string.Format("Uwagi {0}, Liczba zamówień  {1}", extrasVal.Text, amountVal.Text);
+                canvasMain.Children.Add(titles);
+                InkCanvas.SetTop(titles, image.ActualHeight + getWeldidth() + getWeldidth() + getHeightTopTunnel() - 5);
+                InkCanvas.SetLeft(titles, getWeldidth() + getHeightLeftTunnel());
+
+            }
 
             //odstepy oczek od krawedzi
             double margin = Convert.ToDouble(marginVal.Text);
@@ -377,15 +387,6 @@ namespace PaintFPMariuszKonior
             labelSpaceHorizontal.Visibility = Visibility.Visible;
             labelSpaceVertical.Visibility = Visibility.Visible;
 
-            if (bottomTunnel.IsChecked == true)
-            {
-                Label titles = new Label();
-                titles.Content = string.Format("Uwagi {0}, Liczba zamówień  {1}", extrasVal.Text, amountVal.Text);
-                canvasMain.Children.Add(titles);
-                InkCanvas.SetTop(titles, image.ActualHeight + getWeldidth() + getWeldidth() + getHeightTopTunnel() -5);
-                InkCanvas.SetLeft(titles, getWeldidth() + getHeightLeftTunnel());
-                
-            }
         }
 
         private void droveCutOut(double widthCutOut, double spaceHorizontalColumn, double spaceVerticalColumn)
@@ -416,11 +417,19 @@ namespace PaintFPMariuszKonior
                 case CutOut.circle:
                     pts.Add(new StylusPoint(widthCutOut / 2, widthCutOut / 2));
                     pts.Add(new StylusPoint(PositionX, PositionY));
+                    if (turnOnFill.IsChecked == true)
+                        pts.Add(new StylusPoint(1, 1));
+                    else
+                        pts.Add(new StylusPoint(0, 0));
                     st = new customCircleStroke(pts);
                     break;
                 case CutOut.square:
                     pts.Add(new StylusPoint(widthCutOut / 2, widthCutOut / 2));
                     pts.Add(new StylusPoint(PositionX, PositionY));
+                    if (turnOnFill.IsChecked == true)
+                        pts.Add(new StylusPoint(1, 1));
+                    else
+                        pts.Add(new StylusPoint(0, 0));
                     st = new customSquareStroke(pts);
                     break;
                 case CutOut.quadrangle:
@@ -493,12 +502,18 @@ namespace PaintFPMariuszKonior
                 throw new ArgumentNullException("drawingAttributes");
             }
             DrawingAttributes originalDa = drawingAttributes.Clone();
+            Pen pen = new Pen();
             SolidColorBrush brush2 = new SolidColorBrush(drawingAttributes.Color);
+            pen.Brush = brush2;
             brush2.Freeze();
             StylusPoint stp = this.StylusPoints[0];
             StylusPoint sp = this.StylusPoints[1];
+            StylusPoint fill = this.StylusPoints[2];
 
-            drawingContext.DrawEllipse(brush2, null, new Point((sp.X), (sp.Y)), stp.X, stp.Y);
+            if (fill.X == 1)
+                drawingContext.DrawEllipse(brush2, null, new Point((sp.X), (sp.Y)), stp.X, stp.Y);
+            else
+                drawingContext.DrawEllipse(null, pen, new Point((sp.X), (sp.Y)), stp.X, stp.Y);
 
         }
     }
@@ -522,12 +537,20 @@ namespace PaintFPMariuszKonior
                 throw new ArgumentNullException("drawingAttributes");
             }
             DrawingAttributes originalDa = drawingAttributes.Clone();
+            Pen pen = new Pen();
             SolidColorBrush brush2 = new SolidColorBrush(drawingAttributes.Color);
+            pen.Brush = brush2;
             brush2.Freeze();
             StylusPoint stp = this.StylusPoints[0];
             StylusPoint sp = this.StylusPoints[1];
+            StylusPoint fill = this.StylusPoints[2];
 
-            drawingContext.DrawRectangle(brush2, null, new Rect(sp.X - stp.X, sp.Y - stp.X, stp.X * 2, stp.X * 2));
+            if (fill.X == 1)
+                drawingContext.DrawRectangle(brush2, null, new Rect(sp.X - stp.X, sp.Y - stp.X, stp.X * 2, stp.X * 2));
+            else
+                drawingContext.DrawRectangle(null, pen, new Rect(sp.X - stp.X, sp.Y - stp.X, stp.X * 2, stp.X * 2));
+
+
         }
     }
 

@@ -195,7 +195,7 @@
 
                     <StackPanel Orientation="Horizontal">
                         <Label Width="30"></Label>
-                        <Button IsEnabled="{Binding ElementName=fileSource, Path=Text}" Content="Print" BorderThickness="10,10,10,10" BorderBrush="#00FF00"  HorizontalAlignment="Center" Width="90" Height="50" VerticalAlignment="Center" Click="GenerateView"/>
+                        <Button IsEnabled="{Binding ElementName=image, Path=IsVisible}" Content="Print" BorderThickness="10,10,10,10" BorderBrush="#00FF00"  HorizontalAlignment="Center" Width="90" Height="50" VerticalAlignment="Center" Click="GenerateView"/>
                     </StackPanel>
 
                 </WrapPanel>
@@ -285,7 +285,6 @@
                         ScaleY="{Binding ElementName=uiScaleSlider,Path=Value}"/>
                             </DockPanel.LayoutTransform>
                             <InkCanvas x:Name="canvasMain">
-
                                 <!-- <InkCanvas.LayoutTransform>
                                 <ScaleTransform ScaleX="{Binding ElementName=zoomSlider,Path=Value}" ScaleY="{Binding ElementName=zoomSlider,Path=Value}"/>
                             </InkCanvas.LayoutTransform>-->
