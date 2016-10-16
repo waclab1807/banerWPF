@@ -44,16 +44,15 @@ namespace PaintFPMariuszKonior
             cutOutWidthVal.Text = "10";
             marginVal.Text = "10";
             amountVal.Text = "1";
-            upTunnelVal.Text = "0";
+            upTunnelVal.Text = "20";
             downTunnelVal.Text = "20";
-            leftTunnelVal.Text = "0";
-            rightTunnelVal.Text = "0";
-            sealVal.Text = "0";
+            leftTunnelVal.Text = "20";
+            rightTunnelVal.Text = "20";
+            sealVal.Text = "10";
             filefilter = "Bitmap files (*.jpg; *.jpeg; *.gif; *.bmp; *.tif; *.tiff)|*.jpg; *.jpeg; *.gif; *.bmp; *.tif; *.tiff";
             saveTiffFormat = "Tagged Image File Format (*.tiff)|*.tiff";
             incorectValue = "Nie poprawna wartość";
             canvasMain.EditingMode = InkCanvasEditingMode.None;
-            //ColorSpecial.Background = 
         }
 
         #region Zoom
@@ -314,7 +313,7 @@ namespace PaintFPMariuszKonior
                 canvasMain.Children.Add(titles);
                 InkCanvas.SetTop(titles, image.ActualHeight + getWeldidth() + getWeldidth() + getHeightTopTunnel() - 5);
                 InkCanvas.SetLeft(titles, getWeldidth() + getHeightLeftTunnel());
-
+                //SET Z-INDEX FOR LABEL ???
             }
 
             //odstepy oczek od krawedzi
@@ -385,7 +384,7 @@ namespace PaintFPMariuszKonior
             labelSpaceHorizontal.Content = "Odległość\nw poziomie\n" + Math.Round((((spaceHorizontal + fixSpaceHorizontal) * 2.54) / 96), 2);
             labelSpaceVertical.Content = "Odległość\nw pionie\n" + Math.Round((((spaceVertical + fixSpaceVertical) * 2.54) / 96), 2);
             labelSpaceHorizontal.Visibility = Visibility.Visible;
-            labelSpaceVertical.Visibility = Visibility.Visible;
+            labelSpaceVertical.Visibility = Visibility.Visible;   
 
         }
 
@@ -447,6 +446,7 @@ namespace PaintFPMariuszKonior
         {
             if (ratio.IsChecked == false)
             {
+                vSpacingVal.IsEnabled = true;
                 //Label newLabel =  verticalSpacing;
                 /*verticalSpacing.Visibility = Visibility.Visible;
                 vSpacingVal.Visibility = Visibility.Visible;
@@ -454,6 +454,7 @@ namespace PaintFPMariuszKonior
             }
             else
             {
+                vSpacingVal.IsEnabled = false;
                 /*horizontalSpacing.Content = "Odległość między\noczkami";
                 verticalSpacing.Visibility = Visibility.Hidden;
                 vSpacingVal.Visibility = Visibility.Hidden;*/

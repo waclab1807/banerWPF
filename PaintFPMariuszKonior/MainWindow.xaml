@@ -8,7 +8,7 @@
         mc:Ignorable="d"
        
         Icon="Icons/paint.png"
-        Title="Paint" MinHeight="600" Height="850" MinWidth="855" Width="1024">
+        Title="Paint" MinHeight="750" Height="800" MinWidth="855" Width="1024">
 
     <Window.CommandBindings>
         <CommandBinding Command="Close" CanExecute="CommandBinding_CanExecute" Executed="CommandBinding_Executed" />
@@ -18,8 +18,6 @@
             <Setter Property="Background" Value="{Binding ElementName=Null}"/>
             <Setter Property="Width" Value="30"/>
             <Setter Property="Height" Value="30"/>
-            <Setter Property="BorderBrush" Value="black"/>
-            <Setter Property="BorderThickness" Value="3, 3, 2, 2"/>
             <Setter Property="Margin" Value="1, 1, 1, 1"/>
             <Setter Property="Content">
                 <Setter.Value>
@@ -128,10 +126,10 @@
             <GroupBox Margin="10" Header="Szerokość Zgrzewów">
                 <WrapPanel Orientation="Vertical">
                     <StackPanel Orientation="Horizontal">
-                        <Label Width="100">Kolor Zgrzewu</Label>
+                        <Label Width="100">Kolor zgrzewu</Label>
                         <Button Click="ColorInkSpecial">
                             <WrapPanel>
-                                <Grid x:Name="ColorSpecial" Width="30" Height="30" Background="Black" />
+                                <Grid x:Name="ColorSpecial" Width="30" Height="30" Background="Gray" />
                             </WrapPanel>
                         </Button>
                     </StackPanel>
@@ -172,13 +170,13 @@
                     <WrapPanel Orientation="Vertical">
                         <StackPanel Orientation="Horizontal">
                             <Label Width="80">Otwórz</Label>
-                            <Button Height="20" Width="20" x:Name="LogoLeftButton" Click="OpenFile">
+                            <Button  Click="OpenFile">
                                 <Image Source="Icons/file.png"/>
                             </Button>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <Label Width="80">Zapisz</Label>
-                            <Button Height="20" Width="20" x:Name="LogoLeftButton1" Click="SaveFile">
+                            <Button Click="SaveFile">
                                 <Image Source="Icons/save.png"/>
                             </Button>
                         </StackPanel>
@@ -190,12 +188,12 @@
                 <WrapPanel Orientation="Vertical">
                     <StackPanel Orientation="Horizontal">
                         <Label Width="30"></Label>
-                        <Button Content="Reset" BorderThickness="10,10,10,10" BorderBrush="Red"  HorizontalAlignment="Center" Width="90" Height="50" VerticalAlignment="Center" Click="Reset"/>
+                        <Button Content="Reset" Background="Yellow"  HorizontalAlignment="Center" Width="90" Height="50" VerticalAlignment="Center" Click="Reset"/>
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal">
                         <Label Width="30"></Label>
-                        <Button IsEnabled="{Binding ElementName=image, Path=IsVisible}" Content="Print" BorderThickness="10,10,10,10" BorderBrush="#00FF00"  HorizontalAlignment="Center" Width="90" Height="50" VerticalAlignment="Center" Click="GenerateView"/>
+                        <Button IsEnabled="{Binding ElementName=image, Path=IsVisible}" Content="Print" Background="#FF25D82E"  HorizontalAlignment="Center" Width="90" Height="50" VerticalAlignment="Center" Click="GenerateView"/>
                     </StackPanel>
 
                 </WrapPanel>
@@ -204,7 +202,7 @@
             <GroupBox Margin="10" Header="Oczka">
                 <WrapPanel Orientation="Vertical">
                     <StackPanel Orientation="Horizontal">
-                        <Label Width="80">Color Ink</Label>
+                        <Label Width="80">Kolor oczek</Label>
                         <Button Click="ColorInk">
                             <WrapPanel>
                                 <Grid x:Name="ColorInkSelect" Width="30" Height="30" Background="Black" />
@@ -218,7 +216,7 @@
                         <Image Source="Icons/square.png"/>
                     </RadioButton>
                     <StackPanel Orientation="Horizontal">
-                        <Label Width="80">Wypełnienie oczek :</Label>
+                        <Label Width="120">Wypełnienie oczek :</Label>
                         <CheckBox x:Name="turnOnFill"  VerticalAlignment="Center" IsChecked="True"/>
                     </StackPanel>
                 </WrapPanel>
