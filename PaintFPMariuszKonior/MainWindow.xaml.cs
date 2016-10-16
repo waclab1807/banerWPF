@@ -10,6 +10,7 @@ using System.Windows.Shapes;
 using System.Windows.Ink;
 using System.Text.RegularExpressions;
 
+
 namespace PaintFPMariuszKonior
 {
     public partial class MainWindow : Window
@@ -22,10 +23,9 @@ namespace PaintFPMariuszKonior
         CutOut cutOutType = CutOut.circle;
         InkCanvas[] backUp = new InkCanvas[3];
         string filefilter = string.Empty;
+        string saveTiffFormat = string.Empty;
         string incorectValue = string.Empty;
         CanvasDimensions canvasDimensions = new CanvasDimensions();
-
-
 
         public MainWindow()
         {
@@ -49,7 +49,8 @@ namespace PaintFPMariuszKonior
             leftTunnelVal.Text = "0";
             rightTunnelVal.Text = "0";
             sealVal.Text = "20";
-            filefilter = "Bitmap files (*.jpg; *.jpeg; *.gif; *.bmp; *.tiff)|*.jpg; *.jpeg; *.gif; *.bmp; *.tiff";
+            filefilter = "Bitmap files (*.jpg; *.jpeg; *.gif; *.bmp; *.tif; *.tiff)|*.jpg; *.jpeg; *.gif; *.bmp; *.tif; *.tiff";
+            saveTiffFormat = "Tagged Image File Format (*.tiff)|*.tiff";
             incorectValue = "Nie poprawna wartość";
             canvasMain.EditingMode = InkCanvasEditingMode.None;
             //ColorSpecial.Background = 
@@ -225,7 +226,7 @@ namespace PaintFPMariuszKonior
         private void SaveFile(object sender, RoutedEventArgs args)
         {
             SaveFileDialog dialog = new SaveFileDialog();
-            dialog.Filter = filefilter;
+            dialog.Filter = saveTiffFormat;
 
             if ((bool)dialog.ShowDialog(this))
             {
@@ -243,11 +244,12 @@ namespace PaintFPMariuszKonior
                             widthCanvas = image.ActualWidth + (getHeightLeftTunnel() + getHeightRightTunnel());
                             heightCanvas = image.ActualHeight+ (getHeightTopTunnel()+ getHeightBottomTunnel() +(getWeldidth()*2));
                         }
-
+                        
                         RenderTargetBitmap rtb = new RenderTargetBitmap((int)widthCanvas - marg,
-                                        (int)heightCanvas - marg, 0, 0, PixelFormats.Default);
+                                        (int)heightCanvas - marg, 0, 0, PixelFormats.Default);                      
                         rtb.Render(canvasMain);
-                        BmpBitmapEncoder encoder = new BmpBitmapEncoder();
+                        TiffBitmapEncoder encoder = new TiffBitmapEncoder();
+                        //BmpBitmapEncoder encoder = new BmpBitmapEncoder();
                         encoder.Frames.Add(BitmapFrame.Create(rtb));
                         encoder.Save(file);
                         file.Close();
