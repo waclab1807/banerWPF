@@ -92,6 +92,19 @@ namespace PaintFPMariuszKonior
 
         #region Tools
 
+        private double setUnit(double number)
+        {
+            if (mmRadio.IsChecked == true)
+            {
+                number = number / 10; //switch mmm to cm
+                number = number * 37.795279; //convert cm to px
+            } 
+            else
+            {
+                return number;
+            }
+            return number;
+        }
 
         private double getOpacity(bool Opacity)
         {
@@ -321,27 +334,27 @@ namespace PaintFPMariuszKonior
             canvasMain.Children.Add(image);
       
             //odstepy oczek od krawedzi
-            double margin = Convert.ToDouble(marginVal.Text);
+            double margin = setUnit(Convert.ToDouble(marginVal.Text));
             //srednica oczek
-            double widthCutOut = Convert.ToDouble(cutOutWidthVal.Text);
+            double widthCutOut = setUnit(Convert.ToDouble(cutOutWidthVal.Text));
             //odstep miedzy oczkami poziomo
             double spaceHorizontal;
             double spaceVertical;
 
             if (ratio.IsChecked ?? false)
             {
-                spaceHorizontal = Convert.ToDouble(hSpacingVal.Text);
+                spaceHorizontal = setUnit(Convert.ToDouble(hSpacingVal.Text));
                 spaceVertical = spaceHorizontal;
             }
             else
             {
-                spaceHorizontal = Convert.ToDouble(hSpacingVal.Text);
-                spaceVertical = Convert.ToDouble(vSpacingVal.Text);
+                spaceHorizontal = setUnit(Convert.ToDouble(hSpacingVal.Text));
+                spaceVertical = setUnit(Convert.ToDouble(vSpacingVal.Text));
             }
 
 
 
-            double widthCanvas = image.ActualWidth - (margin * 2);
+            double widthCanvas =image.ActualWidth - (margin * 2);
             double heightCanvas = image.ActualHeight - (margin * 2);
 
 
