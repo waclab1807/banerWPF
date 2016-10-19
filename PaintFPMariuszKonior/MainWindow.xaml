@@ -29,7 +29,7 @@
             <Setter Property="Background" Value="{Binding ElementName=Null}"/>
             <Setter Property="Width" Value="40"/>
             <Setter Property="Height" Value="40"/>
-            <Setter Property="BorderThickness" Value="3, 3, 2, 2"/>
+            <Setter Property="BorderThickness" Value="2, 2, 2, 2"/>
             <Setter Property="Margin" Value="1, 1, 1, 1"/>
             <Setter Property="BorderBrush" Value="Orange"/>
             <Setter Property="Content" >
@@ -79,6 +79,15 @@
 
                         <Label Width="50">pionowo :</Label>
                         <TextBox PreviewTextInput="IsTextAllowedEvent" x:Name="vSpacingVal" TextWrapping="Wrap" Width="90" Height="20"/>
+                    </StackPanel>
+                </WrapPanel>
+            </GroupBox>
+
+            <GroupBox Margin="10" Header="Jednostki ">
+                <WrapPanel Orientation="Vertical">
+                    <StackPanel Orientation="Horizontal">
+                        <RadioButton Content="mm" Height="18" Width="80"  Name="mmRadio" IsChecked="True" BorderThickness="3" />
+                        <RadioButton Content="px" Height="18"  Name="pxRadio" />
                     </StackPanel>
                 </WrapPanel>
             </GroupBox>
