@@ -44,10 +44,10 @@ namespace PaintFPMariuszKonior
             cutOutWidthVal.Text = "10";
             marginVal.Text = "10";
             amountVal.Text = "1";
-            upTunnelVal.Text = "20";
-            downTunnelVal.Text = "20";
-            leftTunnelVal.Text = "20";
-            rightTunnelVal.Text = "20";
+            upTunnelVal.Text = "30";
+            downTunnelVal.Text = "30";
+            leftTunnelVal.Text = "30";
+            rightTunnelVal.Text = "30";
             sealVal.Text = "10";
             filefilter = "Bitmap files (*.jpg; *.jpeg; *.gif; *.bmp; *.tif; *.tiff)|*.jpg; *.jpeg; *.gif; *.bmp; *.tif; *.tiff";
             saveTiffFormat = "Tagged Image File Format (*.tiff)|*.tiff";
@@ -180,8 +180,8 @@ namespace PaintFPMariuszKonior
         {
             if (IsTextAllowed(downTunnelVal.Text) && bottomTunnel.IsChecked == true)
             {
-                if (Double.Parse(downTunnelVal.Text) < 20)
-                    downTunnelVal.Text = "20";
+                if (Double.Parse(downTunnelVal.Text) < 30)
+                    downTunnelVal.Text = "30";
                 return Double.Parse(Regex.Replace(downTunnelVal.Text, @"\s+", " "));
             }
             return 0.0;
@@ -300,22 +300,26 @@ namespace PaintFPMariuszKonior
             canvasMain.Strokes.Add(setCircle(0, 0, getHeightLeftTunnel(), image.ActualHeight + getHeightTopTunnel() + getHeightBottomTunnel() + (getWeldidth() * 2), CutOut.quadrangle, color));
             canvasMain.Strokes.Add(setCircle(image.ActualWidth + getHeightLeftTunnel(), 0, getHeightRightTunnel(), image.ActualHeight + (getWeldidth() * 2) + getHeightTopTunnel() + getHeightBottomTunnel(), CutOut.quadrangle, color));
             canvasMain.Strokes.Add(setCircle(0, 0, image.ActualWidth + getHeightLeftTunnel() + getHeightRightTunnel(), getHeightTopTunnel(), CutOut.quadrangle, color));
-            canvasMain.Strokes.Add(setCircle(0, image.ActualHeight + getWeldidth() + getWeldidth() + getHeightTopTunnel(), image.ActualWidth + getHeightLeftTunnel() + getHeightRightTunnel(), getHeightBottomTunnel(), CutOut.quadrangle, color));
-
-            InkCanvas.SetTop(image, getHeightTopTunnel() + getWeldidth());
-            InkCanvas.SetLeft(image, getHeightLeftTunnel());
-            canvasMain.Children.Add(image);
+            //canvasMain.Strokes.Add(setCircle(0, image.ActualHeight + getWeldidth() + getWeldidth() + getHeightTopTunnel(), image.ActualWidth + getHeightLeftTunnel() + getHeightRightTunnel(), getHeightBottomTunnel(), CutOut.quadrangle, color));
 
             if (bottomTunnel.IsChecked == true)
             {
                 Label titles = new Label();
                 titles.Content = string.Format("Uwagi {0}, Liczba zamówień  {1}", extrasVal.Text, amountVal.Text);
+                titles.Background = ColorSpecial.Background;
+                titles.Width = image.ActualWidth + getHeightLeftTunnel() + getHeightRightTunnel() - getHeightLeftTunnel();
+                titles.Height = getHeightBottomTunnel();
+                titles.Margin = new Thickness(0, 0, 0, 0);
                 canvasMain.Children.Add(titles);
-                InkCanvas.SetTop(titles, image.ActualHeight + getWeldidth() + getWeldidth() + getHeightTopTunnel() - 5);
-                InkCanvas.SetLeft(titles, getWeldidth() + getHeightLeftTunnel());
+                InkCanvas.SetTop(titles, image.ActualHeight + getWeldidth() + getWeldidth() + getHeightTopTunnel());
+                InkCanvas.SetLeft(titles, getHeightLeftTunnel());
                 //SET Z-INDEX FOR LABEL ???
             }
 
+            InkCanvas.SetTop(image, getHeightTopTunnel() + getWeldidth());
+            InkCanvas.SetLeft(image, getHeightLeftTunnel());
+            canvasMain.Children.Add(image);
+      
             //odstepy oczek od krawedzi
             double margin = Convert.ToDouble(marginVal.Text);
             //srednica oczek
