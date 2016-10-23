@@ -49,7 +49,7 @@ namespace PaintFPMariuszKonior
             leftTunnelVal.Text = "30";
             rightTunnelVal.Text = "30";
             sealVal.Text = "10";
-            filefilter = "Bitmap files (*.jpg; *.jpeg; *.gif; *.bmp; *.tif; *.tiff)|*.jpg; *.jpeg; *.gif; *.bmp; *.tif; *.tiff";
+            filefilter = "Bitmap files (*.jpg; *.jpeg; *.gif; *.bmp; *.tif; *.tiff)|*.jpg; *.jpeg; *.gif; *.bmp; *.tif; *.tiff; *.pdf";
             saveTiffFormat = "Tagged Image File Format (*.tiff)|*.tiff";
             incorectValue = "Nie poprawna wartość";
             canvasMain.EditingMode = InkCanvasEditingMode.None;
@@ -255,8 +255,14 @@ namespace PaintFPMariuszKonior
                             heightCanvas = image.ActualHeight + (getHeightTopTunnel() + getHeightBottomTunnel() + (getWeldidth() * 2));
                         }
 
+                         if (customSize.IsChecked == true)
+                         {
+                            widthCanvas = Convert.ToDouble(customWidth.Text);
+                            heightCanvas = Convert.ToDouble(customHeight.Text);
+                        }
+
                         RenderTargetBitmap rtb = new RenderTargetBitmap((int)widthCanvas - marg,
-                                        (int)heightCanvas - marg, 0, 0, PixelFormats.Default);
+                                    (int)heightCanvas - marg, 0, 0, PixelFormats.Default);
                         rtb.Render(canvasMain);
                         TiffBitmapEncoder encoder = new TiffBitmapEncoder();
                         //BmpBitmapEncoder encoder = new BmpBitmapEncoder();
@@ -475,6 +481,20 @@ namespace PaintFPMariuszKonior
                 /*horizontalSpacing.Content = "Odległość między\noczkami";
                 verticalSpacing.Visibility = Visibility.Hidden;
                 vSpacingVal.Visibility = Visibility.Hidden;*/
+            }
+        }
+
+        private void customSize_Checked(object sender, RoutedEventArgs e)
+        {
+            if (customSize.IsChecked == true)
+            {
+                customWidth.IsEnabled = true;
+                customHeight.IsEnabled = true;
+            }
+            else
+            {
+                customWidth.IsEnabled = false;
+                customHeight.IsEnabled = false;
             }
         }
 

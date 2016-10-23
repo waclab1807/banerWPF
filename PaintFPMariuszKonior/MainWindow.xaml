@@ -8,7 +8,7 @@
         mc:Ignorable="d"
        
         Icon="Icons/paint.png"
-        Title="Paint" MinHeight="750" Height="800" MinWidth="855" Width="1024">
+        Title="Banner" MinHeight="750" Height="800" MinWidth="855" Width="1024">
 
     <Window.CommandBindings>
         <CommandBinding Command="Close" CanExecute="CommandBinding_CanExecute" Executed="CommandBinding_Executed" />
@@ -40,26 +40,6 @@
         </Style>
     </Window.Resources>
     <DockPanel>
-        <Menu DockPanel.Dock="Top">
-            <MenuItem Header="_File">
-                <MenuItem Header="_New" Click="NewCanvas" InputGestureText="CTRL+N">
-                    <MenuItem.Icon>
-                        <Image Source="Icons/New.png" Width="16" />
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem Header="_Open file" Click="OpenFile" InputGestureText="CTRL+O"/>
-                <Separator/>
-                <MenuItem Header="_Save" Click="SaveFile" InputGestureText="CTRL+S">
-                    <MenuItem.Icon>
-                        <Image Source="Icons/save.png" Width="16" />
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem Header="_Exit"  Command="Close" InputGestureText="CTRL+E"/>
-            </MenuItem>
-            <MenuItem Header="_Help">
-                <MenuItem Header="About Me" Click="AboutMe"/>
-            </MenuItem>
-        </Menu>
         <WrapPanel DockPanel.Dock="Left" Orientation="Vertical" Width="185" Background="Gray" VerticalAlignment="Top" Height="801" >
 
 
@@ -68,17 +48,17 @@
 
                 <WrapPanel Orientation="Vertical">
                     <StackPanel Orientation="Horizontal">
-                        <Label Width="80">Keep ratio :</Label>
+                        <Label Width="120">Zachowaj proporcje </Label>
                         <CheckBox x:Name="ratio"  VerticalAlignment="Center" IsChecked="False" Click="ratio_Checked"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <Label Width="50">poziomo :</Label>
-                        <TextBox PreviewTextInput="IsTextAllowedEvent" x:Name="hSpacingVal" TextWrapping="Wrap" Width="90" Height="20"/>
+                        <Label Width="60">poziomo :</Label>
+                        <TextBox PreviewTextInput="IsTextAllowedEvent" x:Name="hSpacingVal" TextWrapping="Wrap" Width="70" Height="20"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
 
-                        <Label Width="50">pionowo :</Label>
-                        <TextBox PreviewTextInput="IsTextAllowedEvent" x:Name="vSpacingVal" TextWrapping="Wrap" Width="90" Height="20"/>
+                        <Label Width="60">pionowo :</Label>
+                        <TextBox PreviewTextInput="IsTextAllowedEvent" x:Name="vSpacingVal" TextWrapping="Wrap" Width="70" Height="20"/>
                     </StackPanel>
                 </WrapPanel>
             </GroupBox>
@@ -238,7 +218,25 @@
                         <Label x:Name="info" Content="CTRL+WHEEL TO ZOOM"  Height="30" Width="150"/>
                         <Label x:Name="labelSpaceHorizontal" Content="Label" Height="60" Width="150"/>
                         <Label x:Name="labelSpaceVertical"  Content="Label" Height="60" Width="150"/>
-                        <Label x:Name="test" Content="Label&#x0a;do testów"  Height="30" Width="150"/>
+                    </StackPanel>
+                </WrapPanel>
+            </GroupBox>
+
+            <GroupBox Margin="10" Header="Rozmiar obrazu ">
+
+                <WrapPanel Orientation="Vertical">
+                    <StackPanel Orientation="Horizontal">
+                        <Label Width="120">Włącz/Wyłącz</Label>
+                        <CheckBox x:Name="customSize"  VerticalAlignment="Center" IsChecked="False" Click="customSize_Checked"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Width="60">poziomo :</Label>
+                        <TextBox PreviewTextInput="IsTextAllowedEvent" x:Name="customWidth" TextWrapping="Wrap" Width="70" Height="20" IsEnabled="False"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+
+                        <Label Width="60">pionowo :</Label>
+                        <TextBox PreviewTextInput="IsTextAllowedEvent" x:Name="customHeight" TextWrapping="Wrap" Width="70" Height="20" IsEnabled="False"/>
                     </StackPanel>
                 </WrapPanel>
             </GroupBox>
