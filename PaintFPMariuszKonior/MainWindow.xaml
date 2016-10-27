@@ -168,6 +168,10 @@
                             <TextBox PreviewTextInput="IsTextAllowedEvent" x:Name="trimLeft" TextWrapping="Wrap" Width="80" Height="20" IsEnabled="{Binding IsChecked, ElementName=trimLeftChkbx}"/>
                         </StackPanel>
                     </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Width="30"></Label>
+                        <Button Content="Trim image" Background="Orange"  HorizontalAlignment="Center" Width="90" Height="50" Click="TrimImage"/>
+                    </StackPanel>
                 </WrapPanel>
             </GroupBox>
 
@@ -238,6 +242,8 @@
                 <WrapPanel Orientation="Vertical">
                     <StackPanel Orientation="Vertical">
                         <Label x:Name="info" Content="CTRL+WHEEL TO ZOOM"  Height="30" Width="150"/>
+                        <Label x:Name="imgWidthInfo" Content="Szerokość: "  Height="30" Width="150"/>
+                        <Label x:Name="imgHeightInfo" Content="Wysokość"  Height="30" Width="150"/>
                         <Label x:Name="labelSpaceHorizontal" Content="Label" Height="60" Width="150"/>
                         <Label x:Name="labelSpaceVertical"  Content="Label" Height="60" Width="150"/>
                     </StackPanel>
@@ -260,14 +266,12 @@
                         <Label Width="60">pionowo :</Label>
                         <TextBox PreviewTextInput="IsTextAllowedEvent" x:Name="customHeight" TextWrapping="Wrap" Width="70" Height="20" IsEnabled="False"/>
                     </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Width="30"></Label>
+                        <Button Content="Resize image" Background="Orange"  HorizontalAlignment="Center" Width="90" Height="50" Click="ResizeImage"/>
+                    </StackPanel>
                 </WrapPanel>
             </GroupBox>
-
-            <StackPanel Orientation="Horizontal">
-                <Label Width="30"></Label>
-                <Button Content="test resize option" Background="Yellow"  HorizontalAlignment="Center" Width="90" Height="50" Click="ResizeImage"/>
-            </StackPanel>
-
 
         </WrapPanel>
         <!--<Slider x:Name="zoomSlider" DockPanel.Dock="Top" Minimum="0.1" Maximum="3" Value="1.5" HorizontalAlignment="Left" MinWidth="550"/>-->

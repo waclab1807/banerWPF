@@ -26,6 +26,7 @@ namespace PaintFPMariuszKonior
         string saveTiffFormat = string.Empty;
         string incorectValue = string.Empty;
         CanvasDimensions canvasDimensions = new CanvasDimensions();
+        private string fName;
 
         public MainWindow()
         {
@@ -164,11 +165,19 @@ namespace PaintFPMariuszKonior
             {
                 try
                 {
+                    using (FileStream fileStream = new FileStream(dialog.FileName, FileMode.Open, FileAccess.Read))
+                    {
+                        BitmapFrame frame = BitmapFrame.Create(fileStream, BitmapCreateOptions.DelayCreation, BitmapCacheOption.None);
+
+                        imgWidthInfo.Content = "Szerokość: " + frame.PixelWidth + "px";
+                        imgHeightInfo.Content = "Wysokość: " + frame.PixelHeight + "px";
+                    }
                     using (var file = new FileStream(dialog.FileName, FileMode.Open, FileAccess.Read))
                     {
 
                         canvasMain.Children.RemoveRange(0, canvasMain.Children.Count);
                         canvasMain.Strokes.Clear();
+                        fName = dialog.FileName;
                         image.Source = (new BitmapImage(new Uri(dialog.FileName, UriKind.Absolute)));
                         canvasMain.Children.Add(image);
                         file.Close();
@@ -303,7 +312,24 @@ namespace PaintFPMariuszKonior
 
         private void ResizeImage(object sender, RoutedEventArgs e)
         {
-            //var bitmap = new TransformedBitmap(image, new ScaleTransform( 4, 6));
+            //add here method for resizing image
+
+            var buffer = System.IO.File.ReadAllBytes(fName);
+            MemoryStream ms = new MemoryStream(buffer);
+
+            BitmapImage src = new BitmapImage();
+            src.BeginInit();
+            src.StreamSource = ms;
+            src.DecodePixelHeight = int.Parse(customWidth.Text);
+            src.DecodePixelWidth = int.Parse(customHeight.Text);
+            src.EndInit();
+
+            image.Source = src;
+        }
+
+        private void TrimImage(object sender, RoutedEventArgs e)
+        {
+            //add here method for trim image
         }
 
 
@@ -314,7 +340,7 @@ namespace PaintFPMariuszKonior
                 MessageBox.Show("Wczytaj najpierw plik!");
                 return;
             }
-
+            
             canvasMain.Strokes.Clear();
 
             canvasMain.Children.RemoveRange(0, canvasMain.Children.Count);
@@ -408,8 +434,8 @@ namespace PaintFPMariuszKonior
                 spaceVerticalColumn += (widthCutOut + spaceVertical + fixSpaceVertical);
             }
 
-            labelSpaceHorizontal.Content = "Odległość\nw poziomie\n" + Math.Round((((spaceHorizontal + fixSpaceHorizontal) * 2.54) / 96), 2);
-            labelSpaceVertical.Content = "Odległość\nw pionie\n" + Math.Round((((spaceVertical + fixSpaceVertical) * 2.54) / 96), 2);
+            labelSpaceHorizontal.Content = "Odległość\nw poziomie\n" + Math.Round((((spaceHorizontal + fixSpaceHorizontal) * 2.54) / 60), 2);
+            labelSpaceVertical.Content = "Odległość\nw pionie\n" + Math.Round((((spaceVertical + fixSpaceVertical) * 2.54) / 60), 2);
             labelSpaceHorizontal.Visibility = Visibility.Visible;
             labelSpaceVertical.Visibility = Visibility.Visible;   
 
