@@ -301,6 +301,11 @@ namespace PaintFPMariuszKonior
 
         #region DrawMethod
 
+        private void ResizeImage(object sender, RoutedEventArgs e)
+        {
+            //var bitmap = new TransformedBitmap(image, new ScaleTransform( 4, 6));
+        }
+
 
         private void GenerateView(object sender, RoutedEventArgs e)
         {
@@ -332,7 +337,6 @@ namespace PaintFPMariuszKonior
                 canvasMain.Children.Add(titles);
                 InkCanvas.SetTop(titles, image.ActualHeight + getWeldidth() + getWeldidth() + getHeightTopTunnel());
                 InkCanvas.SetLeft(titles, getHeightLeftTunnel());
-                //SET Z-INDEX FOR LABEL ???
             }
 
             InkCanvas.SetTop(image, getHeightTopTunnel() + getWeldidth());
@@ -481,6 +485,17 @@ namespace PaintFPMariuszKonior
                 /*horizontalSpacing.Content = "Odległość między\noczkami";
                 verticalSpacing.Visibility = Visibility.Hidden;
                 vSpacingVal.Visibility = Visibility.Hidden;*/
+            }
+        }
+
+        private void turnOnSeal(object sender, RoutedEventArgs e)
+        {
+            if (tunnelsChkbx.IsChecked ?? true)
+            {
+                sealVal.Text = "10";
+            } else
+            {
+                sealVal.Text = "0";
             }
         }
 

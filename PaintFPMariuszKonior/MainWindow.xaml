@@ -90,6 +90,7 @@
 
             <GroupBox Margin="10" Header="Szerokość Tuneli">
                 <WrapPanel Orientation="Vertical">
+                    <CheckBox x:Name="tunnelsChkbx" Content="Włącz/wyłącz" IsChecked="True" HorizontalAlignment="Left" VerticalAlignment="Top"  Click="turnOnSeal"/>
                     <StackPanel Orientation="Horizontal">
                         <TextBox PreviewTextInput="IsTextAllowedEvent" x:Name="sealVal" TextWrapping="Wrap" Width="150" Height="20"/>
                     </StackPanel>
@@ -145,7 +146,10 @@
                         </StackPanel>
                     </StackPanel>
 
-
+                    <StackPanel Orientation="Horizontal">
+                        <Label Width="30"></Label>
+                        <Button Content="resize" Background="Yellow"  HorizontalAlignment="Center" Width="90" Height="50" Click="ResizeImage"/>
+                    </StackPanel>
                 </WrapPanel>
             </GroupBox>
 
@@ -290,9 +294,9 @@
                         ScaleY="{Binding ElementName=uiScaleSlider,Path=Value}"/>
                             </DockPanel.LayoutTransform>
                             <InkCanvas x:Name="canvasMain">
-                                <!-- <InkCanvas.LayoutTransform>
-                                <ScaleTransform ScaleX="{Binding ElementName=zoomSlider,Path=Value}" ScaleY="{Binding ElementName=zoomSlider,Path=Value}"/>
-                            </InkCanvas.LayoutTransform>-->
+                                <InkCanvas.LayoutTransform>
+                                    <ScaleTransform ScaleX="{Binding ElementName=zoomSlider,Path=Value}" ScaleY="{Binding ElementName=zoomSlider,Path=Value}"/>
+                                </InkCanvas.LayoutTransform>
                             </InkCanvas>
                         </DockPanel>
 
