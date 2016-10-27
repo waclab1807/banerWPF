@@ -8,7 +8,7 @@
         mc:Ignorable="d"
        
         Icon="Icons/paint.png"
-        Title="Banner" MinHeight="750" Height="800" MinWidth="855" Width="1024">
+        Title="Banner" MinHeight="750" Height="1000" MinWidth="855" Width="1024">
 
     <Window.CommandBindings>
         <CommandBinding Command="Close" CanExecute="CommandBinding_CanExecute" Executed="CommandBinding_Executed" />
@@ -40,9 +40,7 @@
         </Style>
     </Window.Resources>
     <DockPanel>
-        <WrapPanel DockPanel.Dock="Left" Orientation="Vertical" Width="185" Background="Gray" VerticalAlignment="Top" Height="801" >
-
-
+        <WrapPanel DockPanel.Dock="Left" Orientation="Vertical" Width="185" Background="Gray" VerticalAlignment="Top" Height="969" >
 
             <GroupBox Margin="10" Header="Odległość między oczkami ">
 
@@ -87,7 +85,6 @@
                     </StackPanel>
                 </WrapPanel>
             </GroupBox>
-
             <GroupBox Margin="10" Header="Szerokość Tuneli">
                 <WrapPanel Orientation="Vertical">
                     <CheckBox x:Name="tunnelsChkbx" Content="Włącz/wyłącz" IsChecked="True" HorizontalAlignment="Left" VerticalAlignment="Top"  Click="turnOnSeal"/>
@@ -145,10 +142,31 @@
                             <TextBox PreviewTextInput="IsTextAllowedEvent" x:Name="leftTunnelVal" TextWrapping="Wrap" Width="80" Height="20" IsEnabled="{Binding ElementName=leftTunnel, Path=IsChecked}"/>
                         </StackPanel>
                     </StackPanel>
-
-                    <StackPanel Orientation="Horizontal">
-                        <Label Width="30"></Label>
-                        <Button Content="resize" Background="Yellow"  HorizontalAlignment="Center" Width="90" Height="50" Click="ResizeImage"/>
+                </WrapPanel>
+            </GroupBox>
+            <GroupBox Margin="10" Header="Przytnij obraz">
+                <WrapPanel Orientation="Vertical">
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox x:Name="trimTopChkbx"  VerticalAlignment="Center" IsChecked="False" Click="ratio_Checked"/>
+                            <Label Width="50" Content="Góra:"/>
+                            <TextBox PreviewTextInput="IsTextAllowedEvent" x:Name="trimTop" TextWrapping="Wrap" Width="80" Height="20" IsEnabled="{Binding IsChecked, ElementName=trimTopChkbx}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox x:Name="trimBottomChkbx"  VerticalAlignment="Center" IsChecked="False" Click="ratio_Checked"/>
+                            <Label Width="50" Content="Dół:"/>
+                            <TextBox PreviewTextInput="IsTextAllowedEvent" x:Name="trimBottom" TextWrapping="Wrap" Width="80" Height="20" IsEnabled="{Binding IsChecked, ElementName=trimBottomChkbx}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox x:Name="trimRightChkbx"  VerticalAlignment="Center" IsChecked="False" Click="ratio_Checked"/>
+                            <Label Width="50" Content="Prawa:"/>
+                            <TextBox PreviewTextInput="IsTextAllowedEvent" x:Name="trimRight" TextWrapping="Wrap" Width="80" Height="20" IsEnabled="{Binding IsChecked, ElementName=trimRightChkbx}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox x:Name="trimLeftChkbx"  VerticalAlignment="Center" IsChecked="False" Click="ratio_Checked"/>
+                            <Label Width="50" Content="Lewa:"/>
+                            <TextBox PreviewTextInput="IsTextAllowedEvent" x:Name="trimLeft" TextWrapping="Wrap" Width="80" Height="20" IsEnabled="{Binding IsChecked, ElementName=trimLeftChkbx}"/>
+                        </StackPanel>
                     </StackPanel>
                 </WrapPanel>
             </GroupBox>
@@ -157,7 +175,7 @@
 
 
 
-        <WrapPanel DockPanel.Dock="Right" Orientation="Vertical" Width="200" Height="801" VerticalAlignment="Top" Background="Gray">
+        <WrapPanel DockPanel.Dock="Right" Orientation="Vertical" Width="200" Height="969" VerticalAlignment="Top" Background="Gray">
             <StackPanel>
                 <GroupBox Margin="10" Header="Lokalizacja pliku">
                     <WrapPanel Orientation="Vertical">
@@ -244,6 +262,11 @@
                     </StackPanel>
                 </WrapPanel>
             </GroupBox>
+
+            <StackPanel Orientation="Horizontal">
+                <Label Width="30"></Label>
+                <Button Content="test resize option" Background="Yellow"  HorizontalAlignment="Center" Width="90" Height="50" Click="ResizeImage"/>
+            </StackPanel>
 
 
         </WrapPanel>
