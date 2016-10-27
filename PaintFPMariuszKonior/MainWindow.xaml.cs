@@ -312,7 +312,7 @@ namespace PaintFPMariuszKonior
 
         private void ResizeImage(object sender, RoutedEventArgs e)
         {
-            //add here method for resizing image
+            //here is method for resizing image
 
             var buffer = System.IO.File.ReadAllBytes(fName);
             MemoryStream ms = new MemoryStream(buffer);

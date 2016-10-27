@@ -116,7 +116,7 @@
                         <Label Width="100">Kolor zgrzewu</Label>
                         <Button Click="ColorInkSpecial">
                             <WrapPanel>
-                                <Grid x:Name="ColorSpecial" Width="30" Height="30" Background="Gray" />
+                                <Grid x:Name="ColorSpecial" Width="30" Height="30" Background="AliceBlue" />
                             </WrapPanel>
                         </Button>
                     </StackPanel>
@@ -243,7 +243,7 @@
                     <StackPanel Orientation="Vertical">
                         <Label x:Name="info" Content="CTRL+WHEEL TO ZOOM"  Height="30" Width="150"/>
                         <Label x:Name="imgWidthInfo" Content="Szerokość: "  Height="30" Width="150"/>
-                        <Label x:Name="imgHeightInfo" Content="Wysokość"  Height="30" Width="150"/>
+                        <Label x:Name="imgHeightInfo" Content="Wysokość: "  Height="30" Width="150"/>
                         <Label x:Name="labelSpaceHorizontal" Content="Label" Height="60" Width="150"/>
                         <Label x:Name="labelSpaceVertical"  Content="Label" Height="60" Width="150"/>
                     </StackPanel>
