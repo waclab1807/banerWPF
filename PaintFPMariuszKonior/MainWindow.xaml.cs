@@ -95,16 +95,14 @@ namespace PaintFPMariuszKonior
 
         private double setUnit(double number)
         {
+            var result = number;
             if (mmRadio.IsChecked == true)
             {
-                number = number / 10; //switch mmm to cm
-                number = number * 37.795279; //convert cm to px
-            } 
-            else
-            {
-                return number;
+                // convert px to mm (assume that dpi is always equal 60)
+                result = ((number * 25.4) / 60);
             }
-            return number;
+            Console.WriteLine(result);
+            return result;
         }
 
         private double getOpacity(bool Opacity)
