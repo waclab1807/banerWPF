@@ -50,7 +50,7 @@ namespace PaintFPMariuszKonior
             leftTunnelVal.Text = "30";
             rightTunnelVal.Text = "30";
             sealVal.Text = "10";
-            filefilter = "Bitmap files (*.jpg; *.jpeg; *.gif; *.bmp; *.tif; *.tiff)|*.jpg; *.jpeg; *.gif; *.bmp; *.tif; *.tiff; *.pdf";
+            filefilter = "Bitmap files (*.jpg; *.jpeg; *.gif; *.bmp; *.tif; *.tiff; *.pdf)|*.jpg; *.jpeg; *.gif; *.bmp; *.tif; *.tiff; *.pdf";
             saveTiffFormat = "Tagged Image File Format (*.tiff)|*.tiff";
             incorectValue = "Nie poprawna wartość";
             canvasMain.EditingMode = InkCanvasEditingMode.None;
@@ -214,6 +214,34 @@ namespace PaintFPMariuszKonior
             return 0.0;
         }
 
+        private double getTrimTop()
+        {
+            if (IsTextAllowed(trimTop.Text) && trimTopChkbx.IsChecked == true && trimTop.Text != "")
+                return Double.Parse(Regex.Replace(trimTop.Text, @"\s+", " "));
+            return 0.0;
+        }
+
+        private double getTrimBottom()
+        {
+            if (IsTextAllowed(trimBottom.Text) && trimBottomChkbx.IsChecked == true && trimBottom.Text != "")
+                return Double.Parse(Regex.Replace(trimBottom.Text, @"\s+", " "));
+            return 0.0;
+        }
+
+        private double getTrimRight()
+        {
+            if (IsTextAllowed(trimRight.Text) && trimRightChkbx.IsChecked == true && trimRight.Text != "")
+                return Double.Parse(Regex.Replace(trimRight.Text, @"\s+", " "));
+            return 0.0;
+        }
+
+        private double getTrimLeft()
+        {
+            if (IsTextAllowed(trimLeft.Text) && trimLeftChkbx.IsChecked == true && trimLeft.Text != "")
+                return Double.Parse(Regex.Replace(trimLeft.Text, @"\s+", " "));
+            return 0.0;
+        }
+
         private double getWeldidth()
         {
             if (IsTextAllowed(sealVal.Text))
@@ -258,8 +286,8 @@ namespace PaintFPMariuszKonior
 
                         if (image != null)
                         {
-                            widthCanvas = image.ActualWidth + (getHeightLeftTunnel() + getHeightRightTunnel());
-                            heightCanvas = image.ActualHeight + (getHeightTopTunnel() + getHeightBottomTunnel() + (getWeldidth() * 2));
+                            widthCanvas = image.ActualWidth + (getHeightLeftTunnel() + getHeightRightTunnel())- getTrimTop() - getTrimBottom();
+                            heightCanvas = image.ActualHeight + (getHeightTopTunnel() + getHeightBottomTunnel() + (getWeldidth() * 2)) - getTrimLeft() - getTrimRight();
                         }
 
                          if (customSize.IsChecked == true)
@@ -327,9 +355,26 @@ namespace PaintFPMariuszKonior
 
         private void TrimImage(object sender, RoutedEventArgs e)
         {
-            //add here method for trim image
-        }
+            if (image.IsVisible == false)
+            {
+                MessageBox.Show("Wczytaj najpierw plik!");
+                return;
+            }
 
+            canvasMain.Strokes.Clear();
+            canvasMain.Children.RemoveRange(0, canvasMain.Children.Count);
+
+            InkCanvas.SetTop(image, getHeightTopTunnel() - getTrimTop());
+            InkCanvas.SetLeft(image, getHeightLeftTunnel() - getTrimLeft());
+            canvasMain.Children.Add(image);
+
+            var height = image.ActualHeight - getTrimTop() - getTrimBottom();
+            var Width = image.ActualWidth - getTrimRight() - getTrimLeft();
+
+            canvasMain.Strokes.Add(setCircle(Width + getHeightLeftTunnel(), 0, getHeightRightTunnel() + getTrimRight(), height + (getWeldidth() * 2) + getHeightTopTunnel() + getHeightBottomTunnel(), CutOut.quadrangle, Colors.White));
+            canvasMain.Strokes.Add(setCircle(0, image.ActualHeight + getHeightTopTunnel() - getTrimBottom() - getTrimTop(), image.ActualWidth + getHeightLeftTunnel() + getHeightRightTunnel(), getTrimBottom(), CutOut.quadrangle, Colors.White));
+
+        }
 
         private void GenerateView(object sender, RoutedEventArgs e)
         {
@@ -338,35 +383,51 @@ namespace PaintFPMariuszKonior
                 MessageBox.Show("Wczytaj najpierw plik!");
                 return;
             }
-            
+
+            //var test = getTrimRight();
+
+            /*image.Clip.SetValue(Canvas.WidthProperty, image.ActualWidth - getTrimRight());
+            image.Clip.SetValue(Canvas.HeightProperty, image.ActualHeight - getTrimBottom());
+            image.Clip.SetValue(Canvas.TopProperty, getTrimTop());
+            image.Clip.SetValue(Canvas.LeftProperty, getTrimLeft());*/
+            var height = image.ActualHeight - getTrimTop() - getTrimBottom();
+            var Width = image.ActualWidth - getTrimRight() - getTrimLeft();
+
             canvasMain.Strokes.Clear();
 
             canvasMain.Children.RemoveRange(0, canvasMain.Children.Count);
             //Zgrzewy
 
             var color = (Color)ColorConverter.ConvertFromString("" + ColorSpecial.Background);
-            canvasMain.Strokes.Add(setCircle(0, 0, getHeightLeftTunnel(), image.ActualHeight + getHeightTopTunnel() + getHeightBottomTunnel() + (getWeldidth() * 2), CutOut.quadrangle, color));
-            canvasMain.Strokes.Add(setCircle(image.ActualWidth + getHeightLeftTunnel(), 0, getHeightRightTunnel(), image.ActualHeight + (getWeldidth() * 2) + getHeightTopTunnel() + getHeightBottomTunnel(), CutOut.quadrangle, color));
-            canvasMain.Strokes.Add(setCircle(0, 0, image.ActualWidth + getHeightLeftTunnel() + getHeightRightTunnel(), getHeightTopTunnel(), CutOut.quadrangle, color));
-            //canvasMain.Strokes.Add(setCircle(0, image.ActualHeight + getWeldidth() + getWeldidth() + getHeightTopTunnel(), image.ActualWidth + getHeightLeftTunnel() + getHeightRightTunnel(), getHeightBottomTunnel(), CutOut.quadrangle, color));
+            canvasMain.Strokes.Add(setCircle(0, 0, Width + getHeightLeftTunnel() + getHeightRightTunnel(), getHeightTopTunnel() + getWeldidth(), CutOut.quadrangle, Colors.White));
+            canvasMain.Strokes.Add(setCircle(0, image.ActualHeight + getWeldidth() + getHeightTopTunnel() - getTrimBottom() - getTrimTop(), image.ActualWidth + getHeightLeftTunnel() + getHeightRightTunnel() - getTrimLeft(), getWeldidth(), CutOut.quadrangle, Colors.White));
+            canvasMain.Strokes.Add(setCircle(Width + getHeightLeftTunnel(), 0, getHeightRightTunnel() + getTrimRight(), height + (getWeldidth() * 2) + getHeightTopTunnel() + getHeightBottomTunnel(), CutOut.quadrangle, Colors.White));
+            canvasMain.Strokes.Add(setCircle(0, 0, getHeightLeftTunnel(), height + getHeightTopTunnel() + getHeightBottomTunnel() + (getWeldidth() * 2), CutOut.quadrangle, color));
+            canvasMain.Strokes.Add(setCircle(Width + getHeightLeftTunnel(), 0, getHeightRightTunnel(), height + (getWeldidth() * 2) + getHeightTopTunnel() + getHeightBottomTunnel(), CutOut.quadrangle, color));           
+            canvasMain.Strokes.Add(setCircle(0, 0, Width + getHeightLeftTunnel() + getHeightRightTunnel(), getHeightTopTunnel(), CutOut.quadrangle, color));
+
+            InkCanvas.SetTop(image, getHeightTopTunnel() + getWeldidth() - getTrimTop());
+            InkCanvas.SetLeft(image, getHeightLeftTunnel() - getTrimLeft());
+            canvasMain.Children.Add(image);
 
             if (bottomTunnel.IsChecked == true)
             {
                 Label titles = new Label();
                 titles.Content = string.Format("Uwagi {0}, Liczba zamówień  {1}", extrasVal.Text, amountVal.Text);
                 titles.Background = ColorSpecial.Background;
-                titles.Width = image.ActualWidth + getHeightLeftTunnel() + getHeightRightTunnel() - getHeightLeftTunnel();
+                titles.Width = Width + getHeightLeftTunnel() + getHeightRightTunnel() - getHeightLeftTunnel();
                 titles.Height = getHeightBottomTunnel();
                 titles.Margin = new Thickness(0, 0, 0, 0);
                 canvasMain.Children.Add(titles);
-                InkCanvas.SetTop(titles, image.ActualHeight + getWeldidth() + getWeldidth() + getHeightTopTunnel());
+                InkCanvas.SetTop(titles, height + getWeldidth() + getWeldidth() + getHeightTopTunnel());
                 InkCanvas.SetLeft(titles, getHeightLeftTunnel());
             }
 
-            InkCanvas.SetTop(image, getHeightTopTunnel() + getWeldidth());
-            InkCanvas.SetLeft(image, getHeightLeftTunnel());
-            canvasMain.Children.Add(image);
-      
+            canvasMain.Strokes.Add(setCircle(0, image.ActualHeight + getWeldidth() + getWeldidth() + getHeightTopTunnel() + getHeightBottomTunnel() - getTrimBottom() - getTrimTop(), image.ActualWidth + getHeightLeftTunnel() + getHeightRightTunnel(), getTrimBottom(), CutOut.quadrangle, Colors.White));
+
+            
+
+
             //odstepy oczek od krawedzi
             double margin = setUnit(Convert.ToDouble(marginVal.Text));
             //srednica oczek
@@ -388,8 +449,8 @@ namespace PaintFPMariuszKonior
 
 
 
-            double widthCanvas =image.ActualWidth - (margin * 2);
-            double heightCanvas = image.ActualHeight - (margin * 2);
+            double widthCanvas = Width - (margin * 2);
+            double heightCanvas = height - (margin * 2);
 
 
             double columnNumbers = (widthCanvas / (spaceHorizontal + widthCutOut));
