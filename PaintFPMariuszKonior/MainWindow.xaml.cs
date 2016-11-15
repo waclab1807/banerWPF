@@ -338,6 +338,18 @@ namespace PaintFPMariuszKonior
 
         private void ResizeImage(object sender, RoutedEventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(customWidth.Text) || string.IsNullOrWhiteSpace(customHeight.Text) )
+            {
+                MessageBox.Show("Podaj obie wartości!");
+                return;
+            }
+
+            if (image.IsVisible == false)
+            {
+                MessageBox.Show("Wczytaj najpierw plik!");
+                return;
+            }
+
             //here is method for resizing image
 
             var buffer = System.IO.File.ReadAllBytes(fName);
