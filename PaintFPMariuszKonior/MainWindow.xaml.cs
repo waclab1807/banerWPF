@@ -438,9 +438,6 @@ namespace PaintFPMariuszKonior
 
             canvasMain.Strokes.Add(setCircle(0, image.ActualHeight + getWeldidth() + getWeldidth() + getHeightTopTunnel() + getHeightBottomTunnel() - getTrimBottom() - getTrimTop(), image.ActualWidth + getHeightLeftTunnel() + getHeightRightTunnel(), getTrimBottom(), CutOut.quadrangle, Colors.White));
 
-            
-
-
             //odstepy oczek od krawedzi
             double margin = setUnit(Convert.ToDouble(marginVal.Text));
             //srednica oczek
@@ -511,9 +508,21 @@ namespace PaintFPMariuszKonior
 
             labelSpaceHorizontal.Content = "Odległość w poziomie\n" + setUnit(spaceHorizontal + fixSpaceHorizontal);
             labelSpaceVertical.Content = "Odległość w pionie\n" + setUnit(spaceVertical + fixSpaceVertical);
-            labelSpaceHorizontal.Visibility = Visibility.Visible;
-            labelSpaceVertical.Visibility = Visibility.Visible;   
 
+            labelSpaceHorizontal.Visibility = Visibility.Visible;
+            labelSpaceVertical.Visibility = Visibility.Visible;
+
+            if ((spaceHorizontal + fixSpaceHorizontal) < 0 || Double.IsInfinity(spaceHorizontal + fixSpaceHorizontal) || Double.IsNaN(spaceHorizontal + fixSpaceHorizontal))
+            {
+                MessageBox.Show("Przekroczyłeś zakres w poziomie! Oczka nie mieszczą się na obrazku.");
+                return;
+            }
+
+            if ((spaceVertical + fixSpaceVertical) < 0 || Double.IsInfinity(spaceVertical + fixSpaceVertical) || Double.IsNaN(spaceVertical + fixSpaceVertical))
+            {
+                MessageBox.Show("Przekroczyłeś zakres w pionie! Oczka nie mieszczą się na obrazku.");
+                return;
+            }
         }
 
         private void droveCutOut(double widthCutOut, double spaceHorizontalColumn, double spaceVerticalColumn)
