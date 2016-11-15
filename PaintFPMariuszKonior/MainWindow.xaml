@@ -244,8 +244,9 @@
                         <Label x:Name="info" Content="CTRL+WHEEL TO ZOOM"  Height="30" Width="150"/>
                         <Label x:Name="imgWidthInfo" Content="Szerokość: "  Height="30" Width="150"/>
                         <Label x:Name="imgHeightInfo" Content="Wysokość: "  Height="30" Width="150"/>
-                        <Label x:Name="labelSpaceHorizontal" Content="Label" Height="60" Width="150"/>
-                        <Label x:Name="labelSpaceVertical"  Content="Label" Height="60" Width="150"/>
+                        <Label x:Name="imgDpiInfo" Content="DPI: "  Height="30" Width="150"/>
+                        <Label x:Name="labelSpaceHorizontal" Content="Label" Height="50" Width="150"/>
+                        <Label x:Name="labelSpaceVertical"  Content="Label" Height="50" Width="150"/>
                     </StackPanel>
                 </WrapPanel>
             </GroupBox>

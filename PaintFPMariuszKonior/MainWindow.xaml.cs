@@ -166,7 +166,8 @@ namespace PaintFPMariuszKonior
                     using (FileStream fileStream = new FileStream(dialog.FileName, FileMode.Open, FileAccess.Read))
                     {
                         BitmapFrame frame = BitmapFrame.Create(fileStream, BitmapCreateOptions.DelayCreation, BitmapCacheOption.None);
-
+                        
+                        imgDpiInfo.Content = "DPI: " + frame.DpiX + "dpi";
                         imgWidthInfo.Content = "Szerokość: " + frame.PixelWidth + "px";
                         imgHeightInfo.Content = "Wysokość: " + frame.PixelHeight + "px";
                     }
@@ -505,8 +506,11 @@ namespace PaintFPMariuszKonior
                 spaceVerticalColumn += (widthCutOut + spaceVertical + fixSpaceVertical);
             }
 
-            labelSpaceHorizontal.Content = "Odległość\nw poziomie\n" + Math.Round((((spaceHorizontal + fixSpaceHorizontal) * 2.54) / 60), 2);
-            labelSpaceVertical.Content = "Odległość\nw pionie\n" + Math.Round((((spaceVertical + fixSpaceVertical) * 2.54) / 60), 2);
+            //labelSpaceHorizontal.Content = "Odległość w poziomie\n" + Math.Round((((spaceHorizontal + fixSpaceHorizontal) * 25.4) / 60), 2);
+            //labelSpaceVertical.Content = "Odległość w pionie\n" + Math.Round((((spaceVertical + fixSpaceVertical) * 25.4) / 60), 2);
+
+            labelSpaceHorizontal.Content = "Odległość w poziomie\n" + setUnit(spaceHorizontal + fixSpaceHorizontal);
+            labelSpaceVertical.Content = "Odległość w pionie\n" + setUnit(spaceVertical + fixSpaceVertical);
             labelSpaceHorizontal.Visibility = Visibility.Visible;
             labelSpaceVertical.Visibility = Visibility.Visible;   
 
