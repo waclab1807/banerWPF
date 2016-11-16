@@ -106,6 +106,19 @@ namespace PaintFPMariuszKonior
             return result;
         }
 
+        private double setUnitMM(double number)
+        {
+            var result = number;
+            if (mmRadio.IsChecked == true)
+            {
+                // convert px to mm (assume that dpi is always equal 60)
+                result = ((number * 25.4) / 60);
+                //result = ((number * 60) / 25.4);
+            }
+            Console.WriteLine(result);
+            return result;
+        }
+
         private double getOpacity(bool Opacity)
         {
             if (Opacity)
@@ -507,8 +520,8 @@ namespace PaintFPMariuszKonior
             //labelSpaceHorizontal.Content = "Odległość w poziomie\n" + Math.Round((((spaceHorizontal + fixSpaceHorizontal) * 25.4) / 60), 2);
             //labelSpaceVertical.Content = "Odległość w pionie\n" + Math.Round((((spaceVertical + fixSpaceVertical) * 25.4) / 60), 2);
 
-            labelSpaceHorizontal.Content = "Odległość w poziomie\n" + (spaceHorizontal + fixSpaceHorizontal);
-            labelSpaceVertical.Content = "Odległość w pionie\n" + (spaceVertical + fixSpaceVertical);
+            labelSpaceHorizontal.Content = "Odległość w poziomie\n" + setUnitMM(spaceHorizontal + fixSpaceHorizontal);
+            labelSpaceVertical.Content = "Odległość w pionie\n" + setUnitMM(spaceVertical + fixSpaceVertical);
 
             labelSpaceHorizontal.Visibility = Visibility.Visible;
             labelSpaceVertical.Visibility = Visibility.Visible;
