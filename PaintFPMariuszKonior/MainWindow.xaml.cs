@@ -99,7 +99,8 @@ namespace PaintFPMariuszKonior
             if (mmRadio.IsChecked == true)
             {
                 // convert px to mm (assume that dpi is always equal 60)
-                result = ((number * 25.4) / 60);
+                //result = ((number * 25.4) / 60);
+                result = ((number * 60) / 25.4);
             }
             Console.WriteLine(result);
             return result;
@@ -166,7 +167,7 @@ namespace PaintFPMariuszKonior
                     using (FileStream fileStream = new FileStream(dialog.FileName, FileMode.Open, FileAccess.Read))
                     {
                         BitmapFrame frame = BitmapFrame.Create(fileStream, BitmapCreateOptions.DelayCreation, BitmapCacheOption.None);
-                        
+
                         imgDpiInfo.Content = "DPI: " + frame.DpiX + "dpi";
                         imgWidthInfo.Content = "Szerokość: " + frame.PixelWidth + "px";
                         imgHeightInfo.Content = "Wysokość: " + frame.PixelHeight + "px";
@@ -193,7 +194,7 @@ namespace PaintFPMariuszKonior
         private double getHeightTopTunnel()
         {
             if (IsTextAllowed(upTunnelVal.Text) && topTunnel.IsChecked == true)
-                return Double.Parse(Regex.Replace(upTunnelVal.Text, @"\s+", " "));
+                return setUnit(Double.Parse(Regex.Replace(upTunnelVal.Text, @"\s+", " ")));
             return 0.0;
         }
 
@@ -201,9 +202,9 @@ namespace PaintFPMariuszKonior
         {
             if (IsTextAllowed(downTunnelVal.Text) && bottomTunnel.IsChecked == true)
             {
-                if (Double.Parse(downTunnelVal.Text) < 30)
-                    downTunnelVal.Text = "30";
-                return Double.Parse(Regex.Replace(downTunnelVal.Text, @"\s+", " "));
+                if (Double.Parse(downTunnelVal.Text) < (30))
+                    downTunnelVal.Text = String.Format("{0}", setUnit(30));
+                return setUnit(Double.Parse(Regex.Replace(downTunnelVal.Text, @"\s+", " ")));
             }
             return 0.0;
         }
@@ -211,49 +212,49 @@ namespace PaintFPMariuszKonior
         private double getHeightLeftTunnel()
         {
             if (IsTextAllowed(leftTunnelVal.Text) && leftTunnel.IsChecked == true)
-                return Double.Parse(Regex.Replace(leftTunnelVal.Text, @"\s+", " "));
+                return setUnit(Double.Parse(Regex.Replace(leftTunnelVal.Text, @"\s+", " ")));
             return 0.0;
         }
 
         private double getTrimTop()
         {
             if (IsTextAllowed(trimTop.Text) && trimTopChkbx.IsChecked == true && trimTop.Text != "")
-                return Double.Parse(Regex.Replace(trimTop.Text, @"\s+", " "));
+                return setUnit(Double.Parse(Regex.Replace(trimTop.Text, @"\s+", " ")));
             return 0.0;
         }
 
         private double getTrimBottom()
         {
             if (IsTextAllowed(trimBottom.Text) && trimBottomChkbx.IsChecked == true && trimBottom.Text != "")
-                return Double.Parse(Regex.Replace(trimBottom.Text, @"\s+", " "));
+                return setUnit(Double.Parse(Regex.Replace(trimBottom.Text, @"\s+", " ")));
             return 0.0;
         }
 
         private double getTrimRight()
         {
             if (IsTextAllowed(trimRight.Text) && trimRightChkbx.IsChecked == true && trimRight.Text != "")
-                return Double.Parse(Regex.Replace(trimRight.Text, @"\s+", " "));
+                return setUnit(Double.Parse(Regex.Replace(trimRight.Text, @"\s+", " ")));
             return 0.0;
         }
 
         private double getTrimLeft()
         {
             if (IsTextAllowed(trimLeft.Text) && trimLeftChkbx.IsChecked == true && trimLeft.Text != "")
-                return Double.Parse(Regex.Replace(trimLeft.Text, @"\s+", " "));
+                return setUnit(Double.Parse(Regex.Replace(trimLeft.Text, @"\s+", " ")));
             return 0.0;
         }
 
         private double getWeldidth()
         {
             if (IsTextAllowed(sealVal.Text))
-                return Double.Parse(Regex.Replace(sealVal.Text, @"\s+", " "));
+                return setUnit(Double.Parse(Regex.Replace(sealVal.Text, @"\s+", " ")));
             return 0.0;
         }
 
         private double getHeightRightTunnel()
         {
             if (IsTextAllowed(rightTunnelVal.Text) && rightTunnel.IsChecked == true)
-                return Double.Parse(Regex.Replace(rightTunnelVal.Text, @"\s+", " "));
+                return setUnit(Double.Parse(Regex.Replace(rightTunnelVal.Text, @"\s+", " ")));
             return 0.0;
         }
 
@@ -282,19 +283,19 @@ namespace PaintFPMariuszKonior
                     {
                         int marg = int.Parse(canvasMain.Margin.Left.ToString());
 
-                        double widthCanvas = canvasMain.ActualWidth;
-                        double heightCanvas = canvasMain.ActualHeight;
+                        double widthCanvas = setUnit(canvasMain.ActualWidth);
+                        double heightCanvas = setUnit(canvasMain.ActualHeight);
 
                         if (image != null)
                         {
-                            widthCanvas = image.ActualWidth + (getHeightLeftTunnel() + getHeightRightTunnel())- getTrimTop() - getTrimBottom();
-                            heightCanvas = image.ActualHeight + (getHeightTopTunnel() + getHeightBottomTunnel() + (getWeldidth() * 2)) - getTrimLeft() - getTrimRight();
+                            widthCanvas = (image.ActualWidth) + (getHeightLeftTunnel() + getHeightRightTunnel()) - getTrimTop() - getTrimBottom();
+                            heightCanvas = (image.ActualHeight) + (getHeightTopTunnel() + getHeightBottomTunnel() + (getWeldidth() * 2)) - getTrimLeft() - getTrimRight();
                         }
 
-                         if (customSize.IsChecked == true)
-                         {
-                            widthCanvas = Convert.ToDouble(customWidth.Text);
-                            heightCanvas = Convert.ToDouble(customHeight.Text);
+                        if (customSize.IsChecked == true)
+                        {
+                            widthCanvas = setUnit(Convert.ToDouble(customWidth.Text));
+                            heightCanvas = setUnit(Convert.ToDouble(customHeight.Text));
                         }
 
                         RenderTargetBitmap rtb = new RenderTargetBitmap((int)widthCanvas - marg,
@@ -339,7 +340,7 @@ namespace PaintFPMariuszKonior
 
         private void ResizeImage(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(customWidth.Text) || string.IsNullOrWhiteSpace(customHeight.Text) )
+            if (string.IsNullOrWhiteSpace(customWidth.Text) || string.IsNullOrWhiteSpace(customHeight.Text))
             {
                 MessageBox.Show("Podaj obie wartości!");
                 return;
@@ -381,11 +382,11 @@ namespace PaintFPMariuszKonior
             InkCanvas.SetLeft(image, getHeightLeftTunnel() - getTrimLeft());
             canvasMain.Children.Add(image);
 
-            var height = image.ActualHeight - getTrimTop() - getTrimBottom();
-            var Width = image.ActualWidth - getTrimRight() - getTrimLeft();
+            var height = (image.ActualHeight) - getTrimTop() - getTrimBottom();
+            var Width = (image.ActualWidth) - getTrimRight() - getTrimLeft();
 
             canvasMain.Strokes.Add(setCircle(Width + getHeightLeftTunnel(), 0, getHeightRightTunnel() + getTrimRight(), height + (getWeldidth() * 2) + getHeightTopTunnel() + getHeightBottomTunnel(), CutOut.quadrangle, Colors.White));
-            canvasMain.Strokes.Add(setCircle(0, image.ActualHeight + getHeightTopTunnel() - getTrimBottom() - getTrimTop(), image.ActualWidth + getHeightLeftTunnel() + getHeightRightTunnel(), getTrimBottom(), CutOut.quadrangle, Colors.White));
+            canvasMain.Strokes.Add(setCircle(0, (image.ActualHeight) + getHeightTopTunnel() - getTrimBottom() - getTrimTop(), (image.ActualWidth) + getHeightLeftTunnel() + getHeightRightTunnel(), getTrimBottom(), CutOut.quadrangle, Colors.White));
 
         }
 
@@ -403,8 +404,8 @@ namespace PaintFPMariuszKonior
             image.Clip.SetValue(Canvas.HeightProperty, image.ActualHeight - getTrimBottom());
             image.Clip.SetValue(Canvas.TopProperty, getTrimTop());
             image.Clip.SetValue(Canvas.LeftProperty, getTrimLeft());*/
-            var height = image.ActualHeight - getTrimTop() - getTrimBottom();
-            var Width = image.ActualWidth - getTrimRight() - getTrimLeft();
+            var height = (image.ActualHeight) - getTrimTop() - getTrimBottom();
+            var Width = (image.ActualWidth) - getTrimRight() - getTrimLeft();
 
             canvasMain.Strokes.Clear();
 
@@ -413,10 +414,10 @@ namespace PaintFPMariuszKonior
 
             var color = (Color)ColorConverter.ConvertFromString("" + ColorSpecial.Background);
             canvasMain.Strokes.Add(setCircle(0, 0, Width + getHeightLeftTunnel() + getHeightRightTunnel(), getHeightTopTunnel() + getWeldidth(), CutOut.quadrangle, Colors.White));
-            canvasMain.Strokes.Add(setCircle(0, image.ActualHeight + getWeldidth() + getHeightTopTunnel() - getTrimBottom() - getTrimTop(), image.ActualWidth + getHeightLeftTunnel() + getHeightRightTunnel() - getTrimLeft(), getWeldidth(), CutOut.quadrangle, Colors.White));
+            canvasMain.Strokes.Add(setCircle(0, (image.ActualHeight) + getWeldidth() + getHeightTopTunnel() - getTrimBottom() - getTrimTop(), (image.ActualWidth) + getHeightLeftTunnel() + getHeightRightTunnel() - getTrimLeft(), getWeldidth(), CutOut.quadrangle, Colors.White));
             canvasMain.Strokes.Add(setCircle(Width + getHeightLeftTunnel(), 0, getHeightRightTunnel() + getTrimRight(), height + (getWeldidth() * 2) + getHeightTopTunnel() + getHeightBottomTunnel(), CutOut.quadrangle, Colors.White));
             canvasMain.Strokes.Add(setCircle(0, 0, getHeightLeftTunnel(), height + getHeightTopTunnel() + getHeightBottomTunnel() + (getWeldidth() * 2), CutOut.quadrangle, color));
-            canvasMain.Strokes.Add(setCircle(Width + getHeightLeftTunnel(), 0, getHeightRightTunnel(), height + (getWeldidth() * 2) + getHeightTopTunnel() + getHeightBottomTunnel(), CutOut.quadrangle, color));           
+            canvasMain.Strokes.Add(setCircle(Width + getHeightLeftTunnel(), 0, getHeightRightTunnel(), height + (getWeldidth() * 2) + getHeightTopTunnel() + getHeightBottomTunnel(), CutOut.quadrangle, color));
             canvasMain.Strokes.Add(setCircle(0, 0, Width + getHeightLeftTunnel() + getHeightRightTunnel(), getHeightTopTunnel(), CutOut.quadrangle, color));
 
             InkCanvas.SetTop(image, getHeightTopTunnel() + getWeldidth() - getTrimTop());
@@ -436,7 +437,7 @@ namespace PaintFPMariuszKonior
                 InkCanvas.SetLeft(titles, getHeightLeftTunnel());
             }
 
-            canvasMain.Strokes.Add(setCircle(0, image.ActualHeight + getWeldidth() + getWeldidth() + getHeightTopTunnel() + getHeightBottomTunnel() - getTrimBottom() - getTrimTop(), image.ActualWidth + getHeightLeftTunnel() + getHeightRightTunnel(), getTrimBottom(), CutOut.quadrangle, Colors.White));
+            canvasMain.Strokes.Add(setCircle(0, (image.ActualHeight) + getWeldidth() + getWeldidth() + getHeightTopTunnel() + getHeightBottomTunnel() - getTrimBottom() - getTrimTop(), (image.ActualWidth) + getHeightLeftTunnel() + getHeightRightTunnel(), getTrimBottom(), CutOut.quadrangle, Colors.White));
 
             //odstepy oczek od krawedzi
             double margin = setUnit(Convert.ToDouble(marginVal.Text));
@@ -506,8 +507,8 @@ namespace PaintFPMariuszKonior
             //labelSpaceHorizontal.Content = "Odległość w poziomie\n" + Math.Round((((spaceHorizontal + fixSpaceHorizontal) * 25.4) / 60), 2);
             //labelSpaceVertical.Content = "Odległość w pionie\n" + Math.Round((((spaceVertical + fixSpaceVertical) * 25.4) / 60), 2);
 
-            labelSpaceHorizontal.Content = "Odległość w poziomie\n" + setUnit(spaceHorizontal + fixSpaceHorizontal);
-            labelSpaceVertical.Content = "Odległość w pionie\n" + setUnit(spaceVertical + fixSpaceVertical);
+            labelSpaceHorizontal.Content = "Odległość w poziomie\n" + (spaceHorizontal + fixSpaceHorizontal);
+            labelSpaceVertical.Content = "Odległość w pionie\n" + (spaceVertical + fixSpaceVertical);
 
             labelSpaceHorizontal.Visibility = Visibility.Visible;
             labelSpaceVertical.Visibility = Visibility.Visible;
@@ -603,7 +604,8 @@ namespace PaintFPMariuszKonior
             if (tunnelsChkbx.IsChecked ?? true)
             {
                 sealVal.Text = "10";
-            } else
+            }
+            else
             {
                 sealVal.Text = "0";
             }
