@@ -338,7 +338,11 @@ namespace PaintFPMariuszKonior
         private void Reset(object sender, RoutedEventArgs args)
         {
             canvasMain.Strokes.Clear();
+            canvasMain.Children.RemoveRange(0, canvasMain.Children.Count);
             DefaultValues();
+            InkCanvas.SetTop(image, 0);
+            InkCanvas.SetLeft(image, 0);
+            canvasMain.Children.Add(image);
         }
 
         private void AboutMe(object sender, RoutedEventArgs e)
@@ -430,7 +434,7 @@ namespace PaintFPMariuszKonior
             canvasMain.Strokes.Add(setCircle(0, (image.ActualHeight) + getWeldidth() + getHeightTopTunnel() - getTrimBottom() - getTrimTop(), (image.ActualWidth) + getHeightLeftTunnel() + getHeightRightTunnel() - getTrimLeft(), getWeldidth(), CutOut.quadrangle, Colors.White));
             canvasMain.Strokes.Add(setCircle(Width + getHeightLeftTunnel(), 0, getHeightRightTunnel() + getTrimRight(), height + (getWeldidth() * 2) + getHeightTopTunnel() + getHeightBottomTunnel(), CutOut.quadrangle, Colors.White));
             canvasMain.Strokes.Add(setCircle(0, 0, getHeightLeftTunnel(), height + getHeightTopTunnel() + getHeightBottomTunnel() + (getWeldidth() * 2), CutOut.quadrangle, color));
-            canvasMain.Strokes.Add(setCircle(Width + getHeightLeftTunnel(), 0, getHeightRightTunnel(), height + (getWeldidth() * 2) + getHeightTopTunnel() + getHeightBottomTunnel(), CutOut.quadrangle, color));
+            canvasMain.Strokes.Add(setCircle(Width + getHeightLeftTunnel() -1, 0, getHeightRightTunnel()+1, height + (getWeldidth() * 2) + getHeightTopTunnel() + getHeightBottomTunnel(), CutOut.quadrangle, color));
             canvasMain.Strokes.Add(setCircle(0, 0, Width + getHeightLeftTunnel() + getHeightRightTunnel(), getHeightTopTunnel(), CutOut.quadrangle, color));
 
             InkCanvas.SetTop(image, getHeightTopTunnel() + getWeldidth() - getTrimTop());
@@ -444,7 +448,7 @@ namespace PaintFPMariuszKonior
                 titles.Background = ColorSpecial.Background;
                 titles.Width = Width + getHeightLeftTunnel() + getHeightRightTunnel() - getHeightLeftTunnel();
                 titles.Height = getHeightBottomTunnel();
-                titles.Margin = new Thickness(0, 0, 0, 0);
+                titles.Margin = new Thickness(-1, 0, 0, 0);
                 canvasMain.Children.Add(titles);
                 InkCanvas.SetTop(titles, height + getWeldidth() + getWeldidth() + getHeightTopTunnel());
                 InkCanvas.SetLeft(titles, getHeightLeftTunnel());
@@ -751,12 +755,15 @@ namespace PaintFPMariuszKonior
                 throw new ArgumentNullException("drawingAttributes");
             }
             DrawingAttributes originalDa = drawingAttributes.Clone();
+            Pen pen = new Pen();
             SolidColorBrush brush2 = new SolidColorBrush(drawingAttributes.Color);
+            pen.Brush = brush2;
             brush2.Freeze();
+
             StylusPoint stp = this.StylusPoints[0];
             StylusPoint sp = this.StylusPoints[1];
 
-            drawingContext.DrawRectangle(brush2, null, new Rect(sp.X, sp.Y, stp.X, stp.Y));
+            drawingContext.DrawRectangle(brush2, pen, new Rect(sp.X, sp.Y, stp.X, stp.Y));
         }
     }
 }
