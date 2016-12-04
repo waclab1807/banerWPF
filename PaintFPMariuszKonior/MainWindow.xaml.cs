@@ -346,6 +346,15 @@ namespace PaintFPMariuszKonior
             return (source * (62.5 / 100));
         }
 
+        private double FixScale(double source)
+        {
+            if (mmRadio.IsChecked == true)
+            {
+                return ((source * 153.6) / 100);
+            }
+            return source;          
+        }
+
         private void NewCanvas(object sender, RoutedEventArgs args)
         {
             canvasMain.Children.RemoveRange(0, canvasMain.Children.Count);
@@ -452,7 +461,7 @@ namespace PaintFPMariuszKonior
             canvasMain.Strokes.Add(setCircle(0, (image.ActualHeight) + getWeldidth() + getHeightTopTunnel() - getTrimBottom() - getTrimTop(), (image.ActualWidth) + getHeightLeftTunnel() + getHeightRightTunnel() - getTrimLeft(), getWeldidth(), CutOut.quadrangle, Colors.White));
             canvasMain.Strokes.Add(setCircle(Width + getHeightLeftTunnel(), 0, getHeightRightTunnel() + getTrimRight(), height + (getWeldidth() * 2) + getHeightTopTunnel() + getHeightBottomTunnel(), CutOut.quadrangle, Colors.White));
             canvasMain.Strokes.Add(setCircle(0, 0, getHeightLeftTunnel(), height + getHeightTopTunnel() + getHeightBottomTunnel() + (getWeldidth() * 2), CutOut.quadrangle, color));
-            canvasMain.Strokes.Add(setCircle(Width + getHeightLeftTunnel() -1, 0, setUnitMM(getHeightRightTunnel()+1), setUnitMM(height + (getWeldidth() * 2) + getHeightTopTunnel() + getHeightBottomTunnel()), CutOut.quadrangle, color));
+            canvasMain.Strokes.Add(setCircle(Width + getHeightLeftTunnel() -1, 0, getHeightRightTunnel()+1, height + (getWeldidth() * 2) + getHeightTopTunnel() + getHeightBottomTunnel(), CutOut.quadrangle, color));
             canvasMain.Strokes.Add(setCircle(0, 0, Width + getHeightLeftTunnel() + getHeightRightTunnel(), getHeightTopTunnel(), CutOut.quadrangle, color));
 
             InkCanvas.SetTop(image, getHeightTopTunnel() + getWeldidth() - getTrimTop());
