@@ -220,7 +220,7 @@ namespace PaintFPMariuszKonior
         private double getHeightTopTunnel()
         {
             if (IsTextAllowed(upTunnelVal.Text) && topTunnel.IsChecked == true)
-                return setUnit(Double.Parse(Regex.Replace(upTunnelVal.Text, @"\s+", " ")));
+                return FixScale(setUnit(Double.Parse(Regex.Replace(upTunnelVal.Text, @"\s+", " "))));
             return 0.0;
         }
 
@@ -230,7 +230,7 @@ namespace PaintFPMariuszKonior
             {
                 if (Double.Parse(downTunnelVal.Text) < (30))
                     downTunnelVal.Text = String.Format("{0}", setUnit(30));
-                return setUnit(Double.Parse(Regex.Replace(downTunnelVal.Text, @"\s+", " ")));
+                return FixScale(setUnit(Double.Parse(Regex.Replace(downTunnelVal.Text, @"\s+", " "))));
             }
             return 0.0;
         }
@@ -238,49 +238,49 @@ namespace PaintFPMariuszKonior
         private double getHeightLeftTunnel()
         {
             if (IsTextAllowed(leftTunnelVal.Text) && leftTunnel.IsChecked == true)
-                return setUnit(Double.Parse(Regex.Replace(leftTunnelVal.Text, @"\s+", " ")));
+                return FixScale(setUnit(Double.Parse(Regex.Replace(leftTunnelVal.Text, @"\s+", " "))));
             return 0.0;
         }
 
         private double getTrimTop()
         {
             if (IsTextAllowed(trimTop.Text) && trimTopChkbx.IsChecked == true && trimTop.Text != "")
-                return setUnit(Double.Parse(Regex.Replace(trimTop.Text, @"\s+", " ")));
+                return FixScale(setUnit(Double.Parse(Regex.Replace(trimTop.Text, @"\s+", " "))));
             return 0.0;
         }
 
         private double getTrimBottom()
         {
             if (IsTextAllowed(trimBottom.Text) && trimBottomChkbx.IsChecked == true && trimBottom.Text != "")
-                return setUnit(Double.Parse(Regex.Replace(trimBottom.Text, @"\s+", " ")));
+                return FixScale(setUnit(Double.Parse(Regex.Replace(trimBottom.Text, @"\s+", " "))));
             return 0.0;
         }
 
         private double getTrimRight()
         {
             if (IsTextAllowed(trimRight.Text) && trimRightChkbx.IsChecked == true && trimRight.Text != "")
-                return setUnit(Double.Parse(Regex.Replace(trimRight.Text, @"\s+", " ")));
+                return FixScale(setUnit(Double.Parse(Regex.Replace(trimRight.Text, @"\s+", " "))));
             return 0.0;
         }
 
         private double getTrimLeft()
         {
             if (IsTextAllowed(trimLeft.Text) && trimLeftChkbx.IsChecked == true && trimLeft.Text != "")
-                return setUnit(Double.Parse(Regex.Replace(trimLeft.Text, @"\s+", " ")));
+                return FixScale(setUnit(Double.Parse(Regex.Replace(trimLeft.Text, @"\s+", " "))));
             return 0.0;
         }
 
         private double getWeldidth()
         {
             if (IsTextAllowed(sealVal.Text))
-                return setUnit(Double.Parse(Regex.Replace(sealVal.Text, @"\s+", " ")));
+                return FixScale(setUnit(Double.Parse(Regex.Replace(sealVal.Text, @"\s+", " "))));
             return 0.0;
         }
 
         private double getHeightRightTunnel()
         {
             if (IsTextAllowed(rightTunnelVal.Text) && rightTunnel.IsChecked == true)
-                return setUnit(Double.Parse(Regex.Replace(rightTunnelVal.Text, @"\s+", " ")));
+                return FixScale(setUnit(Double.Parse(Regex.Replace(rightTunnelVal.Text, @"\s+", " "))));
             return 0.0;
         }
 
@@ -461,7 +461,7 @@ namespace PaintFPMariuszKonior
             canvasMain.Strokes.Add(setCircle(0, (image.ActualHeight) + getWeldidth() + getHeightTopTunnel() - getTrimBottom() - getTrimTop(), (image.ActualWidth) + getHeightLeftTunnel() + getHeightRightTunnel() - getTrimLeft(), getWeldidth(), CutOut.quadrangle, Colors.White));
             canvasMain.Strokes.Add(setCircle(Width + getHeightLeftTunnel(), 0, getHeightRightTunnel() + getTrimRight(), height + (getWeldidth() * 2) + getHeightTopTunnel() + getHeightBottomTunnel(), CutOut.quadrangle, Colors.White));
             canvasMain.Strokes.Add(setCircle(0, 0, getHeightLeftTunnel(), height + getHeightTopTunnel() + getHeightBottomTunnel() + (getWeldidth() * 2), CutOut.quadrangle, color));
-            canvasMain.Strokes.Add(setCircle(Width + getHeightLeftTunnel() -1, 0, getHeightRightTunnel()+1, height + (getWeldidth() * 2) + getHeightTopTunnel() + getHeightBottomTunnel(), CutOut.quadrangle, color));
+            canvasMain.Strokes.Add(setCircle(Width + getHeightLeftTunnel() -1, 0, getHeightRightTunnel()+ FixScale(2), height + (getWeldidth() * 2) + getHeightTopTunnel() + getHeightBottomTunnel(), CutOut.quadrangle, color));
             canvasMain.Strokes.Add(setCircle(0, 0, Width + getHeightLeftTunnel() + getHeightRightTunnel(), getHeightTopTunnel(), CutOut.quadrangle, color));
 
             InkCanvas.SetTop(image, getHeightTopTunnel() + getWeldidth() - getTrimTop());
