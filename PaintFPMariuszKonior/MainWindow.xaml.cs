@@ -167,6 +167,19 @@ namespace PaintFPMariuszKonior
 
         #region Save $ Open
 
+        private static BitmapSource ConvertBitmapTo60DPI(BitmapImage bitmapImage)
+        {
+            double dpi = 60;
+            int width = bitmapImage.PixelWidth;
+            int height = bitmapImage.PixelHeight;
+
+            int stride = width * bitmapImage.Format.BitsPerPixel;
+            byte[] pixelData = new byte[stride * height];
+            bitmapImage.CopyPixels(pixelData, stride, 0);
+
+            return BitmapSource.Create(width, height, dpi, dpi, bitmapImage.Format, null, pixelData, stride);
+        }
+
         private void OpenFile(object sender, RoutedEventArgs args)
         {
             OpenFileDialog dialog = new OpenFileDialog();
@@ -191,7 +204,7 @@ namespace PaintFPMariuszKonior
                         canvasMain.Children.RemoveRange(0, canvasMain.Children.Count);
                         canvasMain.Strokes.Clear();
                         fName = dialog.FileName;
-                        image.Source = (new BitmapImage(new Uri(dialog.FileName, UriKind.Absolute)));
+                        image.Source = ConvertBitmapTo60DPI(new BitmapImage(new Uri(dialog.FileName, UriKind.Absolute)));
                         canvasMain.Children.Add(image);
                         file.Close();
                     }
@@ -311,8 +324,8 @@ namespace PaintFPMariuszKonior
                             heightCanvas = setUnit(Convert.ToDouble(customHeight.Text));
                         }
 
-                        RenderTargetBitmap rtb = new RenderTargetBitmap((int)widthCanvas - marg,
-                                    (int)heightCanvas - marg, 0, 0, PixelFormats.Default);
+                        RenderTargetBitmap rtb = new RenderTargetBitmap((int)CorectScale(widthCanvas) - marg,
+                                    (int)CorectScale(heightCanvas) - marg, 60, 60, PixelFormats.Default);
                         rtb.Render(canvasMain);
                         TiffBitmapEncoder encoder = new TiffBitmapEncoder();
                         //BmpBitmapEncoder encoder = new BmpBitmapEncoder();
@@ -326,6 +339,11 @@ namespace PaintFPMariuszKonior
                     MessageBox.Show(exc.Message, Title);
                 }
             }
+        }
+
+        private double CorectScale(double source)
+        {
+            return (source * (62.5 / 100));
         }
 
         private void NewCanvas(object sender, RoutedEventArgs args)
