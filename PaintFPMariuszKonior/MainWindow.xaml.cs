@@ -34,6 +34,12 @@ namespace PaintFPMariuszKonior
             uiScaleSlider.MouseDoubleClick += new MouseButtonEventHandler(RestoreScalingFactor);
             ApplicationCommands.Close.InputGestures.Add(new KeyGesture(Key.E, ModifierKeys.Control));
             DefaultValues();
+            Console.WriteLine("Memory used before collection:       {0:N0}",
+                         GC.GetTotalMemory(false));
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            Console.WriteLine("Memory used after full collection:   {0:N0}",
+                        GC.GetTotalMemory(true));
 
         }
 
@@ -339,6 +345,11 @@ namespace PaintFPMariuszKonior
                     MessageBox.Show(exc.Message, Title);
                 }
             }
+            Console.WriteLine("Memory used before collection:       {0:N0}",
+                         GC.GetTotalMemory(false));
+            GC.Collect();
+            Console.WriteLine("Memory used after full collection:   {0:N0}",
+                        GC.GetTotalMemory(true));
         }
 
         private double CorectScale(double source)
@@ -450,18 +461,20 @@ namespace PaintFPMariuszKonior
             image.Clip.SetValue(Canvas.LeftProperty, getTrimLeft());*/
             var height = (image.ActualHeight) - getTrimTop() - getTrimBottom();
             var Width = (image.ActualWidth) - getTrimRight() - getTrimLeft();
+            height = FixScale(image.ActualHeight) - getTrimTop() - getTrimBottom();
+            Width = FixScale(image.ActualWidth) - getTrimRight() - getTrimLeft();
 
             canvasMain.Strokes.Clear();
 
             canvasMain.Children.RemoveRange(0, canvasMain.Children.Count);
-            //Zgrzewy
 
+            //Zgrzewy
             var color = (Color)ColorConverter.ConvertFromString("" + ColorSpecial.Background);
             canvasMain.Strokes.Add(setCircle(0, 0, Width + getHeightLeftTunnel() + getHeightRightTunnel(), getHeightTopTunnel() + getWeldidth(), CutOut.quadrangle, Colors.White));
-            canvasMain.Strokes.Add(setCircle(0, (image.ActualHeight) + getWeldidth() + getHeightTopTunnel() - getTrimBottom() - getTrimTop(), (image.ActualWidth) + getHeightLeftTunnel() + getHeightRightTunnel() - getTrimLeft(), getWeldidth(), CutOut.quadrangle, Colors.White));
+            canvasMain.Strokes.Add(setCircle(0, FixScale(image.ActualHeight) + getWeldidth() + getHeightTopTunnel() - getTrimBottom() - getTrimTop(), FixScale(image.ActualWidth) + getHeightLeftTunnel() + getHeightRightTunnel() - getTrimLeft(), getWeldidth(), CutOut.quadrangle, Colors.White));
             canvasMain.Strokes.Add(setCircle(Width + getHeightLeftTunnel(), 0, getHeightRightTunnel() + getTrimRight(), height + (getWeldidth() * 2) + getHeightTopTunnel() + getHeightBottomTunnel(), CutOut.quadrangle, Colors.White));
             canvasMain.Strokes.Add(setCircle(0, 0, getHeightLeftTunnel(), height + getHeightTopTunnel() + getHeightBottomTunnel() + (getWeldidth() * 2), CutOut.quadrangle, color));
-            canvasMain.Strokes.Add(setCircle(Width + getHeightLeftTunnel() -1, 0, getHeightRightTunnel()+ FixScale(2), height + (getWeldidth() * 2) + getHeightTopTunnel() + getHeightBottomTunnel(), CutOut.quadrangle, color));
+            canvasMain.Strokes.Add(setCircle(Width + getHeightLeftTunnel() - FixScale(1), 0, getHeightRightTunnel() + FixScale(2), height + (getWeldidth() * 2) + getHeightTopTunnel() + getHeightBottomTunnel(), CutOut.quadrangle, color));
             canvasMain.Strokes.Add(setCircle(0, 0, Width + getHeightLeftTunnel() + getHeightRightTunnel(), getHeightTopTunnel(), CutOut.quadrangle, color));
 
             InkCanvas.SetTop(image, getHeightTopTunnel() + getWeldidth() - getTrimTop());
@@ -481,31 +494,31 @@ namespace PaintFPMariuszKonior
                 InkCanvas.SetLeft(titles, getHeightLeftTunnel());
             }
 
-            canvasMain.Strokes.Add(setCircle(0, (image.ActualHeight) + getWeldidth() + getWeldidth() + getHeightTopTunnel() + getHeightBottomTunnel() - getTrimBottom() - getTrimTop(), (image.ActualWidth) + getHeightLeftTunnel() + getHeightRightTunnel(), getTrimBottom(), CutOut.quadrangle, Colors.White));
+            canvasMain.Strokes.Add(setCircle(0, FixScale(image.ActualHeight) + getWeldidth() + getWeldidth() + getHeightTopTunnel() + getHeightBottomTunnel() - getTrimBottom() - getTrimTop(), FixScale(image.ActualWidth) + getHeightLeftTunnel() + getHeightRightTunnel(), getTrimBottom(), CutOut.quadrangle, Colors.White));
 
             //odstepy oczek od krawedzi
-            double margin = setUnit(Convert.ToDouble(marginVal.Text));
+            double margin = FixScale(setUnit(Convert.ToDouble(marginVal.Text)));
             //srednica oczek
-            double widthCutOut = setUnit(Convert.ToDouble(cutOutWidthVal.Text));
+            double widthCutOut = FixScale(setUnit(Convert.ToDouble(cutOutWidthVal.Text)));
             //odstep miedzy oczkami poziomo
             double spaceHorizontal;
             double spaceVertical;
 
             if (ratio.IsChecked ?? false)
             {
-                spaceHorizontal = setUnit(Convert.ToDouble(hSpacingVal.Text));
+                spaceHorizontal = FixScale(setUnit(Convert.ToDouble(hSpacingVal.Text)));
                 spaceVertical = spaceHorizontal;
             }
             else
             {
-                spaceHorizontal = setUnit(Convert.ToDouble(hSpacingVal.Text));
-                spaceVertical = setUnit(Convert.ToDouble(vSpacingVal.Text));
+                spaceHorizontal = FixScale(setUnit(Convert.ToDouble(hSpacingVal.Text)));
+                spaceVertical = FixScale(setUnit(Convert.ToDouble(vSpacingVal.Text)));
             }
 
 
 
-            double widthCanvas = Width - (margin * 2);
-            double heightCanvas = height - (margin * 2);
+            double widthCanvas = FixScale(Width) - (margin * 2);
+            double heightCanvas = FixScale(height) - (margin * 2);
 
 
             double columnNumbers = (widthCanvas / (spaceHorizontal + widthCutOut));
